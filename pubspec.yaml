@@ -32,6 +32,8 @@ dependencies:
   dart_ipify: any
   device_info: ^2.0.0
   connectivity_plus: ^2.1.0
+  flutter_svg: ^1.0.3
+  flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -51,3 +53,17 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/lottie_anim/
+
+  fonts:
+    - family: roboto_regular
+      fonts:
+        - asset: assets/fonts/roboto_regular.ttf
+    - family: roboto_light
+      fonts:
+        - asset: assets/fonts/roboto_light.ttf
+    - family: roboto_medium
+      fonts:
+        - asset: assets/fonts/roboto_medium.ttf
+    - family: roboto_bold
+      fonts:
+        - asset: assets/fonts/roboto_bold.ttf

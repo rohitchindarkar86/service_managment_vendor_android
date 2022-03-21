@@ -22,7 +22,7 @@ Future<void> application() async{
     await appThemeHandler.getApiLevel();
 
     runApp(EasyLocalization(
-        child: EntryApplication('/'),
+        child: EntryApplication('/splash'),
         supportedLocales: L10n.locales,
         fallbackLocale: L10n.locales.first,
         path: 'assets/translations')

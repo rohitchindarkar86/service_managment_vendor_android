@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:vendor_app/modules/dashboard/dashboard/dashboard_page.dart';
+
+import 'modules/login/technician_login/technician_login_page.dart';
+import 'modules/splash_screen/splash_screen.dart';
 
 class RouteGenerator {
 
@@ -8,8 +12,17 @@ class RouteGenerator {
 
     switch(settings.name){
 
-      // case LoginScreen.routeName:
-      //   return MaterialPageRoute(builder: (builder) => LoginScreenPage(),);
+      case '/splash':
+        return MaterialPageRoute(
+          builder: (context) => SplashScreen(),
+          // settings omitted to hide route name
+        );
+
+      case TechnicianLoginPage.routeName:
+        return MaterialPageRoute(builder: (builder) => TechnicianLoginPage(),);
+
+        case DashboardPage.routeName:
+        return MaterialPageRoute(builder: (builder) => DashboardPage(),);
 
     default:
       return errorRoute();

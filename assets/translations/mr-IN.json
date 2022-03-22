@@ -1,3 +1,29 @@
 {
+  "LoginTechnicalLoginText": "Technical Login",
+  "LoginEnterEmailIdHint": "Enter Email Id",
+  "LoginEnterPasswordHint": "Enter Password",
+  "LoginSignInBtn": "SIGN  IN",
+  "LoginForgotPasswordText": "Forgot your password?",
+  "LoginRegistrationNoteText": "Registration will be done by respective\nvendor",
 
+  "ExitHeadingText": "Are you sure, you want to close the app?",
+  "ExitExitBtn": "Exit",
+  "ExitCancelBtn": "Cancel",
+
+  "ForgotForgotPasswordText": "Forgot password?",
+  "ForgotForgotPasswordSubText": "Enter your email address to continue.",
+  "ForgotEnterEmailIdHint": "Enter Email Id",
+  "ForgotSubmitBtn": "Submit",
+
+  "ResetSignInBtn": "SIGN  IN",
+  "ResetHeadingText": "Please check your email id",
+  "ResetSubHeadingText": "We ‘ve sent an email to\nup**********gmail.com with instructions to\nreset your password.",
+
+  "DashboardViewProfileBtnText": "View Profile",
+  "DashboardTodaysComplaintText": "Today's Complaint",
+  "DashboardReachLocationBtn": "Reach Location",
+
+  "ReachLocationHeadingText": "Have You Reached Location",
+  "ReachLocationReachedBtn": "YES I HAVE REACHED",
+  "ReachLocationCancelBtn": "Cancel"
 }

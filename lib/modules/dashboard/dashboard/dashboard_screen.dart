@@ -1,11 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lottie/lottie.dart';
+import 'package:vendor_app/generated/locale_keys.g.dart';
 import 'package:vendor_app/modules/dashboard/dashboard/index.dart';
 import 'package:vendor_app/style/style.dart';
 import 'package:vendor_app/utility/hex_color.dart';
+
+import '../../../widgets/LogoutOverlay.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({
@@ -60,7 +64,10 @@ class DashboardScreenState extends State<DashboardScreen> {
           height = MediaQuery.of(context).size.height;
           return WillPopScope(
             onWillPop: () async {
-              SystemNavigator.pop();
+              showDialog(
+                context: context,
+                builder: (_) => LogoutOverlay(),
+              );
               return true;
             },
             child: Container(
@@ -152,7 +159,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: 'View Profile',
+                                      text: '${LocaleKeys.DashboardViewProfileBtnText.tr()}',
                                       style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: Colors.white),
                                     ),
                                   ],
@@ -177,7 +184,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                         SizedBox(width: 6,),
                         Container(
                           alignment: Alignment.center,
-                          child: Text('Today’s Complaints',style: TextStyle(fontSize: 16,fontFamily: Style().font_regular(),color: HexColor('000000')),),
+                          child: Text('${LocaleKeys.DashboardTodaysComplaintText.tr()}',style: TextStyle(fontSize: 16,fontFamily: Style().font_regular(),color: HexColor('000000')),),
                         ),
                         Expanded(child: Container()),
                         Container(
@@ -294,7 +301,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               height: 45,
                               margin: EdgeInsets.only(top: 0, left: 0, right: 0),
                               child: ElevatedButton(
-                                child: Text('Reach Location'),
+                                child: Text('${LocaleKeys.DashboardReachLocationBtn.tr()}'),
                                 onPressed: () {
 
                                   reachLocationBottomSheet(context: context,height: height! *0.35);
@@ -355,7 +362,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        'Have You Reached location ?',
+                        '${LocaleKeys.ReachLocationHeadingText.tr()}',
                         style: TextStyle(
                             fontSize: 20,
                             fontFamily: Style().font_bold(),
@@ -371,7 +378,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 45,
                       child: ElevatedButton(
-                        child: Text('YES I HAVE REACHED'),
+                        child: Text('${LocaleKeys.ReachLocationReachedBtn.tr()}'),
                         onPressed: () {
                           Navigator.pop(context);
 
@@ -396,7 +403,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                           onTap: (){
                             Navigator.pop(context);
                           },
-                          child: Text('Cancel',style: TextStyle(fontFamily: Style().font_medium(),fontSize: 14,color: HexColor('252222').withOpacity(0.75)),)),
+                          child: Text('${LocaleKeys.ReachLocationCancelBtn.tr()}',style: TextStyle(fontFamily: Style().font_medium(),fontSize: 14,color: HexColor('252222').withOpacity(0.75)),)),
                     ),
                     SizedBox(
                       height: 8,

@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:vendor_app/style/style.dart';
 import 'package:vendor_app/utility/hex_color.dart';
+
+import '../../generated/locale_keys.g.dart';
 
 class ForgotEmailSuccessWidget extends StatefulWidget {
   @override
@@ -66,7 +69,7 @@ class ForgotEmailSuccessWidgetState extends State<ForgotEmailSuccessWidget>
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Please check your email',
+                              text: '${LocaleKeys.ResetHeadingText.tr()}',
                               style: TextStyle(fontFamily: Style().font_medium(),fontSize: 16,color: HexColor('#000000')),
                             ),
                           ],
@@ -88,7 +91,7 @@ class ForgotEmailSuccessWidgetState extends State<ForgotEmailSuccessWidget>
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'We ‘ve sent an email to\nup**********gmail.com with instructions to\nreset your password.',
+                              text: '${LocaleKeys.ResetSubHeadingText.tr()}',
                               style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: HexColor('#393838')),
                             ),
                           ],
@@ -102,7 +105,7 @@ class ForgotEmailSuccessWidgetState extends State<ForgotEmailSuccessWidget>
                   height: 45,
                   margin: EdgeInsets.only(top: 24, left: 24, right: 24),
                   child: ElevatedButton(
-                    child: Text('SIGN IN'),
+                    child: Text('${LocaleKeys.ResetSignInBtn.tr()}'),
                     onPressed: () {
                       Navigator.pop(context);
                     },

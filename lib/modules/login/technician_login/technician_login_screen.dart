@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vendor_app/style/style.dart';
 import 'package:vendor_app/utility/hex_color.dart';
 import 'package:vendor_app/widgets/login/forgot_email_success_widget.dart';
+
+import '../../../generated/locale_keys.g.dart';
+import '../../../widgets/LogoutOverlay.dart';
 
 class TechnicianLoginScreen extends StatefulWidget {
   const TechnicianLoginScreen({
@@ -59,7 +63,10 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
           height = MediaQuery.of(context).size.height;
           return WillPopScope(
             onWillPop: () async {
-              SystemNavigator.pop();
+              showDialog(
+                context: context,
+                builder: (_) => LogoutOverlay(),
+              );
               return true;
             },
             child: Container(
@@ -107,7 +114,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: 'Technician Login',
+                                      text: '${LocaleKeys.LoginTechnicalLoginText.tr()}',
                                       style: TextStyle(fontFamily: Style().font_regular(),fontSize: 16,color: HexColor('#000000')),
                                     ),
                                   ],
@@ -136,7 +143,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                                       fontFamily: Style().font_regular(),
                                       fontSize: 16,
                                       color: Colors.grey,),
-                                    hintText: "Enter Email Id",
+                                    hintText: "${LocaleKeys.LoginEnterEmailIdHint.tr()}",
                                   ),
                                   style: TextStyle(
                                     fontFamily: Style().font_regular(),
@@ -166,7 +173,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                                       fontFamily: Style().font_regular(),
                                       fontSize: 16,
                                       color: Colors.grey,),
-                                    hintText: "Enter Password",
+                                    hintText: "${LocaleKeys.LoginEnterPasswordHint.tr()}",
                                   ),
                                   style: TextStyle(
                                     fontFamily: Style().font_regular(),
@@ -184,7 +191,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                               height: 45,
                               margin: EdgeInsets.only(top: 4, left: 24, right: 24),
                               child: ElevatedButton(
-                                child: Text('SIGN IN'),
+                                child: Text('${LocaleKeys.LoginSignInBtn.tr()}'),
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/dashboard');
                                 },
@@ -208,7 +215,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                          text: 'Forgot your password?',
+                                          text: '${LocaleKeys.LoginForgotPasswordText.tr()}',
                                           style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: HexColor('#393838').withOpacity(0.5)),
                                         ),
                                       ],
@@ -236,7 +243,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Registration Will Be Done By Respective\nVendor',
+                                text: '${LocaleKeys.LoginRegistrationNoteText.tr()}',
                                 style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: HexColor('#393838').withOpacity(0.5)),
                               ),
                             ],

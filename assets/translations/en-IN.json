@@ -1,8 +1,8 @@
 {
-  "LoginTechnicalLoginText": "Technical Login",
+  "LoginTechnicalLoginText": "Technician Login",
   "LoginEnterEmailIdHint": "Enter Email Id",
   "LoginEnterPasswordHint": "Enter Password",
-  "LoginSignInBtn": "SIGN  IN",
+  "LoginSignInBtn": "SIGN IN",
   "LoginForgotPasswordText": "Forgot your password?",
   "LoginRegistrationNoteText": "Registration will be done by respective\nvendor",
 
@@ -20,6 +20,7 @@
   "ResetSubHeadingText": "We ‘ve sent an email to\nup**********gmail.com with instructions to\nreset your password.",
 
   "DashboardViewProfileBtnText": "View Profile",
+  "DashboardIdBtnText": "My Identity Card",
   "DashboardTodaysComplaintText": "Today's Complaint",
   "DashboardReachLocationBtn": "Reach Location",
 

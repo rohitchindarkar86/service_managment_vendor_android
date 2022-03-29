@@ -81,7 +81,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                               height: height! * 0.20,
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery.of(context).size.width *0.25,
                               alignment: Alignment.center,
                               child: Image.asset('assets/images/app_logo.png'),
                             ),

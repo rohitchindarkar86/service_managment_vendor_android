@@ -10,6 +10,9 @@ import 'package:vendor_app/style/style.dart';
 import 'package:vendor_app/utility/hex_color.dart';
 
 import '../../../widgets/LogoutOverlay.dart';
+import '../../profile/view_profile/view_profile_page.dart';
+import '../../profile/view_profile/view_profile_screen.dart';
+import '../reached_service_details/reached_service_details_page.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({
@@ -152,20 +155,55 @@ class DashboardScreenState extends State<DashboardScreen> {
                           Positioned(
                             bottom: 4,
                             right: 0,
-                            child:  Container(
-                              alignment: Alignment.centerRight,
-                              child:  RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '${LocaleKeys.DashboardViewProfileBtnText.tr()}',
-                                      style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: Colors.white),
+                            left: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  alignment: Alignment.centerRight,
+                                  child:  GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                              transitionDuration: Duration(seconds: 1),
+                                              pageBuilder: (_, __, ___) => IdCardScreen()));
+                                    },
+                                    child: RichText(
+                                      textAlign: TextAlign.center,
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: '${LocaleKeys.DashboardIdBtnText.tr()}',
+                                            style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),)
+                                Container(
+                                  alignment: Alignment.centerRight,
+                                  child:  GestureDetector(
+                                    onTap: (){
+                                      Navigator.pushNamed(context, ViewProfilePage.routeName);
+                                    },
+                                    child: RichText(
+                                      textAlign: TextAlign.center,
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: '${LocaleKeys.DashboardViewProfileBtnText.tr()}',
+                                            style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          )
                         ],
                       ),
                     ),
@@ -204,7 +242,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         itemBuilder: complaintList,
-                        itemCount: 1,
+                        itemCount: 2,
                       ),
                     ),
                   ),
@@ -223,104 +261,112 @@ class DashboardScreenState extends State<DashboardScreen> {
     return Container(
       height: 185,
       margin: EdgeInsets.only(top: 0, right: 8, left: 8),
-      child: Card(
-        child: Container(
-          child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                    color: Colors.green,
-                    height: 185,
-                    width: 12,
-                  ),
-                Expanded(child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 8,vertical: 12),
-                  child: Column(
-                    children: [
-                      Container(
+      child: GestureDetector(
+        onTap: (){
+          if(index ==  0 ){
+            Navigator.pushNamed(context, ReachedServiceDetailsPage.routeName);
+          }
+        },
+        child: Card(
+          color: Colors.white,
+          child: Container(
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                      color: index ==  0?Colors.red:Colors.green,
+                      height: 185,
+                      width: 12,
+                    ),
+                  Expanded(child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 8,vertical: 12),
+                    child: Column(
+                      children: [
+                        Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Amit Rane',
+                                  style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                                ),
+                                Text(
+                                  index ==  0?'On Going': 'OPEN',
+                                  style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color:  index ==  0?Colors.red: HexColor('#18D184')  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        Container(
+                          alignment:Alignment.centerLeft,
+                          child: Text(
+                            '+91 9987956807',
+                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_light(),color: HexColor('#494949')  ),
+                          ) ,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Container(
+                          alignment:Alignment.centerLeft,
+                          child: Text(
+                            'AC NOT WORKING',
+                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                          ) ,
+                        ),
+                        Container(
+                          alignment:Alignment.centerLeft,
+                          child: Text(
+                            'Fan and Cooling not happening',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_light(),color: HexColor('#494949')  ),
+                          ) ,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(
-                                'Amit Rane',
-                                style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                              Expanded(
+                                child: Text(
+                                  '12/ 1301 Mira Apartment  lokhandwalAndheri Mumbai- 40043',
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                                ),
                               ),
-                              Text(
-                                'OPEN',
-                                style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#18D184')  ),
-                              ),
+                              SizedBox(width: 20,),
+                            index != 0?  Container(
+                                // width: MediaQuery.of(context).size.width,
+                                height: 45,
+                                margin: EdgeInsets.only(top: 0, left: 0, right: 0),
+                                child: ElevatedButton(
+                                  child: Text('${LocaleKeys.DashboardReachLocationBtn.tr()}'),
+                                  onPressed: () {
+
+                                    reachLocationBottomSheet(context: context,height: height! *0.35);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      primary: HexColor('ED8F2D'),
+                                      // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                      textStyle: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ):Container(),
                             ],
                           ),
                         ),
-                      Container(
-                        alignment:Alignment.centerLeft,
-                        child: Text(
-                          '+91 9987956807',
-                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_light(),color: HexColor('#494949')  ),
-                        ) ,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Container(
-                        alignment:Alignment.centerLeft,
-                        child: Text(
-                          'AC NOT WORKING',
-                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
-                        ) ,
-                      ),
-                      Container(
-                        alignment:Alignment.centerLeft,
-                        child: Text(
-                          'Fan and Cooling not happening',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_light(),color: HexColor('#494949')  ),
-                        ) ,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                '12/ 1301 Mira Apartment  lokhandwalAndheri Mumbai- 40043',
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
-                              ),
-                            ),
-                            SizedBox(width: 20,),
-                            Container(
-                              // width: MediaQuery.of(context).size.width,
-                              height: 45,
-                              margin: EdgeInsets.only(top: 0, left: 0, right: 0),
-                              child: ElevatedButton(
-                                child: Text('${LocaleKeys.DashboardReachLocationBtn.tr()}'),
-                                onPressed: () {
-
-                                  reachLocationBottomSheet(context: context,height: height! *0.35);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: HexColor('ED8F2D'),
-                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                    textStyle: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ))
-              ]),
+                      ],
+                    ),
+                  ))
+                ]),
+          ),
         ),
       ),
     );

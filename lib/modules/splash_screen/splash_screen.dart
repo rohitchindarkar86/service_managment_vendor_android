@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vendor_app/utility/hex_color.dart';
 import 'dart:async';
 
+import '../../style/style.dart';
 import '../login/technician_login/technician_login_page.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-              color: HexColor('ED8F2D'),
+              color: Colors.white,
             ),
           ),
           Column(
@@ -39,13 +40,30 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        'Place Your Service',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24.0),
-                      )
+                      Container(
+                        width: MediaQuery.of(context).size.width *0.35,
+                        alignment: Alignment.center,
+                        child: Image.asset('assets/images/app_logo.png'),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.center,
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Place',
+                                style: TextStyle(fontFamily: Style().font_bold(),fontSize: 30,color: HexColor('#ED8F2D')),
+                              ),
+                              TextSpan(text: ' Your Service ',style: TextStyle(fontFamily: Style().font_regular(),fontSize: 30,color: HexColor('000000'))),
+                            ],
+                          ),
+
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -18,6 +18,7 @@ abstract class  LocaleKeys {
   static const ResetHeadingText = 'ResetHeadingText';
   static const ResetSubHeadingText = 'ResetSubHeadingText';
   static const DashboardViewProfileBtnText = 'DashboardViewProfileBtnText';
+  static const DashboardIdBtnText = 'DashboardIdBtnText';
   static const DashboardTodaysComplaintText = 'DashboardTodaysComplaintText';
   static const DashboardReachLocationBtn = 'DashboardReachLocationBtn';
   static const ReachLocationHeadingText = 'ReachLocationHeadingText';

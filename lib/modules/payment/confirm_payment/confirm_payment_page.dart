@@ -13,9 +13,14 @@ class ConfirmPaymentPage extends StatefulWidget {
 
 class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
   final _confirmPaymentBloc = ConfirmPaymentBloc(UnConfirmPaymentState());
+  String fromClick = "";
+  String captureCode = "";
 
   @override
   Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)!.settings.arguments  as Map;
+    fromClick = arguments['fromClick'].toString();
+    captureCode = arguments['captureCode'].toString();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('ED8F2D'),
@@ -25,7 +30,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
         title: Text('Complete Request',style: TextStyle(color: Colors.white,fontFamily: Style().font_medium(),fontSize: 16),),
       ),
       backgroundColor: HexColor('E5E5E5'),
-      body: ConfirmPaymentScreen(confirmPaymentBloc: _confirmPaymentBloc),
+      body: ConfirmPaymentScreen(confirmPaymentBloc: _confirmPaymentBloc,fromClick:fromClick,captureCode:captureCode),
     );
   }
 }

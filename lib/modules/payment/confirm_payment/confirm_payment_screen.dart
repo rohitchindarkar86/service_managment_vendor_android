@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vendor_app/modules/payment/confirm_payment/index.dart';
+import 'package:vendor_app/utility/app_utility.dart';
 
 import '../../../style/style.dart';
 import '../../../utility/hex_color.dart';
 import '../payment/payment_page.dart';
 
 class ConfirmPaymentScreen extends StatefulWidget {
+  final String fromClick;
+  final String captureCode;
   const ConfirmPaymentScreen({
     required ConfirmPaymentBloc confirmPaymentBloc,
+    required this.fromClick,
+    required this.captureCode,
     Key? key,
   })  : _confirmPaymentBloc = confirmPaymentBloc,
         super(key: key);
@@ -29,10 +34,16 @@ class ConfirmPaymentScreenState extends State<ConfirmPaymentScreen> {
   String? applianceCompanyNameDropDownValue= "Carrier";
   String? applianceDOPDropDownValue= "2021";
   String? applianceAreaDropDownValue= "Hall";
+  String? qrCodeValue="";
   @override
   void initState() {
     super.initState();
+
     _load();
+    if(widget.fromClick == "Yes"){
+      qrCodeValue = widget.captureCode;
+      AppUtility.showToast('Data will be auto Filled.When Qr Code is Already in Appliance');
+    }
   }
 
   @override
@@ -42,6 +53,7 @@ class ConfirmPaymentScreenState extends State<ConfirmPaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocConsumer<ConfirmPaymentBloc, ConfirmPaymentState>(
         listener: (Context, currentState) {
           if (currentState is UnConfirmPaymentState) {}
@@ -53,6 +65,7 @@ class ConfirmPaymentScreenState extends State<ConfirmPaymentScreen> {
           ConfirmPaymentState currentState,
         ) {
           height = MediaQuery.of(context).size.height;
+
           return WillPopScope(
             onWillPop: () async {
               return true;
@@ -416,10 +429,17 @@ class ConfirmPaymentScreenState extends State<ConfirmPaymentScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Text('36548721',style: TextStyle(fontSize: 16,fontFamily: Style().font_regular(),color: HexColor('000000')),),
+                                                  Text('${qrCodeValue}',style: TextStyle(fontSize: 16,fontFamily: Style().font_regular(),color: HexColor('000000')),),
                                                   GestureDetector(
                                                       onTap: (){
-                                                        Navigator.pushNamed(context, '/qrScanner');
+                                                        Navigator.pushNamed(context, '/qrScanner').then((value){
+                                                          print('BackClick:-'+value.toString());
+                                                          if(value != null){
+                                                            setState(() {
+                                                              qrCodeValue = value.toString();
+                                                            });
+                                                          }
+                                                        });
                                                       },
                                                       child: Icon(Icons.camera_alt_outlined,size: 24,color: HexColor('ED8F2D'),))
                                                 ],

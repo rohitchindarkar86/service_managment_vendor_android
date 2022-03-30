@@ -162,7 +162,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                     children: [
                                       Expanded(child: Container(
                                         child:   Text(
-                                          'Servicce Request',
+                                          'Service Request',
                                           style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#000000').withOpacity(0.7)  ),
                                         ),
                                       )),
@@ -215,7 +215,6 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                               child: Text('Complete'),
                               onPressed: () {
                                 completeRequestBottomSheet(context: context,height: 300);
-
                               },
                               style: ElevatedButton.styleFrom(
                                   primary: HexColor('008d00'),
@@ -431,7 +430,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                 child: Text('Yes'),
                                 onPressed: () {
                                   Navigator.pop(context);
-
+                                  Navigator.pushNamed(context, '/qrScanner',arguments: {"fromClick":"Yes"});
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: HexColor('ED8F2D'),
@@ -451,7 +450,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                 child: Text('No'),
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  Navigator.pushNamed(context, ConfirmPaymentPage.routeName);
+                                  Navigator.pushNamed(context, ConfirmPaymentPage.routeName,arguments: {"fromClick":"No"});
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: HexColor('ED8F2D'),

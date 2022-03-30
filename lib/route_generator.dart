@@ -55,6 +55,7 @@ class RouteGenerator {
       case ConfirmPaymentPage.routeName:
         return MaterialPageRoute(
           builder: (builder) => ConfirmPaymentPage(),
+            settings: settings
         );
         case PaymentPage.routeName:
         return MaterialPageRoute(
@@ -63,6 +64,7 @@ class RouteGenerator {
       case '/qrScanner':
         return MaterialPageRoute(
           builder: (context) => QRScanner(),
+          settings: settings
           // settings omitted to hide route name
         );
       default:

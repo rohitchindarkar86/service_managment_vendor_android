@@ -13,8 +13,10 @@ import '../../payment/confirm_payment/confirm_payment_page.dart';
 import '../../payment/payment/payment_page.dart';
 
 class ReachedServiceDetailsScreen extends StatefulWidget {
+  final String fromClick;
   const ReachedServiceDetailsScreen({
     required ReachedServiceDetailsBloc reachedServiceDetailsBloc,
+    required this.fromClick,
     Key? key,
   })  : _reachedServiceDetailsBloc = reachedServiceDetailsBloc,
         super(key: key);
@@ -43,6 +45,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
 
   @override
   Widget build(BuildContext context) {
+
     return BlocConsumer<ReachedServiceDetailsBloc, ReachedServiceDetailsState>(
         bloc: widget._reachedServiceDetailsBloc,
         listener: (Context, currentState) {
@@ -192,9 +195,11 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: Text('Cancel'),
+                              child: Text( widget.fromClick == "ReachLocation"?'Cancel':'Edit Appliance'),
                               onPressed: () {
-                                cancelRequestBottomSheet(context:context,height: 450);
+                                widget.fromClick == 'ReachLocation'?
+                                cancelRequestBottomSheet(context:context,height: 450):
+                                Navigator.pushNamed(context, ConfirmPaymentPage.routeName,arguments: {"fromClick":"Edit"});
 
                               },
                               style: ElevatedButton.styleFrom(
@@ -207,14 +212,32 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                           ),
                         ),
                         SizedBox(width: 8,),
+                        widget.fromClick == "ReachLocation"? Expanded(
+                          child:   Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: Text('Appliance Details'),
+                              onPressed: () {
+                                completeRequestBottomSheet(context: context,height: 300);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: HexColor('008d00'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                        ):
                         Expanded(
                           child:   Container(
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: Text('Complete'),
+                              child: Text('Proceed To Payment'),
                               onPressed: () {
-                                completeRequestBottomSheet(context: context,height: 300);
+                                Navigator.pushNamed(context, PaymentPage.routeName);
                               },
                               style: ElevatedButton.styleFrom(
                                   primary: HexColor('008d00'),

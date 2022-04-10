@@ -117,198 +117,212 @@ class IdCardScreen extends StatelessWidget {
         backgroundColor:Colors.white,
         body: Stack(
           children: [
-            Center(
-              child: GestureDetector(
-                  onTap: (){
-                  },
-                  child:Hero(
-                      tag: 'imageHero',
-                      child:Container(
-                          height: 500,
-                          color: Colors.transparent,
-                          margin: EdgeInsets.only(left: 36,right: 36,top:24,bottom: 2),
-                          child: Card(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child:Stack(
-                              children: <Widget>[
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
+            SingleChildScrollView(
+              child: Center(
+                child: GestureDetector(
+                    onTap: (){
+                    },
+                    child:Hero(
+                        tag: 'imageHero',
+                        child:Container(
+                            height: 520,
+                            color: Colors.transparent,
+                            margin: EdgeInsets.only(left: 36,right: 36,top:24,bottom: 2),
+                            child: Card(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child:Stack(
+                                children: <Widget>[
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
 
-                                  height: 500,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      //Header
-                                      Container(
-                                        decoration: BoxDecoration(color: HexColor('85B5CA').withOpacity(0.5),
-                                            borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10),)
-                                        ),
-                                        height: 35,
-                                        width: MediaQuery.of(context).size.width,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              width: 26,
-                                              alignment: Alignment.center,
-                                              child: Image.asset('assets/images/app_logo.png'),
-                                            ),
-                                            SizedBox(
-                                              width: 8,
-                                            ),
-                                            Container(
-                                              alignment: Alignment.center,
-                                              child: RichText(
-                                                text: TextSpan(
-                                                  children: [
-                                                    TextSpan(
-                                                      text: 'Place',
-                                                      style: TextStyle(fontFamily: Style().font_bold(),fontSize: 16,color: HexColor('#ED8F2D')),
-                                                    ),
-                                                    TextSpan(text: ' Your Service ',style: TextStyle(fontFamily: Style().font_regular(),fontSize: 16,color: HexColor('000000'))),
-                                                  ],
-                                                ),
-
+                                    height: 520,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        //Header
+                                        Container(
+                                          decoration: BoxDecoration(color: HexColor('85B5CA').withOpacity(0.5),
+                                              borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10),)
+                                          ),
+                                          height: 35,
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                width: 26,
+                                                alignment: Alignment.center,
+                                                child: Image.asset('assets/images/app_logo.png'),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 20,),
-
-                                      Container(
-                                        margin: EdgeInsets.symmetric(horizontal: 10),
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(child: Container(
-                                              margin: EdgeInsets.symmetric(horizontal: 10),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    height: 130,
-                                                    child: Image.asset('assets/images/sample_img1.png'),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(left: 4,top: 4),
-                                                    child: RatingBar.builder(
-                                                      ignoreGestures:true,
-                                                      itemSize: 14,
-                                                      initialRating: 3,
-                                                      minRating: 1,
-                                                      direction: Axis.horizontal,
-                                                      allowHalfRating: true,
-                                                      itemCount: 5,
-                                                      itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                                                      itemBuilder: (context, _) => Icon(
-                                                        Icons.star,
-                                                        color: Colors.amber,
-                                                      ),
-                                                      onRatingUpdate: (rating) {
-
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    'Kashinath Pawar',
-                                                    style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#494949')  ),
-                                                  ),
-
-                                                  SizedBox(height: 24,),
-
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                              SizedBox(
+                                                width: 8,
+                                              ),
+                                              Container(
+                                                alignment: Alignment.center,
+                                                child: RichText(
+                                                  text: TextSpan(
                                                     children: [
-                                                      Expanded(
-                                                        child: Container(
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: [
-                                                              ProfileWidget.idLableWidget('Registration No'),
-                                                              ProfileWidget.idTexteWidget('123456-2022'),
-                                                            ],
-                                                          ),
-                                                        ),
+                                                      TextSpan(
+                                                        text: 'Place',
+                                                        style: TextStyle(fontFamily: Style().font_bold(),fontSize: 16,color: HexColor('#ED8F2D')),
                                                       ),
-
-                                                      Expanded(child: Container(
-                                                        width: MediaQuery.of(context).size.width *0.35,
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          children: [
-                                                            ProfileWidget.idLableWidget('Aadhar Card No'),
-                                                            ProfileWidget.idTexteWidget('99879 5626 5632'),
-                                                          ],
-                                                        ),
-                                                      ),)
-                                                      
+                                                      TextSpan(text: ' Your Service ',style: TextStyle(fontFamily: Style().font_regular(),fontSize: 16,color: HexColor('000000'))),
                                                     ],
                                                   ),
-                                                  SizedBox(height: 16,),
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Expanded(
-                                                        child:  Container(
+
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 20,),
+
+                                        Container(
+                                          margin: EdgeInsets.symmetric(horizontal: 10),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(child: Container(
+                                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      height: 130,
+                                                      child: Image.asset('assets/images/sample_img1.png'),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(left: 4,top: 4),
+                                                      child: RatingBar.builder(
+                                                        ignoreGestures:true,
+                                                        itemSize: 14,
+                                                        initialRating: 3,
+                                                        minRating: 1,
+                                                        direction: Axis.horizontal,
+                                                        allowHalfRating: true,
+                                                        itemCount: 5,
+                                                        itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                                                        itemBuilder: (context, _) => Icon(
+                                                          Icons.star,
+                                                          color: Colors.amber,
+                                                        ),
+                                                        onRatingUpdate: (rating) {
+
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Kashinath Pawar',
+                                                      style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#494949')  ),
+                                                    ),
+
+                                                    SizedBox(height: 24,),
+
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Expanded(
+                                                          child: Container(
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                ProfileWidget.idLableWidget('Registration No'),
+                                                                ProfileWidget.idTexteWidget('123456-2022'),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+
+                                                        Expanded(child: Container(
                                                           width: MediaQuery.of(context).size.width *0.35,
                                                           child: Column(
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             crossAxisAlignment: CrossAxisAlignment.center,
                                                             children: [
-                                                              ProfileWidget.idLableWidget('Address'),
-                                                              ProfileWidget.idTexteWidget('Vartak nagar, Thane(w),400606'),
+                                                              ProfileWidget.idLableWidget('Aadhar Card No'),
+                                                              ProfileWidget.idTexteWidget('99879 5626 5632'),
                                                             ],
                                                           ),
-                                                        ),
-                                                      ),
-
-                                                      Expanded(child:  Container(
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          children: [
-                                                            ProfileWidget.idLableWidget('Blood Group'),
-                                                            ProfileWidget.idTexteWidget('+Ove'),
-                                                          ],
-                                                        ),
-                                                      ),)
-
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 8,),
-                                                  Container(
-                                                    child: Container(
-                                                      child: Image.asset('assets/images/vaccinated.png',height: 100,),
+                                                        ),)
+                                                        
+                                                      ],
                                                     ),
-                                                  ),
+                                                    SizedBox(height: 16,),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Expanded(
+                                                          child:  Container(
+                                                            width: MediaQuery.of(context).size.width *0.35,
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                ProfileWidget.idLableWidget('Issue Date'),
+                                                                ProfileWidget.idTexteWidget('02 Jan 2021'),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
 
-                                                ],
-                                              ),
-                                            ))
-                                          ],
+                                                        Expanded(child:  Container(
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: [
+                                                              ProfileWidget.idLableWidget('Blood Group'),
+                                                              ProfileWidget.idTexteWidget('+Ove'),
+                                                            ],
+                                                          ),
+                                                        ),)
+
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 8,),
+                                                    Container(
+
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        children: [
+                                                          ProfileWidget.idLableWidget('Address'),
+                                                          ProfileWidget.idTexteWidget('Vartak nagar, Thane(w),400606'),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 8,),
+                                                    Container(
+                                                      child: Container(
+                                                        child: Image.asset('assets/images/vaccinated.png',height: 100,),
+                                                      ),
+                                                    ),
+
+                                                  ],
+                                                ),
+                                              ))
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 2,),
+                                        SizedBox(height: 2,),
 
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
 
 
 
-                              ],
-                            ),)
-                      ))),
+                                ],
+                              ),)
+                        ))),
+              ),
             ),
           ],
 

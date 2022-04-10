@@ -30,6 +30,7 @@ class PaymentScreenState extends State<PaymentScreen> {
   double? serviceAmt = 499;
   double? extraServiceAmt = 0;
   double? totalAmt = 0;
+  String? applianceDropDownValue= "Others";
   @override
   void initState() {
     super.initState();
@@ -137,13 +138,51 @@ class PaymentScreenState extends State<PaymentScreen> {
                                       width: MediaQuery.of(context).size.width *0.8,
                                       alignment: Alignment.centerLeft,
                                       child: Text(
+                                        'Action Taken',
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                                      ),
+                                    ):Container(),
+                                    _extraWorkRadioValue1 == 0?   Container(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width,
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.only(left: 8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+
+                                      ),
+                                      child:
+                                      DropdownButtonHideUnderline(
+                                        child: DropdownButton<String>(
+                                          isExpanded: true,
+                                          value: applianceDropDownValue,
+                                          items: <String>['Others', 'Capicitor change', 'data will be added from back end', ].map((String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value,style: TextStyle(fontSize: 16,color: HexColor('000000')),),
+                                            );
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              applianceDropDownValue = value;
+                                            });
+                                          },
+                                        ),
+                                      ),):Container(),
+                                    SizedBox(height: 16,),
+                                    _extraWorkRadioValue1 == 0? Container(
+                                      width: MediaQuery.of(context).size.width *0.8,
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
                                         'Extra Service Amount',
                                         maxLines: 4,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
                                       ),
                                     ):Container(),
-
                                     _extraWorkRadioValue1 == 0? Container(
                                       margin: EdgeInsets.only(top: 2),
                                         decoration: BoxDecoration(

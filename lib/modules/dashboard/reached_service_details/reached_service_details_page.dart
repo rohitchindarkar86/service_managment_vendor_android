@@ -13,9 +13,11 @@ class ReachedServiceDetailsPage extends StatefulWidget {
 
 class _ReachedServiceDetailsPageState extends State<ReachedServiceDetailsPage> {
   final _reachedServiceDetailsBloc = ReachedServiceDetailsBloc(UnReachedServiceDetailsState());
-
+  late String fromClick;
   @override
   Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)!.settings.arguments  as Map;
+    fromClick = arguments['fromClick'].toString();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('ED8F2D'),
@@ -26,7 +28,7 @@ class _ReachedServiceDetailsPageState extends State<ReachedServiceDetailsPage> {
       ),
       backgroundColor: HexColor('#E5E5E5'),
       resizeToAvoidBottomInset: false,
-      body: ReachedServiceDetailsScreen(reachedServiceDetailsBloc: _reachedServiceDetailsBloc),
+      body: ReachedServiceDetailsScreen(reachedServiceDetailsBloc: _reachedServiceDetailsBloc,fromClick:fromClick),
     );
   }
 }

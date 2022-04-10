@@ -242,7 +242,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         itemBuilder: complaintList,
-                        itemCount: 2,
+                        itemCount: 3,
                       ),
                     ),
                   ),
@@ -263,8 +263,8 @@ class DashboardScreenState extends State<DashboardScreen> {
       margin: EdgeInsets.only(top: 0, right: 8, left: 8),
       child: GestureDetector(
         onTap: (){
-          if(index ==  0 ){
-            Navigator.pushNamed(context, ReachedServiceDetailsPage.routeName);
+          if(index != 2 ){
+            Navigator.pushNamed(context, ReachedServiceDetailsPage.routeName,arguments: {'fromClick':index ==  0?'onGoing':'ReachLocation'});
           }
         },
         child: Card(
@@ -274,7 +274,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                      color: index ==  0?Colors.red:Colors.green,
+                      color: index ==  0?Colors.red:index ==  1? Colors.blue:Colors.green,
                       height: 185,
                       width: 12,
                     ),
@@ -286,13 +286,22 @@ class DashboardScreenState extends State<DashboardScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'Amit Rane',
-                                  style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                                Expanded(
+                                  child: Text(
+                                    'Amit Rane',
+                                    style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                                  ),
                                 ),
-                                Text(
-                                  index ==  0?'On Going': 'OPEN',
-                                  style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color:  index ==  0?Colors.red: HexColor('#18D184')  ),
+                                Container(
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: index ==  0?Colors.red.withOpacity(0.2): index ==  1? Colors.blue.withOpacity(0.2):HexColor('#18D184').withOpacity(0.2),
+                                    borderRadius: BorderRadius.all( Radius.circular(5)),
+                                  ),
+                                  child: Text(
+                                    index ==  0?'On Going':index ==  1?"Reach Location": 'Open',
+                                    style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color:  index ==  0?Colors.red: index ==  1? Colors.blue:HexColor('#18D184')  ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -341,7 +350,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                 ),
                               ),
                               SizedBox(width: 20,),
-                            index != 0?  Container(
+                            index == 2?  Container(
                                 // width: MediaQuery.of(context).size.width,
                                 height: 45,
                                 margin: EdgeInsets.only(top: 0, left: 0, right: 0),

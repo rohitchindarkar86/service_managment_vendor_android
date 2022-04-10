@@ -40,6 +40,7 @@ class RouteGenerator {
       case ReachedServiceDetailsPage.routeName:
         return MaterialPageRoute(
           builder: (builder) => ReachedServiceDetailsPage(),
+          settings: settings
         );
 
       case CancelRequestPage.routeName:

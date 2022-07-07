@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:vendor_app/modules/profile/view_profile/index.dart';
 import 'package:vendor_app/utility/hex_color.dart';
 
+import '../../../models/login/user_details_model.dart';
 import '../../../style/style.dart';
 import '../../../widgets/profile/profile_widget.dart';
 
@@ -103,8 +104,20 @@ class ViewProfileScreenState extends State<ViewProfileScreen> {
   }
 }
 class IdCardScreen extends StatelessWidget {
+
+  String techName='';
+  String registrationNo='';
+  String addharCardNo='';
+  String address='';
+  String booldGroup='';
   @override
   Widget build(BuildContext context) {
+    getUserDetailsModel();
+    techName = (userDetailsModel?.technicianName)!;
+    registrationNo = (userDetailsModel?.userCode.toString())!;
+    addharCardNo = (userDetailsModel?.uidaI_Aadhar.toString())!;
+    booldGroup = (userDetailsModel?.bloodGroup_Desc.toString())!;
+    address = (userDetailsModel?.addressLine_1??"")+" "+(userDetailsModel?.addressLine_2 ??"");
     return Scaffold(
         appBar: AppBar(
           backgroundColor: HexColor('ED8F2D'),
@@ -216,8 +229,7 @@ class IdCardScreen extends StatelessWidget {
                                                         },
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Kashinath Pawar',
+                                                    Text(techName,
                                                       style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#494949')  ),
                                                     ),
 
@@ -234,7 +246,7 @@ class IdCardScreen extends StatelessWidget {
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: [
                                                                 ProfileWidget.idLableWidget('Registration No'),
-                                                                ProfileWidget.idTexteWidget('123456-2022'),
+                                                                ProfileWidget.idTexteWidget('${registrationNo}'),
                                                               ],
                                                             ),
                                                           ),
@@ -247,7 +259,7 @@ class IdCardScreen extends StatelessWidget {
                                                             crossAxisAlignment: CrossAxisAlignment.center,
                                                             children: [
                                                               ProfileWidget.idLableWidget('Aadhar Card No'),
-                                                              ProfileWidget.idTexteWidget('99879 5626 5632'),
+                                                              ProfileWidget.idTexteWidget('${addharCardNo}'),
                                                             ],
                                                           ),
                                                         ),)
@@ -279,7 +291,7 @@ class IdCardScreen extends StatelessWidget {
                                                             crossAxisAlignment: CrossAxisAlignment.center,
                                                             children: [
                                                               ProfileWidget.idLableWidget('Blood Group'),
-                                                              ProfileWidget.idTexteWidget('+Ove'),
+                                                              ProfileWidget.idTexteWidget('${booldGroup}'),
                                                             ],
                                                           ),
                                                         ),)
@@ -294,7 +306,7 @@ class IdCardScreen extends StatelessWidget {
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
                                                           ProfileWidget.idLableWidget('Address'),
-                                                          ProfileWidget.idTexteWidget('Vartak nagar, Thane(w),400606'),
+                                                          ProfileWidget.idTexteWidget('${address}'),
                                                         ],
                                                       ),
                                                     ),

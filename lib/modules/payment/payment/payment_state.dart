@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../models/master/action_taken_master_model.dart';
+
 abstract class PaymentState extends Equatable {
   PaymentState();
 
@@ -40,3 +42,4 @@ class ErrorPaymentState extends PaymentState {
   @override
   List<Object> get props => [errorMessage];
 }
+

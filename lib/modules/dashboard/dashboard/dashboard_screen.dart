@@ -1,14 +1,21 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vendor_app/generated/locale_keys.g.dart';
 import 'package:vendor_app/modules/dashboard/dashboard/index.dart';
+import 'package:vendor_app/modules/login/technician_login/index.dart';
 import 'package:vendor_app/style/style.dart';
+import 'package:vendor_app/utility/app_utility.dart';
 import 'package:vendor_app/utility/hex_color.dart';
 
+import '../../../models/login/user_details_model.dart';
+import '../../../widgets/AppLoader.dart';
 import '../../../widgets/LogoutOverlay.dart';
 import '../../profile/view_profile/view_profile_page.dart';
 import '../../profile/view_profile/view_profile_screen.dart';
@@ -34,6 +41,10 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   double? height;
 
+  bool isApiCall = true;
+  SharedPreferences? sharedPreferences;
+
+  String? techName="";
   @override
   void initState() {
     super.initState();
@@ -53,8 +64,22 @@ class DashboardScreenState extends State<DashboardScreen> {
           if (currentState is UnDashboardState) {
 
           }
+          if (currentState is LoadingDashboardState) {
+            isApiCall = true;
+          }
+          if (currentState is UserInvalidState) {
+            isApiCall = false;
+            AppUtility.ShowToast(context, HexColor('ED8F2D').withOpacity(0.8),
+                'Invalid User.Please try with Technician Login', HexColor('FFFFFF'), 4);
+            AppUtility.logoutUser(context);
+          }
+          if (currentState is UserSuccessState) {
+            techName = (userDetailsModel?.technicianName)!;
+            getUserData();
+            isApiCall = false;
+          }
           if (currentState is ErrorDashboardState) {
-
+            isApiCall = false;
           }
           if (currentState is InDashboardState) {
 
@@ -69,189 +94,213 @@ class DashboardScreenState extends State<DashboardScreen> {
             onWillPop: () async {
               showDialog(
                 context: context,
-                builder: (_) => LogoutOverlay(),
+                builder: (_) => LogoutOverlay('Exit'),
               );
               return true;
             },
-            child: Container(
-              child: Column(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height:  height! *0.28,
-                    padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+            child: Stack(
+              children: [
+                Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height:  height! *0.28,
+                        padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
 
-                    decoration: BoxDecoration(
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                              color: Colors.black54,
-                              blurRadius: 15.0,
-                              offset: Offset(0.0, 0.75)
-                          )
-                        ],
-                      color: HexColor('ED8F2D'),
-                    ),
-                    child: SafeArea(
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 30,
-                            alignment: Alignment.centerRight,
-                            child: Icon(Icons.notifications_none_sharp,size: 25,color: Colors.white,),
-                          ),
-                          Container(
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 85,
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.only(top: 8),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child:  Image.asset('assets/images/sample_img.png'),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  child:  RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: 'Kashinath Pawar',
-                                          style: TextStyle(fontFamily: Style().font_regular(),fontSize: 16,color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-
-                                RatingBar.builder(
-                                  ignoreGestures:true,
-                                  itemSize: 20,
-                                  initialRating: 3,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: (rating) {
-
-                                  },
-                                ),
-
-
-                              ],
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 4,
-                            right: 0,
-                            left: 0,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerRight,
-                                  child:  GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(
-                                          context,
-                                          PageRouteBuilder(
-                                              transitionDuration: Duration(seconds: 1),
-                                              pageBuilder: (_, __, ___) => IdCardScreen()));
-                                    },
-                                    child: RichText(
-                                      textAlign: TextAlign.center,
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: '${LocaleKeys.DashboardIdBtnText.tr()}',
-                                            style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.centerRight,
-                                  child:  GestureDetector(
-                                    onTap: (){
-                                      Navigator.pushNamed(context, ViewProfilePage.routeName);
-                                    },
-                                    child: RichText(
-                                      textAlign: TextAlign.center,
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: '${LocaleKeys.DashboardViewProfileBtnText.tr()}',
-                                            style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                        decoration: BoxDecoration(
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: Colors.black54,
+                                blurRadius: 15.0,
+                                offset: Offset(0.0, 0.75)
                             )
-                          )
-                        ],
+                          ],
+                          color: HexColor('ED8F2D'),
+                        ),
+                        child: SafeArea(
+                          child: Stack(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 30,
+                                alignment: Alignment.centerRight,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: GestureDetector(
+                                          onTap: (){
+                                            // AppUtility.logoutUser;
+                                            showDialog(
+                                              context: context,
+                                              builder: (_) => LogoutOverlay('Logout'),
+                                            );
+                                          },
+                                          child: Icon(Icons.logout,size: 25,color: Colors.white,)),
+                                    ),
+                                    Icon(Icons.notifications_none_sharp,size: 25,color: Colors.white,),
+                                  ],
+                                )
+
+                              ),
+                              Container(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 85,
+                                      alignment: Alignment.center,
+                                      margin: EdgeInsets.only(top: 8),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        child:  Image.asset('assets/images/sample_img.png'),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Container(
+                                      alignment: Alignment.center,
+                                      child:  RichText(
+                                        textAlign: TextAlign.center,
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: '${techName}',
+                                              style: TextStyle(fontFamily: Style().font_regular(),fontSize: 16,color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+                                    RatingBar.builder(
+                                      ignoreGestures:true,
+                                      itemSize: 20,
+                                      initialRating: 3,
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      onRatingUpdate: (rating) {
+
+                                      },
+                                    ),
+
+
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                  bottom: 4,
+                                  right: 0,
+                                  left: 0,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.centerRight,
+                                        child:  GestureDetector(
+                                          onTap: (){
+                                            Navigator.push(
+                                                context,
+                                                PageRouteBuilder(
+                                                    transitionDuration: Duration(seconds: 1),
+                                                    pageBuilder: (_, __, ___) => IdCardScreen()));
+                                          },
+                                          child: RichText(
+                                            textAlign: TextAlign.center,
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: '${LocaleKeys.DashboardIdBtnText.tr()}',
+                                                  style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      // Container(
+                                      //   alignment: Alignment.centerRight,
+                                      //   child:  GestureDetector(
+                                      //     onTap: (){
+                                      //       Navigator.pushNamed(context, ViewProfilePage.routeName);
+                                      //     },
+                                      //     child: RichText(
+                                      //       textAlign: TextAlign.center,
+                                      //       text: TextSpan(
+                                      //         children: [
+                                      //           TextSpan(
+                                      //             text: '${LocaleKeys.DashboardViewProfileBtnText.tr()}',
+                                      //             style: TextStyle(fontFamily: Style().font_regular(),fontSize: 14,color: Colors.white),
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  )
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    height: 50,
-                    color: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 16,vertical: 0),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 24,
-                          alignment: Alignment.center,
-                          child: Image.asset('assets/images/dashboard_comp__icon.png'),
-                        ),
-                        SizedBox(width: 6,),
-                        Container(
-                          alignment: Alignment.center,
-                          child: Text('${LocaleKeys.DashboardTodaysComplaintText.tr()}',style: TextStyle(fontSize: 16,fontFamily: Style().font_regular(),color: HexColor('000000')),),
-                        ),
-                        Expanded(child: Container()),
-                        Container(
-                          alignment: Alignment.center,
-                          child: Text('Friday 18 Mar,2022',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('000000').withOpacity(0.5)),),
-                        ),
+                      Container(
+                        height: 50,
+                        color: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 16,vertical: 0),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 24,
+                              alignment: Alignment.center,
+                              child: Image.asset('assets/images/dashboard_comp__icon.png'),
+                            ),
+                            SizedBox(width: 6,),
+                            Container(
+                              alignment: Alignment.center,
+                              child: Text('${LocaleKeys.DashboardTodaysComplaintText.tr()}',style: TextStyle(fontSize: 16,fontFamily: Style().font_regular(),color: HexColor('000000')),),
+                            ),
+                            Expanded(child: Container()),
+                            Container(
+                              alignment: Alignment.center,
+                              child: Text('Friday 18 Mar,2022',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('000000').withOpacity(0.5)),),
+                            ),
 
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        itemBuilder: complaintList,
-                        itemCount: 3,
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            itemBuilder: complaintList,
+                            itemCount: 3,
+                          ),
+                        ),
+                      ),
 
-                ],
-              )
+                    ],
+                  )
 
-              ,
-            ),
+                  ,
+                ),
+                isApiCall ? AppLoader() : Container(),
+              ],
+            )
+
           );
           
         });
@@ -476,7 +525,29 @@ class DashboardScreenState extends State<DashboardScreen> {
           );
         });
   }
-  void _load() {
-    widget._dashboardBloc.add(LoadDashboardEvent());
+  Future<void> _load() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    try {
+      if (sharedPreferences?.getString('userDetails') == null) {
+        widget._dashboardBloc.add(UserDetailsApiLoginEvent());
+      } else {
+        String? jsonResponse = sharedPreferences?.getString("userDetails");
+        print("sdfsdfsdf:-" + jsonResponse.toString());
+        var valueMap = json.decode(jsonResponse!);
+        print("sdfsdfsdfsdasdas:-" + valueMap.toString());
+        UserDetailsModel userDetailsModel = UserDetailsModel.fromJson(valueMap);
+        setUserDetailsModel(userDetailsModel);
+        techName = (userDetailsModel.technicianName)!;
+        isApiCall = false;
+        setState(() {
+
+        });
+      }
+    }catch(e){
+      print(e.toString());
+    }
+  }
+  getUserData(){
+
   }
 }

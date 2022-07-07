@@ -1,7 +1,10 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vendor_app/modules/payment/payment/index.dart';
 
+import '../../../models/master/action_taken_master_model.dart';
+import '../../../models/service_request/action_taken_model.dart';
 import '../../../style/style.dart';
 import '../../../utility/hex_color.dart';
 import '../../../widgets/success_request_page.dart';
@@ -25,16 +28,17 @@ class PaymentScreenState extends State<PaymentScreen> {
   PaymentScreenState();
 
   double? height;
-  int _extraWorkRadioValue1=1;
+
   int _paymentRadioValue1=0;
   double? serviceAmt = 499;
   double? extraServiceAmt = 0;
   double? totalAmt = 0;
-  String? applianceDropDownValue= "Others";
+
   @override
   void initState() {
     super.initState();
     totalAmt = (serviceAmt! + extraServiceAmt!);
+
     _load();
   }
 
@@ -73,161 +77,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 16),
                           child: Column(
                             children: [
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                child:  Text(
-                                  'Your Extra Efforts',
-                                  style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
-                                ),
-                              ),
-                              SizedBox(height: 6,),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                color: Colors.white,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 16,),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            'Extra Work',
-                                            style: TextStyle(fontSize: 16 ,fontFamily: Style().font_regular(),color: HexColor('#000000')  ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              new Radio(
-                                                value: 0,
-                                                fillColor: MaterialStateColor.resolveWith((states) =>  HexColor('ED8F2D')),
-                                                activeColor: HexColor('ED8F2D'),
-                                                groupValue: _extraWorkRadioValue1,
-                                                onChanged: (val){
-                                                  _handleRadioValueChange1(val);
-                                                },
-                                              ),
-                                              new Text(
-                                                'Yes',
-                                                style: new TextStyle(fontSize: 16.0),
-                                              ),
-                                              new Radio(
-                                                value: 1,
-                                                fillColor: MaterialStateColor.resolveWith((states) =>  HexColor('ED8F2D')),
-                                                activeColor: HexColor('ED8F2D'),
-                                                groupValue: _extraWorkRadioValue1,
-                                                onChanged: (val){ _handleRadioValueChange1(val);},
-                                              ),
-                                              new Text(
-                                                'No',
-                                                style: new TextStyle(
-                                                  fontSize: 16.0,
-                                                ),
-                                              ),
 
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-
-                                    _extraWorkRadioValue1 == 0? Container(
-                                      width: MediaQuery.of(context).size.width *0.8,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        'Action Taken',
-                                        maxLines: 4,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
-                                      ),
-                                    ):Container(),
-                                    _extraWorkRadioValue1 == 0?   Container(
-                                      height: 40,
-                                      width: MediaQuery.of(context).size.width,
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.only(left: 8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        border: Border.all(color: HexColor('464646').withOpacity(0.3)),
-
-                                      ),
-                                      child:
-                                      DropdownButtonHideUnderline(
-                                        child: DropdownButton<String>(
-                                          isExpanded: true,
-                                          value: applianceDropDownValue,
-                                          items: <String>['Others', 'Capicitor change', 'data will be added from back end', ].map((String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value,style: TextStyle(fontSize: 16,color: HexColor('000000')),),
-                                            );
-                                          }).toList(),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              applianceDropDownValue = value;
-                                            });
-                                          },
-                                        ),
-                                      ),):Container(),
-                                    SizedBox(height: 16,),
-                                    _extraWorkRadioValue1 == 0? Container(
-                                      width: MediaQuery.of(context).size.width *0.8,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        'Extra Service Amount',
-                                        maxLines: 4,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
-                                      ),
-                                    ):Container(),
-                                    _extraWorkRadioValue1 == 0? Container(
-                                      margin: EdgeInsets.only(top: 2),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(color: HexColor('464646').withOpacity(0.3)),
-
-                                        ),
-                                        child:TextFormField(
-                                          cursorColor: Colors.black,
-                                          minLines: 1,
-                                          maxLines: 1,
-                                          decoration:  InputDecoration(
-                                            contentPadding: EdgeInsets.only(left: 12,),
-                                            fillColor: HexColor('ED8F2D'),
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(color: HexColor('ED8F2D')),
-                                            ),
-                                            focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(color: HexColor('ED8F2D')),
-                                            ),
-
-                                          ),
-                                          style: TextStyle(
-                                            fontFamily: Style().font_regular(),
-                                            fontSize: 16,
-                                            color:  Colors.black,),
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (val){
-                                            setState(() {
-                                              if(val.isEmpty){
-                                                extraServiceAmt = 0.0;
-                                              }else {
-                                                extraServiceAmt = double.parse(val);
-                                              }
-                                              totalAmt = (serviceAmt! + extraServiceAmt!);
-                                            });
-
-                                          },
-                                          // controller: EmailController,
-                                        )
-                                    ):Container(),
-                                    SizedBox(height: 16,),
-                                  ],
-                                ),
-                              ),
                               SizedBox(height: 16,),
                               Container(
                                 alignment: Alignment.centerLeft,
@@ -393,19 +243,15 @@ class PaymentScreenState extends State<PaymentScreen> {
         });
   }
 
-  _handleRadioValueChange1(value){
-    setState(() {
-      _extraWorkRadioValue1 = value;
-    });
-
-  }
   _paymentRadioValueChange(value){
     setState(() {
       _paymentRadioValue1 = value;
     });
 
   }
+
   void _load() {
-    widget._paymentBloc.add(LoadPaymentEvent());
+
   }
+
 }

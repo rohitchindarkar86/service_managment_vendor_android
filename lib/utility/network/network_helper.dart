@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:vendor_app/models/network_helper_error_model.dart';
 import 'package:vendor_app/utility/app_constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 import 'network_connectivity.dart';
@@ -14,86 +15,26 @@ var dio = Dio();
 
 
 class NetworkHelper {
-  static Future<dynamic> getData(
-      {@required String ?apiUrl,
-        Map<String, String> ?params,
-        Map<String, String> ?headers,
-        dynamic onTimeOut,
-        Duration? cache_duration,
-        bool ?forcerefreshcache,
-        bool ?is_sslpin_enable,
-        bool isxmlresponse=false,
-        int ?time_out_inseconds}) async {
-    String url;
-    var timeout = Duration(
-        seconds: time_out_inseconds == null
-            ? AppConstant.networkTimeOut
-            : time_out_inseconds);
-    if (params!.isEmpty) {
-      url = apiUrl!;
-    } else {
-      var value = params.entries
-          .map<String>((e) => '${e.key}=${e.value}')
-          .toList()
-          .join('&');
-      url = '$apiUrl?$value';
-    }
-    bool isInternetAvailabel = await CheckConnectivity().checkInternet();
-    if (!isInternetAvailabel) {
-      NetworkHelperErrModel networkErr = new NetworkHelperErrModel();
 
-      networkErr.statusCode = 400;
-      networkErr.message = "kindly check your internet connection";
-      return networkErr;
-    }
-    try {
-      final response = await dio
-          .get(url,
-         options:  cache_duration==null || forcerefreshcache==null?null:buildCacheOptions(
-           cache_duration,
-           forceRefresh: forcerefreshcache
-        ),
-      )
-          .timeout(timeout, onTimeout: onTimeOut);
-      http.Response rs;
-      if (isxmlresponse == true)
-        rs = new http.Response(response.data, response.statusCode!);
-      else
-        rs = new http.Response(jsonEncode(response.data), response.statusCode!);
-      return rs;
-    } catch (e) {
-      NetworkHelperErrModel networkErr = new NetworkHelperErrModel();
-      networkErr.statusCode = 505;  //for dio exception
-      if (e is DioError) {
-        networkErr.message = exception_handle(e).toString();
-      } else {
-        networkErr.message = "Error ${e}";
-      }
-      return networkErr;
-    }
-  }
-
-  static Future<dynamic> postData(
-      {@required String? apiUrl,
+  static Future<dynamic> CallApiServer(
+      {
+        @required String? apiUrl,
+        @required String? apiMode,
         String? body,
         Map<String, dynamic>? headers,
-        dynamic? onTimeOut,
-        Duration? cache_duration,
-        bool? forcerefreshcache,
-        bool? is_sslpin_enable,
-        int? time_out_inseconds,
+        Function? onTimeOut,
         bool shouldRetry = false,
-        bool isxmlresponse =false,
-        int retryCount = 0}) async {
-    bool isInternetAvailabel = await CheckConnectivity().checkInternet();
+        int retryCount = 0,
+        int timeOut= 60  //in seconds
+      }) async {
 
+    bool isInternetAvailabel = await CheckConnectivity().checkInternet();
     if (!isInternetAvailabel) {
       NetworkHelperErrModel networkErr = new NetworkHelperErrModel();
       networkErr.statusCode = 0;
       networkErr.message = "kindly check your internet connection";
       return networkErr;
     }
-
     if (retryCount == 2) {
       NetworkHelperErrModel networkErr = new NetworkHelperErrModel();
       networkErr.statusCode = 300;
@@ -102,57 +43,57 @@ class NetworkHelper {
       return networkErr;
     }
 
-    var timeout = Duration(
-        seconds: time_out_inseconds == null
-            ? AppConstant.networkTimeOut
-            : time_out_inseconds);
-
     try {
 
-      final response = await dio
-          .post(
-        apiUrl!,
+      final response = await dio.request(apiUrl!,
         data: body,
-        options:  cache_duration==null || forcerefreshcache==null?null:buildCacheOptions(
-            cache_duration,
-            forceRefresh: forcerefreshcache
+        options: Options(
+          method: apiMode,
+          receiveTimeout: timeOut*1000,
+          sendTimeout:timeOut*1000 ,
+          headers:{
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ${AppConstant.userTokken}',
+        },
         ),
-      )  .timeout(timeout, onTimeout: onTimeOut);
-
-
-      http.Response rs;
-      if (isxmlresponse == true)
-        rs = new http.Response(response.data.toString(), response.statusCode!);
-      else
-        rs = new http.Response(jsonEncode(response.data), response.statusCode!);
-      return rs;
-    } catch (e) {
-
-      if (shouldRetry) {
-        return postData(
-            apiUrl: apiUrl,
-            body: body,
-            headers: headers,
-            onTimeOut: onTimeOut,
-            cache_duration: cache_duration,
-            forcerefreshcache: forcerefreshcache,
-
-            is_sslpin_enable: is_sslpin_enable,
-            time_out_inseconds: time_out_inseconds ?? 60,
-            shouldRetry: shouldRetry,
-            retryCount: ++retryCount);
+      );
+      print(response.data);
+      if(response.statusCode==200 || response.statusCode==201)
+        return response;
+      else{
+        NetworkHelperErrModel errormodel = new NetworkHelperErrModel();
+        if(response.statusCode==401 ||response.statusCode==403 ||response.statusCode==404 || response.statusCode==500){
+          errormodel.statusCode=response.statusCode;
+          errormodel.message=response.data['description']??"Server Error!";
+        }
+        else{
+          errormodel.statusCode=500;
+          errormodel.message="Server Error!";
+        }
+        return errormodel;
       }
 
-      else {
+    }
 
+    catch (e) {
+      if (shouldRetry) {
+        return
+          CallApiServer(
+              apiUrl: apiUrl,
+              body: body,
+              headers: headers,
+              onTimeOut: onTimeOut,
+              shouldRetry: shouldRetry,
+              retryCount: ++retryCount);
+      }
+      else {
         NetworkHelperErrModel networkErr = new NetworkHelperErrModel();
         networkErr.statusCode = 505;  //for dio exception
         if (e is DioError) {
           networkErr.message = exception_handle(e).toString();
         } else {
           networkErr.message = "Error ${e}";
-          }
-
+        }
         return networkErr;
       }
     }

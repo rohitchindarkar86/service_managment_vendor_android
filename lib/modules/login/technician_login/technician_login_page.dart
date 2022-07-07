@@ -15,6 +15,7 @@ class _TechnicianLoginPageState extends State<TechnicianLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: HexColor('E5E5E5'),
       body: TechnicianLoginScreen(technicianLoginBloc: _technicianLoginBloc),
     );

@@ -40,3 +40,45 @@ class ErrorTechnicianLoginState extends TechnicianLoginState {
   @override
   List<Object> get props => [errorMessage];
 }
+
+class LoadingTechnicianLoginState extends TechnicianLoginState {
+  LoadingTechnicianLoginState();
+
+  @override
+  String toString() => 'LoadingTechnicianLoginState';
+
+  @override
+  List<Object> get props => [];
+}
+class TechnicianLoginSuccessState extends TechnicianLoginState {
+  String data;
+  TechnicianLoginSuccessState(this.data);
+
+  @override
+  String toString() => 'TechnicianLoginSuccessState';
+
+  @override
+  List<Object> get props => [];
+}
+
+class ForgotPasswordSuccessState extends TechnicianLoginState {
+  String data;
+  ForgotPasswordSuccessState(this.data);
+
+  @override
+  String toString() => 'TechnicianLoginSuccessState';
+
+  @override
+  List<Object> get props => [];
+}
+
+class TechnicianLoginErrorState extends TechnicianLoginState {
+  String errorMsg;
+  TechnicianLoginErrorState(this.errorMsg);
+
+  @override
+  String toString() => 'TechnicianLoginSuccessState';
+
+  @override
+  List<Object> get props => [];
+}

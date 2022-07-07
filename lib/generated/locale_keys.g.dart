@@ -14,6 +14,11 @@ abstract class  LocaleKeys {
   static const ForgotForgotPasswordSubText = 'ForgotForgotPasswordSubText';
   static const ForgotEnterEmailIdHint = 'ForgotEnterEmailIdHint';
   static const ForgotSubmitBtn = 'ForgotSubmitBtn';
+  static const OtpVerificationLbl = 'OtpVerificationLbl';
+  static const OtpVerificationEnteredOtpSentToLbl = 'OtpVerificationEnteredOtpSentToLbl';
+  static const OtpVerificationResendOtpLbl = 'OtpVerificationResendOtpLbl';
+  static const OtpVerificationResendOtpInLbl = 'OtpVerificationResendOtpInLbl';
+  static const OtpVerificationSecondLbl = 'OtpVerificationSecondLbl';
   static const ResetSignInBtn = 'ResetSignInBtn';
   static const ResetHeadingText = 'ResetHeadingText';
   static const ResetSubHeadingText = 'ResetSubHeadingText';

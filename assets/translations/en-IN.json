@@ -15,6 +15,12 @@
   "ForgotEnterEmailIdHint": "Enter Email Id",
   "ForgotSubmitBtn": "Submit",
 
+  "OtpVerificationLbl": "OTP Verification",
+  "OtpVerificationEnteredOtpSentToLbl": "Enter OTP sent on your registered\nemail & phone number",
+  "OtpVerificationResendOtpLbl": "Resend OTP",
+  "OtpVerificationResendOtpInLbl": "Resend OTP in",
+  "OtpVerificationSecondLbl": "sec",
+
   "ResetSignInBtn": "SIGN  IN",
   "ResetHeadingText": "Please check your email id",
   "ResetSubHeadingText": "We ‘ve sent an email to\nup**********gmail.com with instructions to\nreset your password.",

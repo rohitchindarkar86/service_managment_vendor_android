@@ -11,6 +11,7 @@ import '../../../utility/hex_color.dart';
 import '../../../widgets/cancel_request_page.dart';
 import '../../payment/confirm_payment/confirm_payment_page.dart';
 import '../../payment/payment/payment_page.dart';
+import '../../payment/service_report/service_report_page.dart';
 
 class ReachedServiceDetailsScreen extends StatefulWidget {
   final String fromClick;
@@ -235,9 +236,9 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: Text('Proceed To Payment'),
+                              child: Text('Service Report'),
                               onPressed: () {
-                                Navigator.pushNamed(context, PaymentPage.routeName);
+                                Navigator.pushNamed(context, ServiceReportPage.routeName);
                               },
                               style: ElevatedButton.styleFrom(
                                   primary: HexColor('008d00'),

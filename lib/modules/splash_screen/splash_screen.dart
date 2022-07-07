@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:vendor_app/modules/dashboard/dashboard/dashboard_page.dart';
 import 'package:vendor_app/utility/hex_color.dart';
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../style/style.dart';
+import '../../utility/app_constant.dart';
 import '../login/technician_login/technician_login_page.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,12 +15,13 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  late SharedPreferences sharedPreferences;
+
   @override
   void initState() {
     super.initState();
-    Timer(
-        Duration(seconds: 5),
-            () => Navigator.pushNamed(context, TechnicianLoginPage.routeName));
+    getUserData();
+
   }
 
   @override
@@ -74,5 +78,16 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+  getUserData() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    String? userToken = '';
+    userToken = sharedPreferences.getString("userToken")??"";
 
+    if(userToken != "" ) {
+      AppConstant.userTokken = userToken;
+    }
+    Timer(
+        Duration(seconds: 5),
+            () => Navigator.pushNamed(context, userToken == "" ?TechnicianLoginPage.routeName:DashboardPage.routeName));
+  }
 }

@@ -6,7 +6,11 @@ import 'package:vendor_app/generated/locale_keys.g.dart';
 import 'package:vendor_app/style/style.dart';
 import 'package:vendor_app/utility/hex_color.dart';
 
+import '../utility/app_utility.dart';
+
 class LogoutOverlay extends StatefulWidget {
+  String fromScreen;
+  LogoutOverlay(this.fromScreen);
   @override
   State<StatefulWidget> createState() => LogoutOverlayState();
 }
@@ -55,7 +59,7 @@ class LogoutOverlayState extends State<LogoutOverlay>
                         padding: const EdgeInsets.only(
                             top: 30.0, left: 20.0, right: 20.0),
                         child: Text(
-                          "${LocaleKeys.ExitHeadingText.tr()}",
+                          "${widget.fromScreen == 'Logout'?'Are you sure,you want to Logout?':LocaleKeys.ExitHeadingText.tr()}",
                           style: TextStyle(color: Colors.white,fontFamily:  Style().font_regular(), fontSize: 16.0),
                         ),
                       )),
@@ -74,7 +78,7 @@ class LogoutOverlayState extends State<LogoutOverlay>
                                       borderRadius: BorderRadius.circular(5.0)),
                                   splashColor: Colors.white.withAlpha(40),
                                   child: Text(
-                                    '${LocaleKeys.ExitExitBtn.tr()}',
+                                    '${widget.fromScreen == 'Logout'?"Logout":LocaleKeys.ExitExitBtn.tr()}',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: HexColor('ED8F2D'),
@@ -82,7 +86,8 @@ class LogoutOverlayState extends State<LogoutOverlay>
                                         fontSize: 14.0),
                                   ),
                                   onPressed: () {
-                                    SystemNavigator.pop();
+                                    widget.fromScreen == 'Logout'?
+                                    AppUtility.logoutUser(context): SystemNavigator.pop();
                                   },
                                 )),
                           ),

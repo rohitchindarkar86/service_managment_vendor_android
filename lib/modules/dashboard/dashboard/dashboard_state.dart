@@ -28,6 +28,15 @@ class InDashboardState extends DashboardState {
   @override
   List<Object> get props => [hello];
 }
+class LoadingDashboardState extends DashboardState {
+  LoadingDashboardState();
+
+  @override
+  String toString() => 'LoadingDashboardState ';
+
+  @override
+  List<Object> get props => [];
+}
 
 class ErrorDashboardState extends DashboardState {
   ErrorDashboardState(this.errorMessage);
@@ -39,4 +48,25 @@ class ErrorDashboardState extends DashboardState {
 
   @override
   List<Object> get props => [errorMessage];
+}
+
+class UserSuccessState extends DashboardState {
+  UserSuccessState();
+
+  @override
+  String toString() => 'UserSuccessState';
+
+  @override
+  List<Object> get props => [];
+}
+
+class UserInvalidState extends DashboardState {
+  UserInvalidState();
+
+
+  @override
+  String toString() => 'UserInvalidState';
+
+  @override
+  List<Object> get props => [];
 }

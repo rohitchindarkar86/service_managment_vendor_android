@@ -52,19 +52,19 @@ class ActionTakenMasterEvent extends ServiceReportEvent {
         "pageSize": 0,
         "currentIndex": 0
       };
-      ApiResponseHandlerModel response = await MasterRepository.actionTakenEvent(body);
-
-      if(response.status == 'S') {
-
-        var jsonResponse = response.data;
-        List<ActionTakenMasterModel> actionTakenMasterModel = actionTakenMasterModelFromJson(json.encode(jsonResponse));
-
-        print("dsdf");
-        yield ActionTakenState(actionTakenMasterModel);
-
-      }else if(response.status == 'F'){
-
-      }
+      // ApiResponseHandlerModel response = await MasterRepository.actionTakenEvent(body);
+      //
+      // if(response.status == 'S') {
+      //
+      //   var jsonResponse = response.data;
+      //   List<ActionTakenMasterModel> actionTakenMasterModel = actionTakenMasterModelFromJson(json.encode(jsonResponse));
+      //
+      //   print("dsdf");
+      //   yield ActionTakenState(actionTakenMasterModel);
+      //
+      // }else if(response.status == 'F'){
+      //
+      // }
 
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);

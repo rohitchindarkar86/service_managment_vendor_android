@@ -15,8 +15,10 @@ import 'package:vendor_app/utility/app_utility.dart';
 import 'package:vendor_app/utility/hex_color.dart';
 
 import '../../../models/login/user_details_model.dart';
+import '../../../models/service_request/service_list_model.dart';
 import '../../../widgets/AppLoader.dart';
 import '../../../widgets/LogoutOverlay.dart';
+import '../../../widgets/dashboard/shimmer_service_listing_widget.dart';
 import '../../profile/view_profile/view_profile_page.dart';
 import '../../profile/view_profile/view_profile_screen.dart';
 import '../reached_service_details/reached_service_details_page.dart';
@@ -45,6 +47,8 @@ class DashboardScreenState extends State<DashboardScreen> {
   SharedPreferences? sharedPreferences;
 
   String? techName="";
+  List<ServiceListModel>? serviceList;
+
   @override
   void initState() {
     super.initState();
@@ -77,6 +81,11 @@ class DashboardScreenState extends State<DashboardScreen> {
             techName = (userDetailsModel?.technicianName)!;
             getUserData();
             isApiCall = false;
+            widget._dashboardBloc.add(ServiceListEvent());
+          }
+          if (currentState is ServiceListingState) {
+            isApiCall = false;
+            serviceList = currentState.serviceList;
           }
           if (currentState is ErrorDashboardState) {
             isApiCall = false;
@@ -272,7 +281,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                             Expanded(child: Container()),
                             Container(
                               alignment: Alignment.center,
-                              child: Text('Friday 18 Mar,2022',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('000000').withOpacity(0.5)),),
+                              child: Text(DateFormat('dd MMM yyy').format(DateTime.now()),style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('000000').withOpacity(0.5)),),
                             ),
 
                           ],
@@ -282,14 +291,14 @@ class DashboardScreenState extends State<DashboardScreen> {
                         height: 12,
                       ),
                       Expanded(
-                        child: Container(
+                        child:serviceList == null ?ShimmerServiceWidget():serviceList?.length !=0?Container(
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             itemBuilder: complaintList,
-                            itemCount: 3,
+                            itemCount: serviceList?.length ??0,
                           ),
-                        ),
+                        ):Center(child: Text('No Service Appoinments'),),
                       ),
 
                     ],
@@ -323,7 +332,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                      color: index ==  0?Colors.red:index ==  1? Colors.blue:Colors.green,
+                      color:  serviceList?[index].serviceStatusSysCode == 2?Colors.red:index ==  1? Colors.blue:Colors.green,
                       height: 185,
                       width: 12,
                     ),
@@ -337,19 +346,20 @@ class DashboardScreenState extends State<DashboardScreen> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    'Amit Rane',
+                                    '${serviceList?[index].customerFirstName}  ${serviceList?[index].customerLastName}',
                                     style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
                                   ),
                                 ),
                                 Container(
                                   padding: EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                    color: index ==  0?Colors.red.withOpacity(0.2): index ==  1? Colors.blue.withOpacity(0.2):HexColor('#18D184').withOpacity(0.2),
+                                    // color: index ==  0?Colors.red.withOpacity(0.2): index ==  1? Colors.blue.withOpacity(0.2):HexColor('#18D184').withOpacity(0.2),
+                                    color: Colors.red.withOpacity(0.2),
                                     borderRadius: BorderRadius.all( Radius.circular(5)),
                                   ),
                                   child: Text(
-                                    index ==  0?'On Going':index ==  1?"Reach Location": 'Open',
-                                    style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color:  index ==  0?Colors.red: index ==  1? Colors.blue:HexColor('#18D184')  ),
+                                    '${serviceList?[index].serviceStatus}',
+                                    style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color:  Colors.red  ),
                                   ),
                                 ),
                               ],
@@ -358,7 +368,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                         Container(
                           alignment:Alignment.centerLeft,
                           child: Text(
-                            '+91 9987956807',
+                            '${serviceList?[index].customerMobile} ',
                             style: TextStyle(fontSize: 14 ,fontFamily: Style().font_light(),color: HexColor('#494949')  ),
                           ) ,
                         ),
@@ -392,22 +402,22 @@ class DashboardScreenState extends State<DashboardScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  '12/ 1301 Mira Apartment  lokhandwalAndheri Mumbai- 40043',
+                                  '${serviceList?[index].addressDetails } - ${serviceList?[index].pinCode }',
                                   maxLines: 4,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
                                 ),
                               ),
                               SizedBox(width: 20,),
-                            index == 2?  Container(
+                              serviceList?[index].serviceStatusSysCode == 2?  Container(
                                 // width: MediaQuery.of(context).size.width,
                                 height: 45,
                                 margin: EdgeInsets.only(top: 0, left: 0, right: 0),
                                 child: ElevatedButton(
                                   child: Text('${LocaleKeys.DashboardReachLocationBtn.tr()}'),
                                   onPressed: () {
-
-                                    reachLocationBottomSheet(context: context,height: height! *0.35);
+                                    int selectedService = serviceList?[index].serviceRequestCode ?? 0;
+                                    reachLocationBottomSheet(context: context,height: height! *0.35, serviceRequestCode: selectedService);
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: HexColor('ED8F2D'),
@@ -433,6 +443,7 @@ class DashboardScreenState extends State<DashboardScreen> {
   reachLocationBottomSheet({
     required BuildContext context,
     required double height,
+    required int serviceRequestCode,
   }) {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -484,8 +495,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                       child: ElevatedButton(
                         child: Text('${LocaleKeys.ReachLocationReachedBtn.tr()}'),
                         onPressed: () {
-                          Navigator.pop(context);
-
+                          // Navigator.pop(context);
+                          widget._dashboardBloc.add(UpdateServiceRequestEvent(serviceRequestCode,3));
                         },
                         style: ElevatedButton.styleFrom(
                             primary: HexColor('ED8F2D'),
@@ -542,10 +553,12 @@ class DashboardScreenState extends State<DashboardScreen> {
         setState(() {
 
         });
+        widget._dashboardBloc.add(ServiceListEvent());
       }
     }catch(e){
       print(e.toString());
     }
+
   }
   getUserData(){
 

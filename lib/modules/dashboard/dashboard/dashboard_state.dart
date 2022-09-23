@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../models/service_request/service_list_model.dart';
+
 abstract class DashboardState extends Equatable {
   DashboardState();
 
@@ -28,14 +30,14 @@ class InDashboardState extends DashboardState {
   @override
   List<Object> get props => [hello];
 }
+
 class LoadingDashboardState extends DashboardState {
   LoadingDashboardState();
 
   @override
   String toString() => 'LoadingDashboardState ';
 
-  @override
-  List<Object> get props => [];
+
 }
 
 class ErrorDashboardState extends DashboardState {
@@ -46,8 +48,6 @@ class ErrorDashboardState extends DashboardState {
   @override
   String toString() => 'ErrorDashboardState';
 
-  @override
-  List<Object> get props => [errorMessage];
 }
 
 class UserSuccessState extends DashboardState {
@@ -56,8 +56,7 @@ class UserSuccessState extends DashboardState {
   @override
   String toString() => 'UserSuccessState';
 
-  @override
-  List<Object> get props => [];
+
 }
 
 class UserInvalidState extends DashboardState {
@@ -69,4 +68,13 @@ class UserInvalidState extends DashboardState {
 
   @override
   List<Object> get props => [];
+}
+
+class ServiceListingState extends DashboardState {
+  List<ServiceListModel> serviceList=[];
+  ServiceListingState(this.serviceList);
+
+  @override
+  String toString() => 'ServiceListingState';
+
 }

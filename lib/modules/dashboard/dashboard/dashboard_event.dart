@@ -8,7 +8,9 @@ import 'package:meta/meta.dart';
 
 import '../../../models/apiResponseHandlerModel.dart';
 import '../../../models/login/user_details_model.dart';
+import '../../../models/service_request/service_list_model.dart';
 import '../../login/repository/login_repository.dart';
+import '../repository/service_repository.dart';
 
 @immutable
 abstract class DashboardEvent {
@@ -99,4 +101,66 @@ class UserDetailsApiLoginEvent extends DashboardEvent {
     }
   }
 }
+
+class ServiceListEvent extends DashboardEvent {
+
+  ServiceListEvent();
+  @override
+  Stream<DashboardState> applyAsync({DashboardState? currentState, DashboardBloc? bloc}) async* {
+    try {
+      SharedPreferences sharedPreferences;
+      // yield LoadingDashboardState();
+      var body = {
+        "code": userDetailsModel?.userCode
+      };
+      ApiResponseHandlerModel response = await ServiceRepository.serviceListEvent(body);
+
+      if(response.status == 'S') {
+        // var jsonResponse = json.decode(response.data.toString());
+        List<ServiceListModel> serviceList = response.data;
+
+        yield ServiceListingState(serviceList);
+        } else if(response.status == 'F'){
+      }
+
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorDashboardState( _.toString());
+    }
+  }
+}
+
+
+class UpdateServiceRequestEvent extends DashboardEvent {
+
+  int serviceRequestCode;
+  int statusCode;
+  UpdateServiceRequestEvent(this.serviceRequestCode,this.statusCode);
+  @override
+  Stream<DashboardState> applyAsync({DashboardState? currentState, DashboardBloc? bloc}) async* {
+    try {
+      SharedPreferences sharedPreferences;
+      // yield LoadingDashboardState();
+      var body = {
+        // "code": userDetailsModel?.userCode
+        "serviceRequestCode": serviceRequestCode,
+        "statusCode": statusCode
+      };
+      ApiResponseHandlerModel response = await ServiceRepository.updateServiceRequestEvent(body);
+
+      if(response.status == 'S') {
+        // var jsonResponse = json.decode(response.data.toString());
+        List<ServiceListModel> serviceList = response.data;
+
+        yield ServiceListingState(serviceList);
+        } else if(response.status == 'F'){
+      }
+
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorDashboardState( _.toString());
+    }
+  }
+}
+
 

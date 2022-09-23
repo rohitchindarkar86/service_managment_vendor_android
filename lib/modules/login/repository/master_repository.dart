@@ -10,14 +10,14 @@ MasterRepository? loginRepository;
 class MasterRepository {
 
   // ServiceComplaint Action Taken
-  static Future<dynamic> actionTakenEvent(bodyJson) async {
+  static Future<dynamic> pincodeDataEvent(bodyJson) async {
     bodyJson =  json.encode(bodyJson);
     var apiResponseHandler =  ApiResponseHandlerModel();
     try {
       final response = await NetworkHelper.CallApiServer(
           // headers: headers,
-          apiMode: "POST",
-          apiUrl: AppConstant.GET_MASTER_DATA_BY_NAME,
+          apiMode: "GET",
+          apiUrl: AppConstant.GET_MASTER_DATA_PINCODE,
           body: bodyJson.toString(),
           onTimeOut: () {
             throw Exception('Timeout occurred');

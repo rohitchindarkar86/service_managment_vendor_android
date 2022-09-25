@@ -68,7 +68,7 @@ class _EntryApplicationState extends State<EntryApplication>
                     debugShowCheckedModeBanner: false,
                     initialRoute: this.initialRoute,
                     onGenerateRoute: RouteGenerator.generateRoute,
-                    themeMode: themeMode ? ThemeMode.light : ThemeMode.dark,
+                    themeMode: themeMode ? ThemeMode.light : ThemeMode.light,
                     theme: lightTheme,
                     darkTheme: darkTheme,
                     localizationsDelegates: context.localizationDelegates,

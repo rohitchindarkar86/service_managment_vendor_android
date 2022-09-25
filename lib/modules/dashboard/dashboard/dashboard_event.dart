@@ -140,7 +140,7 @@ class UpdateServiceRequestEvent extends DashboardEvent {
   Stream<DashboardState> applyAsync({DashboardState? currentState, DashboardBloc? bloc}) async* {
     try {
       SharedPreferences sharedPreferences;
-      // yield LoadingDashboardState();
+      yield LoadingDashboardState();
       var body = {
         // "code": userDetailsModel?.userCode
         "serviceRequestCode": serviceRequestCode,
@@ -150,10 +150,12 @@ class UpdateServiceRequestEvent extends DashboardEvent {
 
       if(response.status == 'S') {
         // var jsonResponse = json.decode(response.data.toString());
-        List<ServiceListModel> serviceList = response.data;
 
-        yield ServiceListingState(serviceList);
+        yield UpdateSuccessServiceState(response.data.toString());
         } else if(response.status == 'F'){
+        yield ErrorDashboardState( response.message ??"Something went wrong please try after sometimes");
+      }else{
+        yield ErrorDashboardState( "Something went wrong please try after sometimes");
       }
 
     } catch (_, stackTrace) {

@@ -78,3 +78,12 @@ class ServiceListingState extends DashboardState {
   String toString() => 'ServiceListingState';
 
 }
+
+class UpdateSuccessServiceState extends DashboardState {
+  String successMsg;
+  UpdateSuccessServiceState(this.successMsg);
+
+  @override
+  String toString() => 'ServiceListingState';
+
+}

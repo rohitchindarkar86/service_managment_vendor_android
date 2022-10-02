@@ -72,10 +72,10 @@ class DashboardScreenState extends State<DashboardScreen> {
             isApiCall = true;
           }
           if (currentState is UserInvalidState) {
-            isApiCall = false;
-            AppUtility.ShowToast(context, HexColor('ED8F2D').withOpacity(0.8),
-                'Invalid User.Please try with Technician Login', HexColor('FFFFFF'), 4);
-            AppUtility.logoutUser(context);
+              isApiCall = false;
+              AppUtility.ShowToast(context, HexColor('ED8F2D').withOpacity(0.8),
+                  'Invalid User.Please try with Technician Login', HexColor('FFFFFF'), 4);
+              AppUtility.logoutUser(context);
           }
           if (currentState is UserSuccessState) {
             techName = (userDetailsModel?.technicianName)!;
@@ -86,6 +86,7 @@ class DashboardScreenState extends State<DashboardScreen> {
           if (currentState is ServiceListingState) {
             isApiCall = false;
             serviceList = currentState.serviceList;
+            serviceList = serviceList?.reversed.toList();
           }
 
           if (currentState is UpdateSuccessServiceState) {
@@ -99,6 +100,7 @@ class DashboardScreenState extends State<DashboardScreen> {
           if (currentState is InDashboardState) {
 
           }
+
         },
         builder: (
           BuildContext context,
@@ -323,12 +325,12 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   Widget complaintList(BuildContext context, int index) {
     return Container(
-      height: 210,
+      height: 255,
       margin: EdgeInsets.only(top: 0, right: 8, left: 8),
       child: GestureDetector(
         onTap: (){
           if(index != 2 ){
-            Navigator.pushNamed(context, ReachedServiceDetailsPage.routeName,arguments: {'fromClick':index ==  0?'onGoing':'ReachLocation'});
+            Navigator.pushNamed(context, ReachedServiceDetailsPage.routeName,arguments: {'selectedRequest':serviceList?[index]});
           }
         },
         child: Card(
@@ -338,8 +340,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                      color:  serviceList?[index].serviceStatusSysCode == 3?Colors.red:index ==  1? Colors.blue:Colors.green,
-                      height: 210,
+                      color:  AppUtility.serviceColorPicker(serviceList?[index].serviceStatusSysCode) ,
+                      height: 255,
                       width: 12,
                     ),
                   Expanded(child: Container(
@@ -360,12 +362,12 @@ class DashboardScreenState extends State<DashboardScreen> {
                                   padding: EdgeInsets.all(4),
                                   decoration: BoxDecoration(
                                     // color: index ==  0?Colors.red.withOpacity(0.2): index ==  1? Colors.blue.withOpacity(0.2):HexColor('#18D184').withOpacity(0.2),
-                                    color: Colors.red.withOpacity(0.2),
+                                    color: AppUtility.serviceColorPicker(serviceList?[index].serviceStatusSysCode).withOpacity(0.2),
                                     borderRadius: BorderRadius.all( Radius.circular(5)),
                                   ),
                                   child: Text(
                                     '${serviceList?[index].serviceStatus}',
-                                    style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color:  Colors.red  ),
+                                    style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color:  AppUtility.serviceColorPicker(serviceList?[index].serviceStatusSysCode)  ),
                                   ),
                                 ),
                               ],
@@ -384,17 +386,34 @@ class DashboardScreenState extends State<DashboardScreen> {
                         Container(
                           alignment:Alignment.centerLeft,
                           child: Text(
-                            'AC NOT WORKING',
+                            'Service No:- ${serviceList?[index].serviceRequestSeriesCode}',
                             style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
                           ) ,
                         ),
                         Container(
                           alignment:Alignment.centerLeft,
                           child: Text(
-                            'Fan and Cooling not happening',
+                            'Service Date:- ${serviceList?[index].scheduledDate}',
+                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                          ) ,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Container(
+                          alignment:Alignment.centerLeft,
+                          child: Text(
+                            '${ serviceList?[index].userApplianceType}  ${serviceList?[index].serviceCategory}',
+                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                          ) ,
+                        ),
+                        Container(
+                          alignment:Alignment.centerLeft,
+                          child: Text(
+                            '${serviceList?[index].serviceComplaintCode?[0].description}',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_light(),color: HexColor('#494949')  ),
+                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_light(),color: HexColor('000000')  ),
                           ) ,
                         ),
                         SizedBox(
@@ -433,7 +452,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                 attendServiceBottomSheet(context: context,height: height! *0.35, serviceRequestCode: selectedService);
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  primary:  AppUtility.serviceColorPicker(serviceList?[index].serviceStatusSysCode),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                   textStyle: TextStyle(
                                       fontSize: 14,
@@ -451,7 +470,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                 reachLocationBottomSheet(context: context,height: height! *0.35, serviceRequestCode: selectedService);
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  primary:  AppUtility.serviceColorPicker(serviceList?[index].serviceStatusSysCode),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                   textStyle: TextStyle(
                                       fontSize: 14,

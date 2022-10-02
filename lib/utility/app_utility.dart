@@ -77,5 +77,37 @@ class AppUtility{
     final prefs = await SharedPreferences.getInstance();
     return prefs.get(key);
   }
+  static validateEmail(email){
+    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+    return emailValid;
+  }
+  static serviceColorPicker(int? serviceStatusCode){
+    switch(serviceStatusCode){
+      case 1:
+        return HexColor('#C0392B');
+      case 2:
+        return HexColor('#D35400');
+      case 3:
+        return HexColor('#FFC300');
+      case 4:
+        return HexColor('#FF5733');
+      case 5:
+        return HexColor('#C70039');
+      case 6:
+        return HexColor('#8E44AD');
+        case 7:
+        return HexColor('#2471A3');
+        case 8:
+        return HexColor('#A6ACAF');
+      case 9:
+        return HexColor('#2471A3');
+      case 10:
+        return HexColor('#A9DFBF');
+      case 11:
+        return HexColor('#C0392B');
 
+      default:
+        return HexColor('#D6DBDF');
+    }
+  }
 }

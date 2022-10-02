@@ -6,7 +6,9 @@ import 'package:lottie/lottie.dart';
 import 'package:vendor_app/modules/dashboard/reached_service_details/index.dart';
 
 import '../../../generated/locale_keys.g.dart';
+import '../../../models/service_request/service_list_model.dart';
 import '../../../style/style.dart';
+import '../../../utility/app_utility.dart';
 import '../../../utility/hex_color.dart';
 import '../../../widgets/cancel_request_page.dart';
 import '../../payment/confirm_payment/confirm_payment_page.dart';
@@ -14,10 +16,10 @@ import '../../payment/payment/payment_page.dart';
 import '../../payment/service_report/service_report_page.dart';
 
 class ReachedServiceDetailsScreen extends StatefulWidget {
-  final String fromClick;
+  final ServiceListModel serviceList;
   const ReachedServiceDetailsScreen({
     required ReachedServiceDetailsBloc reachedServiceDetailsBloc,
-    required this.fromClick,
+    required this.serviceList,
     Key? key,
   })  : _reachedServiceDetailsBloc = reachedServiceDetailsBloc,
         super(key: key);
@@ -33,6 +35,7 @@ class ReachedServiceDetailsScreen extends StatefulWidget {
 class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen> {
   ReachedServiceDetailsScreenState();
   double? height;
+
   @override
   void initState() {
     super.initState();
@@ -68,12 +71,16 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
 
               child: Column(
                 children: [
+
                   SizedBox(height: 16,),
                   Expanded(
                       child:Container(
 
                         child: Column(
                           children: [
+                            Container(height: 8,
+                              width: MediaQuery.of(context).size.width,
+                              color: AppUtility.serviceColorPicker(widget.serviceList.serviceStatusSysCode),),
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               color: Colors.white,
@@ -81,32 +88,56 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+
                                   SizedBox(height: 16,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        'Amit Rane',
-                                        style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                                      Expanded(
+                                        child: Text(
+                                          '${widget.serviceList.customerFirstName}  ${widget.serviceList.customerLastName}',
+                                          style: TextStyle(fontSize: 16 ,fontFamily: Style().font_bold(),color: HexColor('#494949')  ),
+                                        ),
                                       ),
-                                      Text(
-                                        '11:00 AM',
-                                        style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color:  HexColor('#000000')  ),
+                                      Container(
+                                        padding: EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                          // color: index ==  0?Colors.red.withOpacity(0.2): index ==  1? Colors.blue.withOpacity(0.2):HexColor('#18D184').withOpacity(0.2),
+                                          color: AppUtility.serviceColorPicker(widget.serviceList.serviceStatusSysCode).withOpacity(0.2),
+                                          borderRadius: BorderRadius.all( Radius.circular(5)),
+                                        ),
+                                        child: Text(
+                                          '${widget.serviceList.serviceStatus}',
+                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color:  AppUtility.serviceColorPicker(widget.serviceList.serviceStatusSysCode)  ),
+                                        ),
                                       ),
                                     ],
                                   ),
                                   SizedBox(height: 8,),
                                   Container(
-                                    width: MediaQuery.of(context).size.width *0.8,
+                                    width: MediaQuery.of(context).size.width ,
                                     alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      '12/ 1301 Mira Apartment  lokhandwalAndheri Mumbai- 40043',
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
-                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            '${widget.serviceList.addressDetails } - ${widget.serviceList.pinCode }',
+                                            maxLines: 4,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                                          ),
+                                        ),
+
+                                      ],
+                                    )
+
+
                                   ),
                                   SizedBox(height: 16,),
+
                                 ],
                               ),
                             ),
@@ -128,16 +159,17 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                   SizedBox(height: 16,),
                                   Row(
                                     children: [
-                                      Expanded(child: Container(
+                                      Container(
+                                        width: MediaQuery.of(context).size.width*0.4,
                                         child:   Text(
                                           'Complaint ID',
-                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#000000').withOpacity(0.7)  ),
+                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
                                         ),
-                                      )),
+                                      ),
                                       Expanded(child: Container(
                                         child:   Text(
-                                          '1234567801',
-                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#000000').withOpacity(0.5)  ),
+                                          '${widget.serviceList.serviceRequestSeriesCode}',
+                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_bold(),color: HexColor('#000000')  ),
                                         ),
                                       ))
                                     ],
@@ -145,16 +177,17 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                   SizedBox(height: 8,),
                                   Row(
                                     children: [
-                                      Expanded(child: Container(
+                                      Container(
+                                        width: MediaQuery.of(context).size.width*0.4,
                                         child:   Text(
-                                          'Job Status',
-                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#000000').withOpacity(0.7)  ),
+                                          'Service Date',
+                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
                                         ),
-                                      )),
+                                      ),
                                       Expanded(child: Container(
                                         child:   Text(
-                                          'On Going',
-                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#000000').withOpacity(0.5)  ),
+                                          '${widget.serviceList.scheduledDate}',
+                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_bold(),color: HexColor('#000000')  ),
                                         ),
                                       ))
                                     ],
@@ -164,16 +197,17 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Expanded(child: Container(
+                                     Container(
+                                        width: MediaQuery.of(context).size.width*0.4,
                                         child:   Text(
                                           'Service Request',
-                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#000000').withOpacity(0.7)  ),
+                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
                                         ),
-                                      )),
+                                      ),
                                       Expanded(child: Container(
                                         child:   Text(
-                                          'AC NOT WORKING\nFan and Cooling not happening',
-                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#000000').withOpacity(0.5)  ),
+                                          '${ widget.serviceList.userApplianceType} - ${widget.serviceList.serviceCategory} - ${widget.serviceList.serviceComplaintCode?[0].description}',
+                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_bold(),color: HexColor('#000000') ),
                                         ),
                                       ))
                                     ],
@@ -187,7 +221,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                       )
                   ),
                   SizedBox(height: 8,),
-                  Container(
+                 widget.serviceList.serviceStatusSysCode == 7 ? Container(
                     margin: EdgeInsets.symmetric(horizontal: 8),
                     child: Row(
                       children: [
@@ -196,11 +230,11 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: Text( widget.fromClick == "ReachLocation"?'Cancel':'Edit Appliance'),
+                              child: Text(''),
                               onPressed: () {
-                                widget.fromClick == 'ReachLocation'?
-                                cancelRequestBottomSheet(context:context,height: 450):
-                                Navigator.pushNamed(context, ConfirmPaymentPage.routeName,arguments: {"fromClick":"Edit"});
+                                // widget.fromClick == 'ReachLocation'?
+                                // cancelRequestBottomSheet(context:context,height: 450):
+                                // Navigatorigator.pushNamed(context, ConfirmPaymentPage.routeName,arguments: {"fromClick":"Edit"});
 
                               },
                               style: ElevatedButton.styleFrom(
@@ -213,7 +247,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                           ),
                         ),
                         SizedBox(width: 8,),
-                        widget.fromClick == "ReachLocation"? Expanded(
+                        widget.serviceList.serviceStatusSysCode == 2? Expanded(
                           child:   Container(
                             width: MediaQuery.of(context).size.width,
                             height: 45,
@@ -251,8 +285,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                         )
                       ],
                     ),
-                  ),
-
+                  ):SizedBox(),
                   SizedBox(height: 8,),
                 ],
               ),

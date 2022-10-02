@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vendor_app/modules/dashboard/reached_service_details/index.dart';
 
+import '../../../models/service_request/service_list_model.dart';
 import '../../../style/style.dart';
 import '../../../utility/hex_color.dart';
 
@@ -13,11 +14,11 @@ class ReachedServiceDetailsPage extends StatefulWidget {
 
 class _ReachedServiceDetailsPageState extends State<ReachedServiceDetailsPage> {
   final _reachedServiceDetailsBloc = ReachedServiceDetailsBloc(UnReachedServiceDetailsState());
-  late String fromClick;
+  late ServiceListModel serviceList;
   @override
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)!.settings.arguments  as Map;
-    fromClick = arguments['fromClick'].toString();
+    serviceList = arguments['selectedRequest'];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('ED8F2D'),
@@ -28,7 +29,7 @@ class _ReachedServiceDetailsPageState extends State<ReachedServiceDetailsPage> {
       ),
       backgroundColor: HexColor('#E5E5E5'),
       resizeToAvoidBottomInset: false,
-      body: ReachedServiceDetailsScreen(reachedServiceDetailsBloc: _reachedServiceDetailsBloc,fromClick:fromClick),
+      body: ReachedServiceDetailsScreen(reachedServiceDetailsBloc: _reachedServiceDetailsBloc,serviceList:serviceList),
     );
   }
 }

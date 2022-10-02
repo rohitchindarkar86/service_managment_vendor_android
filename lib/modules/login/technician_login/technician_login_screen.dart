@@ -50,8 +50,8 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
   @override
   void initState() {
     super.initState();
-    EmailController.text ='info@ursasofttech.com';
-    PasswordController.text ='use4Test';
+    // EmailController.text ='info@ursasofttech.com';
+    // PasswordController.text ='use4Test';
     _load();
 
     emailIdFocusNode.addListener(() {
@@ -471,17 +471,19 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                       child: ElevatedButton(
                         child: Text('SUBMIT'),
                         onPressed: () {
+                          if(forgotPassEmailController.text.isEmpty){
+                            AppUtility.showToast("Please enter email id.");
+                          }else if(!AppUtility.validateEmail(forgotPassEmailController.text)){
+                            AppUtility.showToast("Please enter valid email id.");
+                          }else{
+                            widget._technicianLoginBloc.add(
+                                ForgotPasswordApiLoginEvent(
+                                    forgotPassEmailController.text,
+                                    ''));
+                            Navigator.pop(context);
+                          }
 
-                          widget._technicianLoginBloc.add(
-                              ForgotPasswordApiLoginEvent(
-                                  forgotPassEmailController.text,
-                                  ''));
-                          Navigator.pop(context);
-                            //
-                            // showDialog(
-                            //   context: context,
-                            //   builder: (_) => ForgotEmailSuccessWidget(),
-                            // );
+
                         },
                         style: ElevatedButton.styleFrom(
                             primary: HexColor('ED8F2D'),

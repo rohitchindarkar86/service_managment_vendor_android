@@ -25,6 +25,7 @@ class ServiceListModel {
     this.serviceLongitude,
     this.userApplianceCode,
     this.userApplianceType,
+    this.userApplianceTypeCode,
     this.userApplianceBrandCode,
     this.userApplianceBrandName,
     this.applianceLocationCode,
@@ -72,6 +73,7 @@ class ServiceListModel {
   double? serviceLongitude;
   int? userApplianceCode;
   String? userApplianceType;
+  int? userApplianceTypeCode;
   String? userApplianceBrandCode;
   String? userApplianceBrandName;
   int? applianceLocationCode;
@@ -119,6 +121,7 @@ class ServiceListModel {
     serviceLongitude: json["serviceLongitude"],
     userApplianceCode: json["userApplianceCode"],
     userApplianceType: json["userApplianceType"],
+    userApplianceTypeCode: json["userApplianceTypeCode"],
     userApplianceBrandCode: json["userApplianceBrandCode"],
     userApplianceBrandName: json["userApplianceBrandName"],
     applianceLocationCode: json["applianceLocationCode"],
@@ -167,6 +170,7 @@ class ServiceListModel {
     "serviceLongitude": serviceLongitude,
     "userApplianceCode": userApplianceCode,
     "userApplianceType": userApplianceType,
+    "userApplianceTypeCode": userApplianceTypeCode,
     "userApplianceBrandCode": userApplianceBrandCode,
     "userApplianceBrandName": userApplianceBrandName,
     "applianceLocationCode": applianceLocationCode,

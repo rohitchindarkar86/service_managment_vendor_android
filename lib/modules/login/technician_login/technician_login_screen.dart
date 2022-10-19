@@ -83,7 +83,10 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
           if (currentState is LoadingTechnicianLoginState) {
             isApiCall = true;
           }
-          if (currentState is ErrorTechnicianLoginState) {}
+          if (currentState is ErrorTechnicianLoginState) {
+            isApiCall = false;
+            AppUtility.showToast("Invalid email id & password.");
+          }
           if (currentState is InTechnicianLoginState) {}
           if (currentState is TechnicianLoginSuccessState) {
             setLoginData(currentState.data);

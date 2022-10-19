@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "291110280342",
+    "project_id": "pys-technician",
+    "storage_bucket": "pys-technician.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291110280342:android:dc7b32853961ab6a9cf6b7",
+        "android_client_info": {
+          "package_name": "com.shakvan_technologies.pys_tech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291110280342-g3npedvbpg0g7ts0mi71fni9sq3v4j0j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClE3N2QGqz1y9PpQbs-JjZGU1u028rCjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291110280342-g3npedvbpg0g7ts0mi71fni9sq3v4j0j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

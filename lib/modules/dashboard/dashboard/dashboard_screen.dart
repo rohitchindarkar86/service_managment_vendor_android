@@ -44,6 +44,7 @@ class DashboardScreenState extends State<DashboardScreen> {
   double? height;
 
   bool isApiCall = true;
+  bool isServiceLoader = true;
   SharedPreferences? sharedPreferences;
 
   String? techName="";
@@ -69,7 +70,11 @@ class DashboardScreenState extends State<DashboardScreen> {
 
           }
           if (currentState is LoadingDashboardState) {
-            isApiCall = true;
+            if(currentState.indexLoader == 0) {
+              isApiCall = true;
+            }else if(currentState.indexLoader == 1){
+              isServiceLoader = true;
+            }
           }
           if (currentState is UserInvalidState) {
               isApiCall = false;
@@ -85,6 +90,7 @@ class DashboardScreenState extends State<DashboardScreen> {
           }
           if (currentState is ServiceListingState) {
             isApiCall = false;
+            isServiceLoader = false;
             serviceList = currentState.serviceList;
             serviceList = serviceList?.reversed.toList();
           }
@@ -96,6 +102,11 @@ class DashboardScreenState extends State<DashboardScreen> {
           }
           if (currentState is ErrorDashboardState) {
             isApiCall = false;
+
+          }
+          if (currentState is NoServiceRequestState) {
+            serviceList =[];
+            isServiceLoader = false;
           }
           if (currentState is InDashboardState) {
 
@@ -299,14 +310,48 @@ class DashboardScreenState extends State<DashboardScreen> {
                         height: 12,
                       ),
                       Expanded(
-                        child:serviceList == null ?ShimmerServiceWidget():serviceList?.length !=0?Container(
-                          child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            itemBuilder: complaintList,
-                            itemCount: serviceList?.length ??0,
-                          ),
-                        ):Center(child: Text('No Service Appoinments'),),
+                        child: isServiceLoader ?ShimmerServiceWidget():serviceList != null && serviceList?.length !=0?Container(
+                            child: RefreshIndicator(
+                              child: ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                itemBuilder: complaintList,
+                                itemCount: serviceList?.length ??0,
+                              ),
+                              onRefresh: () {
+                                return Future.delayed(
+                                  Duration(seconds: 1),
+                                      () {
+                                        widget._dashboardBloc.add(ServiceListEvent());
+
+
+                                  },
+                                );
+                              },
+                            ),
+                          ):Center(child:Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('No Service Appoinments',style: TextStyle(
+                                  fontFamily: Style().font_bold(),fontSize: 16,color: Colors.black
+                              )),
+                              SizedBox(height: 16,),
+                              GestureDetector(
+                                onTap: (){
+
+                                  widget._dashboardBloc.add(ServiceListEvent());
+                                },
+                                child: Text('Click to Refresh',style: TextStyle(
+                                  fontFamily: Style().font_regular(),fontSize: 14,color: Colors.blueAccent
+                                ),),
+                              )
+                            ],
+                          )
+                         ),
+
+
                       ),
 
                     ],
@@ -329,9 +374,11 @@ class DashboardScreenState extends State<DashboardScreen> {
       margin: EdgeInsets.only(top: 0, right: 8, left: 8),
       child: GestureDetector(
         onTap: (){
-          if(index != 2 ){
-            Navigator.pushNamed(context, ReachedServiceDetailsPage.routeName,arguments: {'selectedRequest':serviceList?[index]});
-          }
+            Navigator.pushNamed(context, ReachedServiceDetailsPage.routeName,arguments: {'selectedRequest':serviceList?[index]}).then((value) {
+              if(value.toString() == 'updateList'){
+                widget._dashboardBloc.add(ServiceListEvent());
+              }
+            });
         },
         child: Card(
           color: Colors.white,
@@ -428,7 +475,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               Expanded(
                                 child: Text(
                                   '${serviceList?[index].addressDetails } - ${serviceList?[index].pinCode }',
-                                  maxLines: 4,
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
                                 ),
@@ -444,7 +491,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                           child: serviceList?[index].serviceStatusSysCode == 2?  Container(
                             // width: MediaQuery.of(context).size.width,
                             height: 45,
-                            margin: EdgeInsets.only(top: 0, left: 0, right: 0),
+                            margin: EdgeInsets.only(top: 6, left: 0, right: 0),
                             child: ElevatedButton(
                               child: Text('Attend This Service'),
                               onPressed: () {

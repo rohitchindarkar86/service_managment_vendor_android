@@ -40,3 +40,29 @@ class ErrorReachedServiceDetailsState extends ReachedServiceDetailsState {
   @override
   List<Object> get props => [errorMessage];
 }
+
+class UpdateSuccessServiceDetailsState extends ReachedServiceDetailsState {
+  String successMsg;
+  UpdateSuccessServiceDetailsState(this.successMsg);
+
+  @override
+  String toString() => 'UpdateSuccessServiceDetailsState';
+
+}
+
+class UpdateErrorServiceDetailsState extends ReachedServiceDetailsState {
+  String errorMsg;
+  UpdateErrorServiceDetailsState(this.errorMsg);
+
+  @override
+  String toString() => 'UpdateErrorServiceDetailsState';
+
+}
+class LoadingListDetailsState extends ReachedServiceDetailsState {
+
+  LoadingListDetailsState();
+
+  @override
+  String toString() => 'LoadingListDetailsState';
+
+}

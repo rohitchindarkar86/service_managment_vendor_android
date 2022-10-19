@@ -48,7 +48,7 @@ class UserDetailsApiLoginEvent extends DashboardEvent {
   Stream<DashboardState> applyAsync({DashboardState? currentState, DashboardBloc? bloc}) async* {
     try {
       SharedPreferences sharedPreferences;
-      yield LoadingDashboardState();
+      yield LoadingDashboardState(0);
       var body = {
       };
       ApiResponseHandlerModel response = await LoginRepository.userDetailsEvent(body);
@@ -109,9 +109,9 @@ class ServiceListEvent extends DashboardEvent {
   Stream<DashboardState> applyAsync({DashboardState? currentState, DashboardBloc? bloc}) async* {
     try {
       SharedPreferences sharedPreferences;
-      // yield LoadingDashboardState();
+      yield LoadingDashboardState(1);
       var body = {
-        "code": userDetailsModel?.userCode
+        "code": userDetailsModel?.vendorUserCode
       };
       ApiResponseHandlerModel response = await ServiceRepository.serviceListEvent(body);
 
@@ -121,6 +121,7 @@ class ServiceListEvent extends DashboardEvent {
 
         yield ServiceListingState(serviceList);
         } else if(response.status == 'F'){
+        yield NoServiceRequestState();
       }
 
     } catch (_, stackTrace) {
@@ -140,7 +141,7 @@ class UpdateServiceRequestEvent extends DashboardEvent {
   Stream<DashboardState> applyAsync({DashboardState? currentState, DashboardBloc? bloc}) async* {
     try {
       SharedPreferences sharedPreferences;
-      yield LoadingDashboardState();
+      yield LoadingDashboardState(0);
       var body = {
         // "code": userDetailsModel?.userCode
         "serviceRequestCode": serviceRequestCode,

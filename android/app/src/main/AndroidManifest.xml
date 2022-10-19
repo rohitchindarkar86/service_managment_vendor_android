@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ursa.vendor_app">
+    package="com.shakvan_technologies.pys_tech">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="PYS Technician"
@@ -31,5 +31,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+       <meta-data
+           android:name="firebase_messaging_auto_init_enabled"
+           android:value="false" />
+       <meta-data
+           android:name="firebase_analytics_collection_enabled"
+           android:value="false" />
     </application>
 </manifest>

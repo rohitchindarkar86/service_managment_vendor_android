@@ -55,7 +55,7 @@ class TechnicianApiLoginEvent extends TechnicianLoginEvent {
       if(response.status == "S") {
         yield TechnicianLoginSuccessState(response.data.toString());
       }else{
-
+        yield ErrorTechnicianLoginState(response.message);
       }
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vendor_app/modules/dashboard/dashboard/dashboard_page.dart';
 import 'package:vendor_app/widgets/success_password_fetch.dart';
 
+import 'modules/dashboard/inventory_add/inventory_add_page.dart';
 import 'modules/dashboard/reached_service_details/index.dart';
 import 'modules/login/otp_verification/otp_verification_page.dart';
 import 'modules/login/technician_login/technician_login_page.dart';
@@ -82,6 +83,12 @@ class RouteGenerator {
       case '/qrScanner':
         return MaterialPageRoute(
           builder: (context) => QRScanner(),
+          settings: settings
+          // settings omitted to hide route name
+        );
+        case InventoryAddPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => InventoryAddPage(),
           settings: settings
           // settings omitted to hide route name
         );

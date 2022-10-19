@@ -28,6 +28,8 @@ class AppConstant{
   //Service Details
   static String GET_SERVICE_REQUEST = server_address + "api/ServiceRequest/GetServiceRequestsForTechnician";
   static String UPDATE_SERVICE_REQUEST = server_address + "api/ServiceRequest/UpdateServiceRequestStatus";
+  static String ADD_INVENTORY_REQUEST = server_address + "api/Customer/AddUserAppliance";
+  static String SERVICE_DETAILS_REQUEST = server_address + "api/ServiceRequest/GetServiceRequestsForApplianceWithDetailsByGUID";
 
   static String userTokken ='';
 }

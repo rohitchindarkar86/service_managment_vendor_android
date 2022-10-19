@@ -29,6 +29,32 @@ class InInventoryAddState extends InventoryAddState {
   List<Object> get props => [hello];
 }
 
+class LoadingInventoryAddState extends InventoryAddState {
+  int indexLoader ;
+  LoadingInventoryAddState(this.indexLoader);
+
+
+  @override
+  String toString() => 'LoadingInventoryAddState ';
+
+}
+
+class SuccessBrandFetch extends InventoryAddState {
+  SuccessBrandFetch();
+
+  @override
+  String toString() => 'InventoryAddState';
+
+}
+
+class SuccessAddInventoryFetch extends InventoryAddState {
+  SuccessAddInventoryFetch();
+
+  @override
+  String toString() => 'InventoryAddState';
+
+}
+
 class ErrorInventoryAddState extends InventoryAddState {
   ErrorInventoryAddState(this.errorMessage);
  

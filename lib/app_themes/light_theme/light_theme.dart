@@ -1,5 +1,6 @@
 import 'package:vendor_app/app_themes/custom_tab_underline_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:vendor_app/utility/hex_color.dart';
 
 ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
@@ -49,7 +50,7 @@ ThemeData lightTheme = ThemeData(
         onPrimary: Colors.white,
         onSecondary: Colors.black,
         onSurface: Colors.black,
-        primary: Colors.blue,
+        primary: HexColor('ED8F2D'),
         primaryVariant: Colors.blue[700],
         secondary: Color(0XFF959aaa),
         secondaryVariant: Color(0xFF7c8295),

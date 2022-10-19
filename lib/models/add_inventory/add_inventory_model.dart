@@ -1,0 +1,29 @@
+class AddInventoryModel{
+
+  int? customerCode =  0;
+  int? applianceTypeCode= 0;
+  int? brandCode = 0;
+  int? baseWarrantyYears = 0;
+  int? extendedWarrantyYears = 0;
+  bool? applianceinWarranty = true;
+  String? serialNumber = "string";
+  String? manufacturingDate = "2022-10-05T15:20:54.078Z";
+  String? userApplianceUniqueCode = "string";
+
+  int? serviceRequestCode = 0;
+
+
+  AddInventoryModel({this.customerCode,this.applianceTypeCode,this.brandCode,this.baseWarrantyYears,this.extendedWarrantyYears,this.applianceinWarranty,this.serialNumber,this.manufacturingDate,this.userApplianceUniqueCode,this.serviceRequestCode});
+
+  Map<String, dynamic> toJson() => {
+    'customerCode': customerCode,
+    'applianceTypeCode': applianceTypeCode,
+    'brandCode': brandCode,
+    'baseWarrantyYears': baseWarrantyYears,
+    'extendedWarrantyYears': extendedWarrantyYears,
+    'applianceinWarranty': applianceinWarranty,
+    'serialNumber': serialNumber,
+    'manufacturingDate': manufacturingDate,
+    'userApplianceUniqueCode': userApplianceUniqueCode,
+  };
+}

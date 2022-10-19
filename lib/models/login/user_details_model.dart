@@ -21,6 +21,7 @@ String userDetailsModelToJson(UserDetailsModel data) => json.encode(data.toJson(
 class UserDetailsModel {
   UserDetailsModel({
     this.userCode,
+    this.vendorUserCode,
     this.login,
     this.password,
     this.userTypeCode,
@@ -59,6 +60,7 @@ class UserDetailsModel {
   });
 
   dynamic? userCode;
+  dynamic? vendorUserCode;
   dynamic? login;
   dynamic? password;
   int? userTypeCode;
@@ -97,6 +99,7 @@ class UserDetailsModel {
 
   factory UserDetailsModel.fromJson(Map<String, dynamic> json) => UserDetailsModel(
     userCode: json["userCode"],
+    vendorUserCode: json["vendorUserCode"],
     login: json["login"],
     password: json["password"],
     userTypeCode: json["userTypeCode"],
@@ -137,6 +140,7 @@ class UserDetailsModel {
 
   Map<String, dynamic> toJson() => {
     "userCode": userCode,
+    "vendorUserCode": vendorUserCode,
     "login": login,
     "password": password,
     "userTypeCode": userTypeCode,

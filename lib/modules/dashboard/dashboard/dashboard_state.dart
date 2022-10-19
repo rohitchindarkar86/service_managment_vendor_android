@@ -32,7 +32,8 @@ class InDashboardState extends DashboardState {
 }
 
 class LoadingDashboardState extends DashboardState {
-  LoadingDashboardState();
+  int indexLoader;
+  LoadingDashboardState(this.indexLoader);
 
   @override
   String toString() => 'LoadingDashboardState ';
@@ -40,11 +41,18 @@ class LoadingDashboardState extends DashboardState {
 
 }
 
+class NoServiceRequestState extends DashboardState {
+  NoServiceRequestState();
+
+  @override
+  String toString() => 'NoServiceRequestState';
+
+}
 class ErrorDashboardState extends DashboardState {
   ErrorDashboardState(this.errorMessage);
- 
+
   final String errorMessage;
-  
+
   @override
   String toString() => 'ErrorDashboardState';
 

@@ -35,8 +35,13 @@ class _QRScannerState extends State<QRScanner> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments  as Map;
-    fromClick = arguments['fromClick'].toString();
+    if(ModalRoute.of(context)!.settings.arguments != null) {
+      final arguments = ModalRoute
+          .of(context)!
+          .settings
+          .arguments as Map;
+      fromClick = arguments['fromClick'].toString();
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('ED8F2D'),
@@ -56,10 +61,21 @@ class _QRScannerState extends State<QRScanner> {
               child: Text('Please Scan Our Company Qr Code On Appliance.',style: TextStyle(fontSize: 16,color: HexColor('FFFFFF'),fontFamily: Style().font_medium()),)
           ),
           Expanded(
-            child: QRView(
+            child: Stack(
+          children: [
+
+            QRView(
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
             ),
+            Container(
+              height: MediaQuery.of(context).size.height-50,
+              width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                child: Icon(Icons.qr_code_scanner,size: 180,)),
+          ],
+          )
+
           ),
         ],
       ),
@@ -78,12 +94,13 @@ class _QRScannerState extends State<QRScanner> {
             print('${describeEnum(result!.format)}   Data: ${result!.code}');
             if(!isCapturedOnce) {
               isCapturedOnce = true;
-              if(fromClick=="Yes") {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, ConfirmPaymentPage.routeName,arguments: {"fromClick":"Yes","captureCode":result!.code.toString()});
-              }else{
-                Navigator.pop(context, result!.code.toString());
-              }
+              // if(fromClick=="Yes") {
+              //   Navigator.pop(context);
+              //   Navigator.pushNamed(context, ConfirmPaymentPage.routeName,arguments: {"fromClick":"Yes","captureCode":result!.code.toString()});
+              // }else{
+              //   Navigator.pop(context, result!.code.toString());
+              // }
+              Navigator.pop(context, result!.code.toString().replaceAll('PYSAPP-', ''));
             }
           }else{
             print('Wrong QR'+result!.code.toString());

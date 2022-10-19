@@ -90,6 +90,9 @@ class NetworkHelper {
         NetworkHelperErrModel networkErr = new NetworkHelperErrModel();
         networkErr.statusCode = 505;  //for dio exception
         if (e is DioError) {
+          if(e.response!= null){
+            return e.response;
+          }
           networkErr.message = exception_handle(e).toString();
         } else {
           networkErr.message = "Error ${e}";

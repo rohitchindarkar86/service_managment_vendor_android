@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import '../../../models/apiResponseHandlerModel.dart';
 import '../../../models/master/brand_master_model.dart';
-import '../../../utility/DeviceInfo.dart';
 import '../../../utility/app_constant.dart';
 import '../../../utility/network/network_helper.dart';
 
@@ -149,7 +148,7 @@ class MasterRepository {
       final response = await NetworkHelper.CallApiServer(
         // headers: headers,
           apiMode: "POST",
-          apiUrl: AppConstant.GET_MASTER_DATA_BY_NAME,
+          apiUrl: AppConstant.SERVICE_REQUEST_ADD_PARTS,
           body: bodyJson.toString(),
           onTimeOut: () {
             throw Exception('Timeout occurred');

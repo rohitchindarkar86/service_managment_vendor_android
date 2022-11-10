@@ -99,7 +99,7 @@ class AddInventoryEvent extends InventoryAddEvent {
         AppUtility.insertToLocal(keyTOSetData,'Data Added to Inventory');
         yield SuccessAddInventoryFetch();
       }else{
-
+        yield ErrorInventoryAddState(response.message);
       }
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);

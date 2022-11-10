@@ -3,17 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:vendor_app/utility/DeviceInfo.dart';
 
 const String THEME_PREF_STORAGE_BOX = "THEME_BOX";
 var box;
 class AppThemeHandler {
-  DeviceInfo _deviceInfo = DeviceInfo();
   int _androidSdkVersion=0;
   String _iosVersion='';
 
   AppThemeHandler() {
-    _deviceInfo = DeviceInfo();
+
   }
 
   Future<void> getApiLevel() async {
@@ -31,11 +29,9 @@ class AppThemeHandler {
     }
     await Hive.openBox(THEME_PREF_STORAGE_BOX);
     if (Platform.isAndroid) {
-      await _deviceInfo.deviceInfo.androidInfo
-          .then((value) => _androidSdkVersion = value.version.sdkInt);
+
     } else if (Platform.isIOS) {
-      await _deviceInfo.deviceInfo.iosInfo
-          .then((value) => _iosVersion = value.systemVersion);
+
     }
 
     await _checkThemePref();

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../models/master/action_taken_master_model.dart';
+import '../../../models/master/spare_parts_master_model.dart';
 
 abstract class ServiceReportState extends Equatable {
   ServiceReportState();
@@ -47,5 +48,13 @@ class ActionTakenState extends ServiceReportState {
   List<ActionTakenMasterModel> actionTakenMasterModel;
   ActionTakenState(this.actionTakenMasterModel);
 
+}
+class SparePartsState extends ServiceReportState {
+  List<SpareMasterModel> sparePartsMasterModel;
+  SparePartsState(this.sparePartsMasterModel);
+
+}
+class LoaderState extends ServiceReportState {
+  LoaderState();
 }
 

@@ -48,7 +48,7 @@ Stream<ReachedServiceDetailsState> applyAsync(
 
       // yield LoadingInventoryAddState(1);
       var bodyJson ={
-        "param": qrString
+        "param": qrString.replaceAll('PYSAPP', '')
       };
 
 

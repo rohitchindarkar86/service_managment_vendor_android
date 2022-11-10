@@ -3,15 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vendor_app/modules/payment/service_report/index.dart';
 
+import '../../../models/master/spare_parts_master_model.dart';
 import '../../../models/service_request/action_taken_model.dart';
+import '../../../models/service_request/service_list_model.dart';
 import '../../../style/style.dart';
 import '../../../utility/hex_color.dart';
+import '../../../widgets/AppLoader.dart';
 import '../../../widgets/success_request_page.dart';
 import '../payment/payment_page.dart';
 
 class ServiceReportScreen extends StatefulWidget {
+  final ServiceListModel serviceList;
   const ServiceReportScreen({
     required ServiceReportBloc serviceReportBloc,
+    required this.serviceList,
     Key? key,
   })  : _serviceReportBloc = serviceReportBloc,
         super(key: key);
@@ -35,9 +40,12 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
   double? totalAmt = 0;
   String? applianceDropDownValue= "Others";
   List<ActionTakenModel> actionTakenList=[];
+  List<SpareMasterModel> sparePartList=[];
+  List<String>? sparePartsMasterList=[];
   List<String>? actionTakenMasterList=[];
+  List<String>? partCode=[];
   int selectedActionMasterIndex=0;
-
+  bool isApiCall = false;
   @override
   void initState() {
     super.initState();
@@ -55,11 +63,21 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
     return BlocConsumer<ServiceReportBloc, ServiceReportState>(
         listener: (Context, currentState) {
 
+          if(currentState is LoaderState){
+            isApiCall = true;
+          }
           if (currentState is ActionTakenState) {
             currentState.actionTakenMasterModel.forEach((element) {
               actionTakenMasterList?.add(element.description.toString());
             });
 
+          }
+          if (currentState is SparePartsState) {
+
+            currentState.sparePartsMasterModel.forEach((element) {
+              sparePartsMasterList?.add(element.partDescription.toString());
+            });
+            isApiCall = false;
           }
 
         },
@@ -76,104 +94,112 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
             child: Container(
               height: height,
 
-              child: Column(
+              child: Stack(
                 children: [
-                  SizedBox(height: 16,),
-                  Container(
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Fill Service Report',
-                            style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
-                          ),
-                          Container(
-                            child: Row(
-                              children: [
-                                TextButton(
-                                    onPressed: (){
-                                      _addExtraWorkToList();
-                                    }, child: Row(
-                                  children: [
-                                    Icon(Icons.add_circle_outline,size: 24,color: HexColor('ED8F2D')),
-                                    SizedBox(width: 4,),
-                                    Text('Add',style: TextStyle(fontSize: 16,fontFamily: Style().font_medium(),color: HexColor('ED8F2D')),)
-                                  ],
-                                ))
-                              ],
-                            ),
-                          )
-                        ],)
-
-
-                  ),
-                  Expanded(
-                      child:SingleChildScrollView(
-                        child: Container(
+                  Column(
+                    children: [
+                      SizedBox(height: 16,),
+                      Container(
+                          alignment: Alignment.centerLeft,
                           margin: EdgeInsets.symmetric(horizontal: 16),
-                          child: Column(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-
+                              Text(
+                                'Fill Service Report',
+                                style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
+                              ),
                               Container(
-
-                                color: Colors.white,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Row(
                                   children: [
-
-                                    Container(
-                                      // margin: EdgeInsets.only(top: 13),
-                                        child: ListView.builder(
-                                            padding: EdgeInsets.only(top: 0),
-                                            shrinkWrap: true,
-                                            physics: NeverScrollableScrollPhysics(),
-                                            itemCount: actionTakenList.length,
-                                            itemBuilder: actionTakenWidget)),
-
-
-
+                                    TextButton(
+                                        onPressed: (){
+                                          _addExtraWorkToList();
+                                        }, child: Row(
+                                      children: [
+                                        Icon(Icons.add_circle_outline,size: 24,color: HexColor('ED8F2D')),
+                                        SizedBox(width: 4,),
+                                        Text('Add',style: TextStyle(fontSize: 16,fontFamily: Style().font_medium(),color: HexColor('ED8F2D')),)
+                                      ],
+                                    ))
                                   ],
                                 ),
+                              )
+                            ],)
+
+
+                      ),
+                      Expanded(
+                          child:SingleChildScrollView(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 16),
+                              child: Column(
+                                children: [
+
+                                  Container(
+
+                                    color: Colors.white,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+
+                                        Container(
+                                          // margin: EdgeInsets.only(top: 13),
+                                            child: ListView.builder(
+                                                padding: EdgeInsets.only(top: 0),
+                                                shrinkWrap: true,
+                                                physics: NeverScrollableScrollPhysics(),
+                                                itemCount: actionTakenList.length,
+                                                itemBuilder: actionTakenWidget)),
+
+
+
+                                      ],
+                                    ),
+                                  ),
+
+                                ],
                               ),
-
-                            ],
-                          ),
-                        ),
-                      )
-                  ),
-                  SizedBox(height: 8,),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child:   Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 45,
-                            child: ElevatedButton(
-                              child: Text('Proceed To Payment'),
-                              onPressed: () {
-                                Navigator.pushNamed(context, PaymentPage.routeName);;
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
-                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                  textStyle: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                          )
+                      ),
+                      SizedBox(height: 8,),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child:   Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 45,
+                                child: ElevatedButton(
+                                  child: Text('Proceed To Payment'),
+                                  onPressed: () {
+                                    widget._serviceReportBloc.add(AddPartsEvent(widget.serviceList.serviceRequestCode!,widget.serviceList.serviceRequestDetailCode!,[]));
+                                    // Navigator.pushNamed(context, PaymentPage.routeName);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      primary: HexColor('ED8F2D'),
+                                      // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                      textStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ),
+                            )
 
-                  SizedBox(height: 8,),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 8,),
+                    ],
+                  ),
+                  isApiCall ? AppLoader() : Container(),
                 ],
-              ),
+              )
+
             ),
           );
 
@@ -256,22 +282,22 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
               border: Border.all(color: HexColor('464646').withOpacity(0.3)),
 
             ),
-            child:DropdownSearch<String>(
+            child:sparePartsMasterList!.isNotEmpty  ?DropdownSearch<String>(
               //mode of dropdown
               mode: Mode.BOTTOM_SHEET,
               //to show search box
               showSearchBox: true,
               // showSelectedItem: true,
               //list of dropdown items
-              items: actionTakenMasterList,
+              items: sparePartsMasterList,
               // label: "Country",
               onChanged: (val){
-                actionTakenList[index].partReplaced=val;
+                sparePartList[index].partDescription=val;
               },
               //show selected item
-              selectedItem: actionTakenList[index].partReplaced,
+              selectedItem: sparePartsMasterList![index],
 
-            ),),
+            ):SizedBox(),),
           actionTakenList.length != 1?Container(
             margin: EdgeInsets.only(left: 16,right: 8),
             child: Row(
@@ -304,12 +330,14 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
     actionTakenModel.partReplaced = "";
     actionTakenModel.partAmount = "0.0";
     actionTakenList.add(actionTakenModel);
+    sparePartList.add(SpareMasterModel());
     setState(() {
     });
   }
 
   _removeExtraWork(index){
     actionTakenList.removeAt(index);
+    sparePartList.removeAt(index);
     setState(() {
     });
   }

@@ -129,7 +129,7 @@ class ServiceRepository {
       var jsonResponse;
       if (response.statusCode == 400) {
         apiResponseHandler.data = [];
-        apiResponseHandler.message = response.message;
+        apiResponseHandler.message = response[message];
         apiResponseHandler.status = "F";
         return apiResponseHandler;
       } else if (response.statusCode == 200) {

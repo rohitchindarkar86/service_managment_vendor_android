@@ -267,10 +267,46 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             )
                           ],
                         ),
-                      ):Container(
+                      ):SizedBox(),
+                      widget.serviceList.serviceStatusSysCode == 7  ? Container(
                         margin: EdgeInsets.symmetric(horizontal: 8),
-                        child: serviceCompleteButton(),
-                      ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child:   Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 45,
+                                child: ElevatedButton(
+                                  child: Text('Parts Replace'),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, ServiceReportPage.routeName,arguments:{"selectedRequest":widget.serviceList});
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      primary: HexColor('ea4747'),
+                                      // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                      textStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 8,),
+                            Expanded(
+                              child:  serviceCompleteButton(),
+                            )
+                          ],
+                        ),
+                      ):SizedBox(),
+                      widget.serviceList.serviceStatusSysCode == 8  ? Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child:paymentButton(),
+                            ),
+                          ],
+                        ),
+                      ):SizedBox(),
                       SizedBox(height: 8,),
                     ],
                   ),
@@ -447,14 +483,14 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                     ),
                     Container(
                         height: 120,
-                        child: Lottie.asset('assets/lottie_anim/qr_code_confirm.json')),
+                        child: Lottie.asset('assets/lottie_anim/complete_check.json')),
                     SizedBox(
                       height: 12,
                     ),
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        'Any Qr Code of your company there on appliance?',
+                        'Are you Sure Not to Complete this Service Request?',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 18,
@@ -476,7 +512,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                 child: Text('Yes'),
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  Navigator.pushNamed(context, '/qrScanner',arguments: {"fromClick":"Yes"});
+                                  widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,8));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: HexColor('ED8F2D'),
@@ -496,7 +532,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                 child: Text('No'),
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  Navigator.pushNamed(context, ConfirmPaymentPage.routeName,arguments: {"fromClick":"No"});
+
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: HexColor('ED8F2D'),
@@ -616,7 +652,26 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
       child: ElevatedButton(
         child: Text('Service Complete'),
         onPressed: () {
-          Navigator.pushNamed(context, ServiceReportPage.routeName);
+          completeRequestBottomSheet(context: context,height: height! *0.35,);
+        },
+        style: ElevatedButton.styleFrom(
+            primary: HexColor('008d00'),
+            // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+            textStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+
+  paymentButton(){
+    return  Container(
+      width: MediaQuery.of(context).size.width,
+      height: 45,
+      child: ElevatedButton(
+        child: Text('Proceed To Payment'),
+        onPressed: () {
+
         },
         style: ElevatedButton.styleFrom(
             primary: HexColor('008d00'),

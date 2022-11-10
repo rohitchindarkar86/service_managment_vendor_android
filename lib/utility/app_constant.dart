@@ -15,6 +15,7 @@ class AppConstant{
   //Master Api Call
   static String GET_MASTER_DATA_BY_NAME = server_address + "api/MasterData/GetMasterDataByName";
   static String GET_MASTER_DATA_PINCODE = server_address + "api/MasterData/SearchPincode";
+  static String GET_MASTER_DATA_SPAREPARTS = server_address + "api/MasterData/GetSpareParts";
 
   //API CAll
   static String LOGIN_AUTH = server_address + "api/Login/Login";
@@ -30,6 +31,7 @@ class AppConstant{
   static String UPDATE_SERVICE_REQUEST = server_address + "api/ServiceRequest/UpdateServiceRequestStatus";
   static String ADD_INVENTORY_REQUEST = server_address + "api/Customer/AddUserAppliance";
   static String SERVICE_DETAILS_REQUEST = server_address + "api/ServiceRequest/GetServiceRequestsForApplianceWithDetailsByGUID";
+  static String SERVICE_REQUEST_ADD_PARTS = server_address + "api/ServiceRequest/UpdateServiceRequestAddParts";
 
   static String userTokken ='';
 }

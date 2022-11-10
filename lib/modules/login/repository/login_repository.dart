@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import '../../../models/apiResponseHandlerModel.dart';
-import '../../../utility/DeviceInfo.dart';
 import '../../../utility/app_constant.dart';
 import '../../../utility/network/network_helper.dart';
 

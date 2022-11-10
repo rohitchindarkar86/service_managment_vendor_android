@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 
 import '../../../models/apiResponseHandlerModel.dart';
 import '../../../models/master/action_taken_master_model.dart';
+import '../../../models/master/spare_parts_master_model.dart';
 import '../../login/repository/master_repository.dart';
 
 @immutable
@@ -80,22 +81,56 @@ class PartsReplacedMasterEvent extends ServiceReportEvent {
   Stream<ServiceReportState> applyAsync(
       {ServiceReportState? currentState, ServiceReportBloc? bloc}) async* {
     try {
-      // yield LoadingDashboardState();
+      yield LoaderState();
       var body = {
-        "masterDataName": "ServiceComplaint",
-        "usePaging": false,
-        "pageSize": 0,
-        "currentIndex": 0
+        "code": 0
       };
       ApiResponseHandlerModel response = await MasterRepository.partsReplacedEvent(body);
 
       if(response.status == 'S') {
 
         var jsonResponse = response.data;
-        List<ActionTakenMasterModel> actionTakenMasterModel = actionTakenMasterModelFromJson(json.encode(jsonResponse));
+        List<SpareMasterModel> actionTakenMasterModel = spareMasterModelFromJson(json.encode(jsonResponse));
 
         print("dsdf");
-        yield ActionTakenState(actionTakenMasterModel);
+        yield SparePartsState(actionTakenMasterModel);
+
+      }else if(response.status == 'F'){
+
+      }
+
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorServiceReportState( _.toString());
+    }
+  }
+}
+
+class AddPartsEvent extends ServiceReportEvent {
+
+  int serviceRequestCode;
+  int serviceRequestDetailCode;
+  List<int>sparePartCodeList;
+  AddPartsEvent(this.serviceRequestCode,this.serviceRequestDetailCode,this.sparePartCodeList);
+  @override
+  Stream<ServiceReportState> applyAsync(
+      {ServiceReportState? currentState, ServiceReportBloc? bloc}) async* {
+    try {
+      yield LoaderState();
+      var body = {
+        "serviceRequestCode": serviceRequestCode,
+        "serviceRequestDetailCode": serviceRequestDetailCode,
+        "sparePartCodeList": sparePartCodeList
+      };
+      ApiResponseHandlerModel response = await MasterRepository.partsReplacedEvent(body);
+
+      if(response.status == 'S') {
+
+        var jsonResponse = response.data;
+        List<SpareMasterModel> actionTakenMasterModel = spareMasterModelFromJson(json.encode(jsonResponse));
+
+        print("dsdf");
+        yield SparePartsState(actionTakenMasterModel);
 
       }else if(response.status == 'F'){
 

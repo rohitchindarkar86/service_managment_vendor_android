@@ -79,6 +79,7 @@ class RouteGenerator {
       case ServiceReportPage.routeName:
         return MaterialPageRoute(
           builder: (builder) => ServiceReportPage(),
+            settings: settings
         );
       case '/qrScanner':
         return MaterialPageRoute(

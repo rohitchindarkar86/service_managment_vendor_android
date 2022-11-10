@@ -426,7 +426,7 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                     ],
                   ),
                 ),
-                !isApiCall ? AppLoader() : Container(),
+                isApiCall ? AppLoader() : Container(),
               ],
             )
 
@@ -454,7 +454,7 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
     addInventoryModel.applianceinWarranty = isWarrenty;
     addInventoryModel.serialNumber = serialNo.text.toString();
     addInventoryModel.manufacturingDate = dateInput.text.toString();
-    addInventoryModel.userApplianceUniqueCode = qrText.toString();
+    addInventoryModel.userApplianceUniqueCode = qrText.toString().replaceAll('PYSAPP', '');
     addInventoryModel.serviceRequestCode = widget.serviceList.serviceRequestCode;
 
     widget._inventoryAddBloc.add(AddInventoryEvent(addInventoryModel));

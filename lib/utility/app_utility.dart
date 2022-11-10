@@ -98,7 +98,7 @@ class AppUtility{
         case 7:
         return HexColor('#2471A3');
         case 8:
-        return HexColor('#A6ACAF');
+        return HexColor('#228B22');
       case 9:
         return HexColor('#2471A3');
       case 10:

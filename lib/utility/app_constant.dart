@@ -33,5 +33,9 @@ class AppConstant{
   static String SERVICE_DETAILS_REQUEST = server_address + "api/ServiceRequest/GetServiceRequestsForApplianceWithDetailsByGUID";
   static String SERVICE_REQUEST_ADD_PARTS = server_address + "api/ServiceRequest/UpdateServiceRequestAddParts";
 
+  //Payment
+  static String PAYMENT_QR_GENERATE = server_address + "api/Payment/GenerateQRcodeRazorpay";
+  static String PAYMENT_CHECK = server_address + "api/Payment/GetQRcodeRazorpay";
+
   static String userTokken ='';
 }

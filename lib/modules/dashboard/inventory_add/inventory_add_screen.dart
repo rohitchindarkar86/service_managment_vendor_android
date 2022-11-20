@@ -70,6 +70,7 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
           }
 
           if(currentState is SuccessBrandFetch){
+            isApiCall = false;
             applianceBrandData = golbalBrandMasterModel;
           }
           if(currentState is SuccessAddInventoryFetch){
@@ -79,6 +80,7 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
           }
           if(currentState is ErrorInventoryAddState){
             isApiCall = false;
+            AppUtility.showToast(currentState.errorMessage);
           }
         },
         builder: (

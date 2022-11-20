@@ -43,3 +43,20 @@ class ErrorPaymentState extends PaymentState {
   List<Object> get props => [errorMessage];
 }
 
+class UpdateRazaroPayState extends PaymentState {
+  UpdateRazaroPayState(this.razorQRCode,this.razorQRCode_id);
+
+  final String razorQRCode;
+  final String razorQRCode_id;
+
+  @override
+  String toString() => 'ErrorPaymentState';
+}
+
+class LoaderPaymentState extends PaymentState {
+  LoaderPaymentState();
+  @override
+  String toString() => 'ErrorPaymentState';
+
+}
+

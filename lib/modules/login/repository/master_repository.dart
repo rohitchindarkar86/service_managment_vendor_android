@@ -148,7 +148,7 @@ class MasterRepository {
       final response = await NetworkHelper.CallApiServer(
         // headers: headers,
           apiMode: "POST",
-          apiUrl: AppConstant.SERVICE_REQUEST_ADD_PARTS,
+          apiUrl: AppConstant.GET_MASTER_DATA_SPAREPARTS,
           body: bodyJson.toString(),
           onTimeOut: () {
             throw Exception('Timeout occurred');

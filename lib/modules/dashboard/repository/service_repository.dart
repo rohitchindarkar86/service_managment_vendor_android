@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../../models/apiResponseHandlerModel.dart';
+import '../../../models/service_request/order_book_list_model.dart';
 import '../../../models/service_request/service_list_model.dart';
 import '../../../utility/app_constant.dart';
 import '../../../utility/network/network_helper.dart';
@@ -127,14 +128,15 @@ class ServiceRepository {
             throw Exception('Timeout occurred');
           });
       var jsonResponse;
+       jsonResponse = response.data;
       if (response.statusCode == 400) {
         apiResponseHandler.data = [];
-        apiResponseHandler.message = response[message];
+        apiResponseHandler.message = '${jsonResponse['message']} - ${jsonResponse['validationStatuses'][0]['validationMessage']} ';
         apiResponseHandler.status = "F";
         return apiResponseHandler;
       } else if (response.statusCode == 200) {
 
-        var jsonResponse = response.data;
+
 
         if(jsonResponse['isAddSuccess']) {
           apiResponseHandler.data = jsonResponse;
@@ -189,8 +191,10 @@ class ServiceRepository {
 
         var jsonResponse = response.data;
 
-        if(jsonResponse['isAddSuccess']) {
-          apiResponseHandler.data = jsonResponse;
+        if(jsonResponse != null  ) {
+          List<OrderBookListModel> orderBookListModel = List<OrderBookListModel>.from(
+              jsonResponse.map((x) => OrderBookListModel.fromJson(x)));
+          apiResponseHandler.data = orderBookListModel;
           apiResponseHandler.message = 'success';
           apiResponseHandler.status = "S";
 

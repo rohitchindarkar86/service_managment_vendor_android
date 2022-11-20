@@ -70,7 +70,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
             currentState.actionTakenMasterModel.forEach((element) {
               actionTakenMasterList?.add(element.description.toString());
             });
-
+            widget._serviceReportBloc.add(PartsReplacedMasterEvent());
           }
           if (currentState is SparePartsState) {
 
@@ -344,6 +344,6 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
   void _load() {
     _addExtraWorkToList();
     widget._serviceReportBloc.add(ActionTakenMasterEvent());
-    widget._serviceReportBloc.add(PartsReplacedMasterEvent());
+
   }
 }

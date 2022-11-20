@@ -5,6 +5,7 @@ import 'package:vendor_app/modules/dashboard/reached_service_details/index.dart'
 import 'package:meta/meta.dart';
 
 import '../../../models/apiResponseHandlerModel.dart';
+import '../../../models/service_request/order_book_list_model.dart';
 import '../repository/service_repository.dart';
 
 @immutable
@@ -46,7 +47,7 @@ Stream<ReachedServiceDetailsState> applyAsync(
     {ReachedServiceDetailsState? currentState, ReachedServiceDetailsBloc? bloc}) async* {
     try {
 
-      // yield LoadingInventoryAddState(1);
+      yield LoadingListDetailsState();
       var bodyJson ={
         "param": qrString.replaceAll('PYSAPP', '')
       };
@@ -56,8 +57,11 @@ Stream<ReachedServiceDetailsState> applyAsync(
 
 
       if(response.status == "S") {
-
-      }else{
+        List<OrderBookListModel> orderBookListModel = response.data;
+        yield orderHistoryListState(orderBookListModel);
+      }if(response.status == "F"){
+        yield NoOrderHistoryListState();
+      }else {
 
       }
     } catch (_, stackTrace) {

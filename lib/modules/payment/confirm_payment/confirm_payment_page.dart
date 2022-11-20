@@ -18,9 +18,9 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments  as Map;
-    fromClick = arguments['fromClick'].toString();
-    captureCode = arguments['captureCode'].toString();
+    // final arguments = ModalRoute.of(context)!.settings.arguments  as Map;
+    // fromClick = arguments['fromClick'].toString();
+    // captureCode = arguments['captureCode'].toString();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('ED8F2D'),

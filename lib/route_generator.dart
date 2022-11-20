@@ -74,6 +74,7 @@ class RouteGenerator {
         case PaymentPage.routeName:
         return MaterialPageRoute(
           builder: (builder) => PaymentPage(),
+            settings: settings
         );
 
       case ServiceReportPage.routeName:

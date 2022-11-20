@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vendor_app/modules/dashboard/reached_service_details/index.dart';
+import 'package:vendor_app/modules/payment/confirm_payment/confirm_payment_page.dart';
+import 'package:vendor_app/modules/payment/payment/payment_page.dart';
 
 import '../../../models/login/user_details_model.dart';
+import '../../../models/service_request/order_book_list_model.dart';
 import '../../../models/service_request/service_list_model.dart';
 import '../../../style/style.dart';
 import '../../../utility/app_utility.dart';
 import '../../../utility/hex_color.dart';
 import '../../../widgets/AppLoader.dart';
 import '../../../widgets/cancel_request_page.dart';
-import '../../payment/confirm_payment/confirm_payment_page.dart';
 import '../../payment/service_report/service_report_page.dart';
 import '../inventory_add/inventory_add_page.dart';
 
@@ -38,6 +40,8 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
 
   bool isInventoryData=false;
   bool isApiCall = false;
+  List<ServiceListModel>? serviceList;
+  List<OrderBookListModel>? orderBookListModels;
   @override
   void initState() {
     super.initState();
@@ -70,6 +74,17 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
             isApiCall = false;
             AppUtility.showToast('Updated Successfully');
             Navigator.pop(context,'updateList');
+          }
+          if(currentState is orderHistoryListState){
+            isApiCall = false;
+            isInventoryData = true;
+            orderBookListModels = currentState.orderBookListModel;
+          }
+
+          if(currentState is NoOrderHistoryListState){
+            orderBookListModels = [];
+            isInventoryData = false;
+            isApiCall = false;
           }
         },
         builder: (
@@ -239,7 +254,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                           )
                       ),
                       SizedBox(height: 8,),
-                      widget.serviceList.serviceStatusSysCode == 6 && (isInventoryData) ? Container(
+                      widget.serviceList.serviceStatusSysCode == 6  ? Container(
                         margin: EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [
@@ -250,7 +265,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                 child: ElevatedButton(
                                   child: Text('Pending For Parts'),
                                   onPressed: () {
-                                    widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,7));
+                                    partsReplaceBottomSheet(context: context,height: height! *0.38,);
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: HexColor('ea4747'),
@@ -263,7 +278,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             ),
                             SizedBox(width: 8,),
                             Expanded(
-                              child:  serviceCompleteButton(),
+                              child:  serviceCompleteButton(true),
                             )
                           ],
                         ),
@@ -292,7 +307,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             ),
                             SizedBox(width: 8,),
                             Expanded(
-                              child:  serviceCompleteButton(),
+                              child:  serviceCompleteButton(false),
                             )
                           ],
                         ),
@@ -457,6 +472,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
   completeRequestBottomSheet({
     required BuildContext context,
     required double height,
+    required bool showNote,
   }) {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -490,7 +506,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        'Are you Sure Not to Complete this Service Request?',
+                        'Are you Sure to Complete this Service Request?',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 18,
@@ -498,6 +514,16 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             color: Theme.of(context).colorScheme.onSecondary),
                       ),
                     ),
+                    showNote? Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        '\nNote :-Please click No to add appliance to inventory, if not added',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: Style().font_regular(),
+                            color: Theme.of(context).colorScheme.onSecondary),
+                      ),
+                    ):SizedBox(),
 
                     Expanded(child: Container(),),
                     Container(
@@ -564,8 +590,129 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
         });
   }
 
+  partsReplaceBottomSheet({
+    required BuildContext context,
+    required double height,
+
+  }) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black
+                : Color(0xFF737373),
+            child: Container(
+                height: height,
+                padding:
+                EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      color: HexColor('#CED3DB'),
+                      height: 4,
+                      width: 64,
+                    ),
+                    SizedBox(
+                      height: 18,
+                    ),
+                    Container(
+                        height: 120,
+                        child: Lottie.asset('assets/lottie_anim/complete_check.json')),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Are you Sure Service Request Parts is Pending?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: Style().font_bold(),
+                            color: Theme.of(context).colorScheme.onSecondary),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        '\nNote :-Please click No to add appliance to inventory, if not added',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: Style().font_regular(),
+                            color: Theme.of(context).colorScheme.onSecondary),
+                      ),
+                    ),
+
+                    Expanded(child: Container(),),
+                    Container(
+
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child:  Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 45,
+                              child: ElevatedButton(
+                                child: Text('Yes'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,7));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    primary: HexColor('ED8F2D'),
+                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                    textStyle: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8,),
+                          Expanded(
+                            child:  Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 45,
+                              child: ElevatedButton(
+                                child: Text('No'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    primary: HexColor('ED8F2D'),
+                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                    textStyle: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: 8,
+                    ),
+
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(20),
+                    topRight: const Radius.circular(20),
+                  ),
+                )),
+          );
+        });
+  }
+
   applianceDetailsWidget(){
-    return Container(
+    return  !isInventoryData  ? Container(
       width: MediaQuery.of(context).size.width,
         alignment: Alignment.center,
       child: Column(
@@ -597,7 +744,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                 child: Text(!isInventoryData?'If Yes Please Scan QR Code.':'Please Scan QR Code',style: TextStyle(fontSize: 16,color: HexColor('FFFFFF'),fontFamily: Style().font_medium()),)
             ),
           ),
-          !isInventoryData  ? Column(
+          Column(
             children: [
               SizedBox(height: 8,),
               Container(
@@ -624,10 +771,33 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                 ),
               ),
             ],
-          ):SizedBox()
-
+          )
         ],
       ),
+    ):Column(
+      children: [
+        (orderBookListModels?.length ??0) != 0? Container(
+            padding: EdgeInsets.only(top: 8,left: 16,right: 16),
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Appliance Order History',maxLines:1,style: TextStyle(fontFamily: Style().font_bold(),fontSize: 14,color: Colors.black),),),
+              ],
+            )):SizedBox(),
+        Container(
+          child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            itemBuilder: complaintList,
+            itemCount: orderBookListModels?.length ??0,
+          ),
+        ),
+      ],
     );
   }
 
@@ -645,14 +815,14 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
     });
   }
 
-  serviceCompleteButton(){
+  serviceCompleteButton(showNote){
     return  Container(
       width: MediaQuery.of(context).size.width,
       height: 45,
       child: ElevatedButton(
         child: Text('Service Complete'),
         onPressed: () {
-          completeRequestBottomSheet(context: context,height: height! *0.35,);
+          completeRequestBottomSheet(context: context,height: height! *0.38,showNote:showNote);
         },
         style: ElevatedButton.styleFrom(
             primary: HexColor('008d00'),
@@ -671,7 +841,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
       child: ElevatedButton(
         child: Text('Proceed To Payment'),
         onPressed: () {
-
+          Navigator.pushNamed(context, PaymentPage.routeName,arguments: {"selectedRequest":widget.serviceList});
         },
         style: ElevatedButton.styleFrom(
             primary: HexColor('008d00'),
@@ -680,6 +850,56 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                 fontSize: 16,
                 fontWeight: FontWeight.bold)),
       ),
+    );
+  }
+
+  Widget complaintList(BuildContext context, int index) {
+    OrderBookListModel orderBookListModel =orderBookListModels![index];
+    return Container(
+        margin: EdgeInsets.only(top: 8),
+        color: Colors.white,
+        child:
+        Column(
+          children: [
+            Container(
+                padding: EdgeInsets.only(top: 8,left: 16,right: 16),
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Order No - ${orderBookListModel.serviceRequestSeriesCode}',maxLines:1,style: TextStyle(fontFamily: Style().font_bold(),fontSize: 12,color: Theme.of(context).colorScheme.secondary),),),
+                  ],
+                )),
+            SizedBox(
+              height: 8,
+            ),
+            Container(
+              // height: 100,
+              padding: EdgeInsets.only(top: 0,left: 16,right: 0),
+              alignment: Alignment.centerLeft,
+              child: Text('Order Service - ${orderBookListModel.createdDate}',maxLines:1,style: TextStyle(fontFamily: Style().font_bold(),fontSize: 12,color: Theme.of(context).colorScheme.secondary),),
+            ),
+
+            SizedBox(
+              height: 8,
+            ),
+            Container(
+              // height: 100,
+              padding: EdgeInsets.only(top: 0,left: 16,right: 0),
+              alignment: Alignment.centerLeft,
+              child: Text('${orderBookListModel.serviceRequestDetails![0].applianceName} - ${orderBookListModel.serviceCategory} - ${orderBookListModel.serviceRequestDetails?[0].serviceComplaintCode?[0].description}',maxLines:1,style: TextStyle(fontFamily: Style().font_regular(),fontSize: 16,color: Theme.of(context).colorScheme.secondary),),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+
+          ],
+        )
+
+
     );
   }
 }

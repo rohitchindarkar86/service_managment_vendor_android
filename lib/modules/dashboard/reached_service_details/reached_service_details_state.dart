@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../models/service_request/order_book_list_model.dart';
+
 abstract class ReachedServiceDetailsState extends Equatable {
   ReachedServiceDetailsState();
 
@@ -65,4 +67,18 @@ class LoadingListDetailsState extends ReachedServiceDetailsState {
   @override
   String toString() => 'LoadingListDetailsState';
 
+}
+
+class orderHistoryListState extends ReachedServiceDetailsState {
+  List<OrderBookListModel> orderBookListModel ;
+  orderHistoryListState(this.orderBookListModel);
+
+  @override
+  String toString() => 'orderHistoryListState';
+}
+
+class NoOrderHistoryListState extends ReachedServiceDetailsState {
+  NoOrderHistoryListState();
+  @override
+  String toString() => 'NoOrderHistoryListState';
 }

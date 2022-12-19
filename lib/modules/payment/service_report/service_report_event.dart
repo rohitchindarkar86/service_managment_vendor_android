@@ -8,7 +8,9 @@ import 'package:meta/meta.dart';
 import '../../../models/apiResponseHandlerModel.dart';
 import '../../../models/master/action_taken_master_model.dart';
 import '../../../models/master/spare_parts_master_model.dart';
+import '../../dashboard/repository/service_repository.dart';
 import '../../login/repository/master_repository.dart';
+import '../repository/add_check_report_repository.dart';
 
 @immutable
 abstract class ServiceReportEvent {
@@ -41,14 +43,16 @@ class LoadServiceReportEvent extends ServiceReportEvent {
 
 class ActionTakenMasterEvent extends ServiceReportEvent {
 
-  ActionTakenMasterEvent();
+  int applianceCode;
+  ActionTakenMasterEvent(this.applianceCode);
   @override
   Stream<ServiceReportState> applyAsync(
       {ServiceReportState? currentState, ServiceReportBloc? bloc}) async* {
     try {
       yield LoaderState();
       var body = {
-        "masterDataName": "ServiceComplaint",
+        "masterDataName": "ServiceCheckReport",
+        "applianceCode": applianceCode,
         "usePaging": false,
         "pageSize": 0,
         "currentIndex": 0
@@ -62,6 +66,43 @@ class ActionTakenMasterEvent extends ServiceReportEvent {
 
         print("dsdf");
         yield ActionTakenState(actionTakenMasterModel);
+
+      }else if(response.status == 'F'){
+
+      }
+
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorServiceReportState( _.toString());
+    }
+  }
+}
+
+class ActionMasterEvent extends ServiceReportEvent {
+
+  int applianceCode;
+  ActionMasterEvent(this.applianceCode);
+  @override
+  Stream<ServiceReportState> applyAsync(
+      {ServiceReportState? currentState, ServiceReportBloc? bloc}) async* {
+    try {
+      yield LoaderState();
+      var body = {
+        "masterDataName": "ServiceAction",
+        "applianceCode": applianceCode,
+        "usePaging": false,
+        "pageSize": 0,
+        "currentIndex": 0
+      };
+      ApiResponseHandlerModel response = await MasterRepository.actionTakenEvent(body);
+
+      if(response.status == 'S') {
+
+        var jsonResponse = response.data;
+        List<ActionTakenMasterModel> actionTakenMasterModel = actionTakenMasterModelFromJson(json.encode(jsonResponse));
+
+        print("dsdf");
+        yield ActionState(actionTakenMasterModel);
 
       }else if(response.status == 'F'){
 
@@ -106,12 +147,78 @@ class PartsReplacedMasterEvent extends ServiceReportEvent {
   }
 }
 
-class AddPartsEvent extends ServiceReportEvent {
+class UpdateServiceCheckReportEvent extends ServiceReportEvent {
 
   int serviceRequestCode;
   int serviceRequestDetailCode;
   List<int>sparePartCodeList;
-  AddPartsEvent(this.serviceRequestCode,this.serviceRequestDetailCode,this.sparePartCodeList);
+  UpdateServiceCheckReportEvent(this.serviceRequestCode,this.serviceRequestDetailCode,this.sparePartCodeList);
+  @override
+  Stream<ServiceReportState> applyAsync(
+      {ServiceReportState? currentState, ServiceReportBloc? bloc}) async* {
+    try {
+      yield LoaderState();
+      var body = {
+        "serviceRequestCode": serviceRequestCode,
+        "serviceRequestDetailCode": serviceRequestDetailCode,
+        "checkReportCodeList": sparePartCodeList
+      };
+      ApiResponseHandlerModel response = await AddCheckReportRepository.updateServiceCheckReportEvent(body);
+
+      if(response.status == 'S') {
+
+        yield ActionTBTSuccessState();
+
+      }else if(response.status == 'F'){
+        yield ErrorServiceReportState(response.message);
+      }
+
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorServiceReportState( _.toString());
+    }
+  }
+}
+
+class UpdateActionEvent extends ServiceReportEvent {
+
+  int serviceRequestCode;
+  int serviceRequestDetailCode;
+  List<int>sparePartCodeList;
+  UpdateActionEvent(this.serviceRequestCode,this.serviceRequestDetailCode,this.sparePartCodeList);
+  @override
+  Stream<ServiceReportState> applyAsync(
+      {ServiceReportState? currentState, ServiceReportBloc? bloc}) async* {
+    try {
+      yield LoaderState();
+      var body = {
+        "serviceRequestCode": serviceRequestCode,
+        "serviceRequestDetailCode": serviceRequestDetailCode,
+        "actionTakenCodeList": sparePartCodeList
+      };
+      ApiResponseHandlerModel response = await AddCheckReportRepository.updateActionEvent(body);
+
+      if(response.status == 'S') {
+
+        yield ActionSuccessState();
+
+      }else if(response.status == 'F'){
+        yield ErrorServiceReportState(response.message);
+      }
+
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorServiceReportState( _.toString());
+    }
+  }
+}
+
+class UpdateSparePartsEvent extends ServiceReportEvent {
+
+  int serviceRequestCode;
+  int serviceRequestDetailCode;
+  List<int>sparePartCodeList;
+  UpdateSparePartsEvent(this.serviceRequestCode,this.serviceRequestDetailCode,this.sparePartCodeList);
   @override
   Stream<ServiceReportState> applyAsync(
       {ServiceReportState? currentState, ServiceReportBloc? bloc}) async* {
@@ -122,19 +229,47 @@ class AddPartsEvent extends ServiceReportEvent {
         "serviceRequestDetailCode": serviceRequestDetailCode,
         "sparePartCodeList": sparePartCodeList
       };
-      // ApiResponseHandlerModel response = await MasterRepository.partsReplacedEvent(body);
-      //
-      // if(response.status == 'S') {
-      //
-      //   var jsonResponse = response.data;
-      //   List<SpareMasterModel> actionTakenMasterModel = spareMasterModelFromJson(json.encode(jsonResponse));
-      //
-      //   print("dsdf");
-      //   yield SparePartsState(actionTakenMasterModel);
-      //
-      // }else if(response.status == 'F'){
-      //
-      // }
+      ApiResponseHandlerModel response = await AddCheckReportRepository.updateSparePartsEvent(body);
+
+      if(response.status == 'S') {
+
+        yield SparePartsSuccessState();
+
+      }else if(response.status == 'F'){
+        yield ErrorServiceReportState(response.message);
+      }
+
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorServiceReportState( _.toString());
+    }
+  }
+}
+
+class UpdateServiceRequestEvent extends ServiceReportEvent {
+
+  int serviceRequestCode;
+  int statusCode;
+  UpdateServiceRequestEvent(this.serviceRequestCode,this.statusCode);
+  Stream<ServiceReportState> applyAsync(
+      {ServiceReportState? currentState, ServiceReportBloc? bloc}) async* {
+    try {
+      var body = {
+        // "code": userDetailsModel?.userCode
+        "serviceRequestCode": serviceRequestCode,
+        "statusCode": statusCode
+      };
+      ApiResponseHandlerModel response = await ServiceRepository.updateServiceRequestEvent(body);
+
+      if(response.status == 'S') {
+        // var jsonResponse = json.decode(response.data.toString());
+
+        yield UpdateSuccessServiceStatusState();
+      } else if(response.status == 'F'){
+        yield ErrorServiceReportState( response.message ??"Something went wrong please try after sometimes");
+      }else{
+        yield ErrorServiceReportState( "Something went wrong please try after sometimes");
+      }
 
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);

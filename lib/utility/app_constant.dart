@@ -14,6 +14,7 @@ class AppConstant{
 
   //Master Api Call
   static String GET_MASTER_DATA_BY_NAME = server_address + "api/MasterData/GetMasterDataByName";
+  static String GET_SERVICE_MASTER_DATA_BY_NAME = server_address + "api/MasterData/GetServiceMasterDataByName";
   static String GET_MASTER_DATA_PINCODE = server_address + "api/MasterData/SearchPincode";
   static String GET_MASTER_DATA_SPAREPARTS = server_address + "api/MasterData/GetSpareParts";
 
@@ -36,6 +37,11 @@ class AppConstant{
   //Payment
   static String PAYMENT_QR_GENERATE = server_address + "api/Payment/GenerateQRcodeRazorpay";
   static String PAYMENT_CHECK = server_address + "api/Payment/GetQRcodeRazorpay";
+
+  //Service Report
+  static String ServiceRequestAddCheckReports = server_address + "api/ServiceRequest/UpdateServiceRequestAddCheckReports";
+  static String ServiceRequestAddActions = server_address + "api/ServiceRequest/UpdateServiceRequestAddActions";
+  static String ServiceRequestAddParts = server_address + "api/ServiceRequest/UpdateServiceRequestAddParts";
 
   static String userTokken ='';
 }

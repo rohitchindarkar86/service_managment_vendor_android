@@ -1,6 +1,8 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:vendor_app/modules/payment/service_report/index.dart';
 
 import '../../../models/master/spare_parts_master_model.dart';
@@ -28,7 +30,15 @@ class ServiceReportScreen extends StatefulWidget {
     return ServiceReportScreenState();
   }
 }
+class ResultModel {
+  final int id;
+  final String name;
 
+  ResultModel({
+    required this.id,
+    required this.name,
+  });
+}
 class ServiceReportScreenState extends State<ServiceReportScreen> {
   ServiceReportScreenState();
 
@@ -40,12 +50,30 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
   double? totalAmt = 0;
   String? applianceDropDownValue= "Others";
   List<ActionTakenModel> actionTakenList=[];
+  List<ActionTakenModel> actionList=[];
   List<SpareMasterModel> sparePartList=[];
   List<String>? sparePartsMasterList=[];
   List<String>? actionTakenMasterList=[];
+  List<String>? actionMasterList=[];
   List<String>? partCode=[];
   int selectedActionMasterIndex=0;
+  String selectedSpareParts='';
+  List<int>? selectedPartsMasterList=[];
   bool isApiCall = false;
+
+
+  static List<ResultModel> _actionTBT = [];
+  var _actionTBTitems;
+  List<int>? _selectedActionTBT = [];
+
+  static List<ResultModel> _action = [];
+  var _actionitems;
+  List<int>? _selectedAction = [];
+
+  static List<ResultModel> _spareParts = [];
+  var _sparePartsitems;
+  List<int>? _selectedSpareParts = [];
+
   @override
   void initState() {
     super.initState();
@@ -69,15 +97,49 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
           if (currentState is ActionTakenState) {
             currentState.actionTakenMasterModel.forEach((element) {
               actionTakenMasterList?.add(element.description.toString());
+              _actionTBT.add( ResultModel(id: element.key!, name: element.description!));
             });
+            _actionTBTitems = _actionTBT
+                .map((actionTBT) => MultiSelectItem<ResultModel>(actionTBT, actionTBT.name))
+                .toList();
+            widget._serviceReportBloc.add(ActionMasterEvent(widget.serviceList.userApplianceTypeCode!));
+          }
+          if (currentState is ActionState) {
+            currentState.actionTakenMasterModel.forEach((element) {
+              actionMasterList?.add(element.description.toString());
+              _action.add( ResultModel(id: element.key!, name: element.description!));
+            });
+            _actionitems = _action
+                .map((action) => MultiSelectItem<ResultModel>(action, action.name))
+                .toList();
             widget._serviceReportBloc.add(PartsReplacedMasterEvent());
           }
           if (currentState is SparePartsState) {
 
             currentState.sparePartsMasterModel.forEach((element) {
               sparePartsMasterList?.add(element.partDescription.toString());
+              _spareParts.add( ResultModel(id: element.applianceType_Code!, name: element.partDescription!));
             });
+            _sparePartsitems = _spareParts
+                .map((action) => MultiSelectItem<ResultModel>(action, action.name))
+                .toList();
             isApiCall = false;
+          }
+
+          if(currentState is ActionTBTSuccessState){
+            widget._serviceReportBloc.add(UpdateActionEvent(widget.serviceList.serviceRequestCode!,widget.serviceList.serviceRequestDetailCode!,_selectedAction!));
+          }
+          if(currentState is ActionSuccessState){
+            widget._serviceReportBloc.add(UpdateSparePartsEvent(widget.serviceList.serviceRequestCode!,widget.serviceList.serviceRequestDetailCode!,_selectedSpareParts!));
+
+          }
+          if(currentState is SparePartsSuccessState){
+            widget._serviceReportBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode!,6));
+
+          }
+          if(currentState is UpdateSuccessServiceStatusState){
+            isApiCall = false;
+            Navigator.pop(context,true);
           }
 
         },
@@ -99,36 +161,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                   Column(
                     children: [
                       SizedBox(height: 16,),
-                      Container(
-                          alignment: Alignment.centerLeft,
-                          margin: EdgeInsets.symmetric(horizontal: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Fill Service Report',
-                                style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
-                              ),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    TextButton(
-                                        onPressed: (){
-                                          _addExtraWorkToList();
-                                        }, child: Row(
-                                      children: [
-                                        Icon(Icons.add_circle_outline,size: 24,color: HexColor('ED8F2D')),
-                                        SizedBox(width: 4,),
-                                        Text('Add',style: TextStyle(fontSize: 16,fontFamily: Style().font_medium(),color: HexColor('ED8F2D')),)
-                                      ],
-                                    ))
-                                  ],
-                                ),
-                              )
-                            ],)
 
-
-                      ),
                       Expanded(
                           child:SingleChildScrollView(
                             child: Container(
@@ -137,7 +170,6 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                                 children: [
 
                                   Container(
-
                                     color: Colors.white,
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -146,12 +178,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
 
                                         Container(
                                           // margin: EdgeInsets.only(top: 13),
-                                            child: ListView.builder(
-                                                padding: EdgeInsets.only(top: 0),
-                                                shrinkWrap: true,
-                                                physics: NeverScrollableScrollPhysics(),
-                                                itemCount: actionTakenList.length,
-                                                itemBuilder: actionTakenWidget)),
+                                            child: actionTakenWidget(context)),
 
 
 
@@ -174,9 +201,11 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                                 width: MediaQuery.of(context).size.width,
                                 height: 45,
                                 child: ElevatedButton(
-                                  child: Text('Proceed To Payment'),
+                                  child: Text('Submit Service Report'),
                                   onPressed: () {
-                                    widget._serviceReportBloc.add(AddPartsEvent(widget.serviceList.serviceRequestCode!,widget.serviceList.serviceRequestDetailCode!,[]));
+                                    serviceSubmitBottomSheet(
+                                      context: context,
+                                      height: height! * 0.35,);
                                     // Navigator.pushNamed(context, PaymentPage.routeName);
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -206,7 +235,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
         });
   }
 
-  Widget actionTakenWidget(BuildContext context, int index) {
+  Widget actionTakenWidget(BuildContext context) {
     return   Container(
       margin: EdgeInsets.only(top:0,bottom: 4),
       color: Colors.white,
@@ -215,109 +244,119 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 24,
+            height: 30,
             padding: EdgeInsets.symmetric(horizontal: 16),
             width: MediaQuery.of(context).size.width,
             color: HexColor('ED8F2D').withOpacity(0.7),
             alignment: Alignment.centerLeft,
-            child: Text('Action Taken ${index + 1}',style: TextStyle(color: Colors.white),),
+            child: Text('Fill Service Report',style: TextStyle(color: Colors.white,fontSize: 16),),
           ),
           SizedBox(height: 6,),
-          Container(
-            width: MediaQuery.of(context).size.width *0.8,
-            alignment: Alignment.centerLeft,
+          _actionTBTitems != null?Container(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'Action',
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
-            ),
-          ),
-          Container(
-            height: 40,
-            margin: EdgeInsets.symmetric(horizontal: 16),
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0),
-              border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+            child: MultiSelectDialogField(
+              items: _actionTBTitems,
+              title: Text("Action to be taken"),
+              selectedColor: HexColor('ED8F2D'),
+              searchable: true,
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                border: Border.all(
+                  color: HexColor('464646'),
+                  width: 2,
+                ),
+              ),
+              buttonIcon: Icon(
+                Icons.arrow_circle_down,
+                color: HexColor('464646'),
+              ),
+              buttonText: Text(
+                "Action to be taken",
+                style: TextStyle(
+                  color:HexColor('464646'),
+                  fontSize: 16,
+                ),
+              ),
+              onConfirm: (List<ResultModel> results) {
+                results.forEach((element) {
+                  _selectedActionTBT?.add(element.id);
+                });
 
-            ),
-            child:DropdownSearch<String>(
-              //mode of dropdown
-              mode: Mode.BOTTOM_SHEET,
-              //to show search box
-              showSearchBox: true,
-              // showSelectedItem: true,
-              //list of dropdown items
-              items: actionTakenMasterList,
-              // label: "Country",
-              onChanged: (val){
-                actionTakenList[index].actionTaken=val;
               },
-              //show selected item
-              selectedItem: actionTakenList[index].actionTaken,
-
-            ),),
+            ),
+          ):SizedBox(),
           SizedBox(height: 16,),
-          Container(
-            width: MediaQuery.of(context).size.width *0.8,
-            alignment: Alignment.centerLeft,
+          _actionitems != null?Container(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'Part Replaced',
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
-            ),
-          ),
-          Container(
-            height: 40,
-            margin: EdgeInsets.symmetric(horizontal: 16),
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0),
-              border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+            child: MultiSelectDialogField(
+              items: _actionitems,
+              title: Text("Action"),
+              selectedColor: HexColor('ED8F2D'),
+              searchable: true,
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                border: Border.all(
+                  color: HexColor('464646'),
+                  width: 2,
+                ),
+              ),
+              buttonIcon: Icon(
+                Icons.arrow_circle_down,
+                color: HexColor('464646'),
+              ),
+              buttonText: Text(
+                "Action",
+                style: TextStyle(
+                  color:HexColor('464646'),
+                  fontSize: 16,
+                ),
+              ),
+              onConfirm: (List<ResultModel> results) {
+                results.forEach((element) {
+                  _selectedAction?.add(element.id);
+                });
 
-            ),
-            child:sparePartsMasterList!.isNotEmpty  ?DropdownSearch<String>(
-              //mode of dropdown
-              mode: Mode.BOTTOM_SHEET,
-              //to show search box
-              showSearchBox: true,
-              // showSelectedItem: true,
-              //list of dropdown items
-              items: sparePartsMasterList,
-              // label: "Country",
-              onChanged: (val){
-                sparePartList[index].partDescription=val;
               },
-              //show selected item
-              selectedItem: sparePartsMasterList![index],
-
-            ):SizedBox(),),
-          actionTakenList.length != 1?Container(
-            margin: EdgeInsets.only(left: 16,right: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(onPressed: (){
-                  _removeExtraWork(index);
-                }, child: Row(
-                  children: [
-                    Icon(Icons.remove_circle_outline,size: 20,color: Colors.red),
-                    SizedBox(width: 4,),
-                    Text('Remove',style: TextStyle(fontSize: 14,fontFamily: Style().font_medium(),color: Colors.red),)
-                  ],
-                ))
-              ],
             ),
-          ):Container(),
-          actionTakenList.length == 1 ?SizedBox(height: 12,):Container()
+          ):SizedBox(),
+          SizedBox(height: 16,),
+          _sparePartsitems != null?Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: MultiSelectDialogField(
+              items: _sparePartsitems,
+              title: Text("Status"),
+              selectedColor: HexColor('ED8F2D'),
+              searchable: true,
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                border: Border.all(
+                  color: HexColor('464646'),
+                  width: 2,
+                ),
+              ),
+              buttonIcon: Icon(
+                Icons.arrow_circle_down,
+                color: HexColor('464646'),
+              ),
+              buttonText: Text(
+                "Status",
+                style: TextStyle(
+                  color:HexColor('464646'),
+                  fontSize: 16,
+                ),
+              ),
+              onConfirm: (List<ResultModel> results) {
+                results.forEach((element) {
+                  _selectedSpareParts?.add(element.id);
+                });
 
+              },
+            ),
+          ):SizedBox(),
+          SizedBox(height: 16,),
         ],
       ),
     );
@@ -343,7 +382,119 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
   }
   void _load() {
     _addExtraWorkToList();
-    widget._serviceReportBloc.add(ActionTakenMasterEvent());
+    widget._serviceReportBloc.add(ActionTakenMasterEvent(widget.serviceList.userApplianceTypeCode!));
 
+  }
+
+  serviceSubmitBottomSheet({
+    required BuildContext context,
+    required double height,
+
+  }) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black
+                : Color(0xFF737373),
+            child: Container(
+                height: height,
+                padding:
+                EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      color: HexColor('#CED3DB'),
+                      height: 4,
+                      width: 64,
+                    ),
+                    SizedBox(
+                      height: 18,
+                    ),
+                    Container(
+                        height: 120,
+                        child: Lottie.asset('assets/lottie_anim/complete_check.json')),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Are you Sure want to Service Report?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: Style().font_bold(),
+                            color: Theme.of(context).colorScheme.onSecondary),
+                      ),
+                    ),
+
+
+                    Expanded(child: Container(),),
+                    Container(
+
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child:  Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 45,
+                              child: ElevatedButton(
+                                child: Text('Yes'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                    widget._serviceReportBloc.add(UpdateServiceCheckReportEvent(widget.serviceList.serviceRequestCode!,widget.serviceList.serviceRequestDetailCode!,_selectedActionTBT!));
+                               },
+                                style: ElevatedButton.styleFrom(
+                                    primary: HexColor('ED8F2D'),
+                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                    textStyle: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8,),
+                          Expanded(
+                            child:  Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 45,
+                              child: ElevatedButton(
+                                child: Text('No'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    primary: HexColor('ED8F2D'),
+                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                    textStyle: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: 8,
+                    ),
+
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(20),
+                    topRight: const Radius.circular(20),
+                  ),
+                )),
+          );
+        });
   }
 }

@@ -49,10 +49,30 @@ class ActionTakenState extends ServiceReportState {
   ActionTakenState(this.actionTakenMasterModel);
 
 }
+class ActionState extends ServiceReportState {
+  List<ActionTakenMasterModel> actionTakenMasterModel;
+  ActionState(this.actionTakenMasterModel);
+
+}
 class SparePartsState extends ServiceReportState {
   List<SpareMasterModel> sparePartsMasterModel;
   SparePartsState(this.sparePartsMasterModel);
 
+}
+
+class ActionTBTSuccessState extends ServiceReportState {
+  ActionTBTSuccessState();
+}
+
+class ActionSuccessState extends ServiceReportState {
+  ActionSuccessState();
+}
+
+class SparePartsSuccessState extends ServiceReportState {
+  SparePartsSuccessState();
+}
+class UpdateSuccessServiceStatusState extends ServiceReportState {
+  UpdateSuccessServiceStatusState();
 }
 class LoaderState extends ServiceReportState {
   LoaderState();

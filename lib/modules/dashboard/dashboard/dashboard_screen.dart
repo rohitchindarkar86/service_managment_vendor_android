@@ -19,6 +19,7 @@ import '../../../models/service_request/service_list_model.dart';
 import '../../../widgets/AppLoader.dart';
 import '../../../widgets/LogoutOverlay.dart';
 import '../../../widgets/dashboard/shimmer_service_listing_widget.dart';
+import '../../payment/service_report/service_report_page.dart';
 import '../../profile/view_profile/view_profile_page.dart';
 import '../../profile/view_profile/view_profile_screen.dart';
 import '../reached_service_details/reached_service_details_page.dart';
@@ -535,8 +536,15 @@ class DashboardScreenState extends State<DashboardScreen> {
                                   ElevatedButton(
                                     child: Text(' Start Work '),
                                     onPressed: () {
-                                      int selectedService = serviceList?[index].serviceRequestCode ?? 0;
-                                      InProcessServiceBottomSheet(context: context,height: height! *0.4, serviceRequestCode: selectedService);
+                                      // int selectedService = serviceList?[index].serviceRequestCode ?? 0;
+                                      // InProcessServiceBottomSheet(context: context,height: height! *0.4, serviceRequestCode: selectedService);
+                                      Navigator.pushNamed(context, ServiceReportPage.routeName,arguments:{"selectedRequest":serviceList?[index]}).then((value){
+                                        if(value!= null && value == true) {
+                                          widget._dashboardBloc.add(
+                                              ServiceListEvent());
+                                        }
+                                      });
+
                                     },
                                     style: ElevatedButton.styleFrom(
                                         primary: HexColor('008d00'),

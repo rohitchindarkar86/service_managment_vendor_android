@@ -263,7 +263,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                 width: MediaQuery.of(context).size.width,
                                 height: 45,
                                 child: ElevatedButton(
-                                  child: Text('Pending For Parts'),
+                                  child: Text('Parts Pending'),
                                   onPressed: () {
                                     partsReplaceBottomSheet(context: context,height: height! *0.38,);
                                   },
@@ -312,7 +312,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                           ],
                         ),
                       ):SizedBox(),
-                      widget.serviceList.serviceStatusSysCode == 8  ? Container(
+                      widget.serviceList.serviceStatusSysCode == 9  ? Container(
                         margin: EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [
@@ -538,7 +538,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                 child: Text('Yes'),
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,8));
+                                  widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,9));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: HexColor('ED8F2D'),

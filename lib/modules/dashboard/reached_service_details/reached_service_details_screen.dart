@@ -248,12 +248,38 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                     ],
                                   ),
                                 ),
-                                widget.serviceList.serviceStatusSysCode == 6 ? applianceDetailsWidget():SizedBox()
+                                widget.serviceList.serviceStatusSysCode == 4 ? applianceDetailsWidget():SizedBox()
                               ],
                             ),
                           )
                       ),
                       SizedBox(height: 8,),
+                      widget.serviceList.serviceStatusSysCode == 4  ?Column(
+                        children: [
+                          Text('Please Check Appliance Before Filling Service Report.',style: TextStyle(fontSize: 12),),
+                          SizedBox(height: 6,),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8),
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: Text('Service Report'),
+                              onPressed: () {
+                                Navigator.pushNamed(context, ServiceReportPage.routeName,arguments:{"selectedRequest":widget.serviceList}).then((value){
+                                  if(value != null && value == true)
+                                  Navigator.pop(context,"updateList");
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: HexColor('ea4747'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                        ],
+                      )  :SizedBox(),
                       widget.serviceList.serviceStatusSysCode == 6  ? Container(
                         margin: EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
@@ -334,6 +360,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
           
         });
   }
+
   cancelRequestBottomSheet({
     required BuildContext context,
     required double height,

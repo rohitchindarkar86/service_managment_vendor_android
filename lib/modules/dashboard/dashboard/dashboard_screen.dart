@@ -9,7 +9,6 @@ import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vendor_app/generated/locale_keys.g.dart';
 import 'package:vendor_app/modules/dashboard/dashboard/index.dart';
-import 'package:vendor_app/modules/login/technician_login/index.dart';
 import 'package:vendor_app/style/style.dart';
 import 'package:vendor_app/utility/app_utility.dart';
 import 'package:vendor_app/utility/hex_color.dart';
@@ -19,8 +18,6 @@ import '../../../models/service_request/service_list_model.dart';
 import '../../../widgets/AppLoader.dart';
 import '../../../widgets/LogoutOverlay.dart';
 import '../../../widgets/dashboard/shimmer_service_listing_widget.dart';
-import '../../payment/service_report/service_report_page.dart';
-import '../../profile/view_profile/view_profile_page.dart';
 import '../../profile/view_profile/view_profile_screen.dart';
 import '../reached_service_details/reached_service_details_page.dart';
 
@@ -441,7 +438,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                         Container(
                           alignment:Alignment.centerLeft,
                           child: Text(
-                            'Service Date:- ${serviceList?[index].scheduledDate}',
+                            'Service Date:-  ${serviceList?[index].scheduledTimeFrom}',
                             style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
                           ) ,
                         ),
@@ -538,10 +535,9 @@ class DashboardScreenState extends State<DashboardScreen> {
                                     onPressed: () {
                                       // int selectedService = serviceList?[index].serviceRequestCode ?? 0;
                                       // InProcessServiceBottomSheet(context: context,height: height! *0.4, serviceRequestCode: selectedService);
-                                      Navigator.pushNamed(context, ServiceReportPage.routeName,arguments:{"selectedRequest":serviceList?[index]}).then((value){
-                                        if(value!= null && value == true) {
-                                          widget._dashboardBloc.add(
-                                              ServiceListEvent());
+                                      Navigator.pushNamed(context, ReachedServiceDetailsPage.routeName,arguments: {'selectedRequest':serviceList?[index]}).then((value) {
+                                        if(value.toString() == 'updateList'){
+                                          widget._dashboardBloc.add(ServiceListEvent());
                                         }
                                       });
 

@@ -72,7 +72,8 @@ class SparePartsSuccessState extends ServiceReportState {
   SparePartsSuccessState();
 }
 class UpdateSuccessServiceStatusState extends ServiceReportState {
-  UpdateSuccessServiceStatusState();
+  int statusCode;
+  UpdateSuccessServiceStatusState(this.statusCode);
 }
 class LoaderState extends ServiceReportState {
   LoaderState();

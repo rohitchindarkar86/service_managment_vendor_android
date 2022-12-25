@@ -254,17 +254,21 @@ class UpdateServiceRequestEvent extends ServiceReportEvent {
   Stream<ServiceReportState> applyAsync(
       {ServiceReportState? currentState, ServiceReportBloc? bloc}) async* {
     try {
-      var body = {
-        // "code": userDetailsModel?.userCode
-        "serviceRequestCode": serviceRequestCode,
-        "statusCode": statusCode
-      };
-      ApiResponseHandlerModel response = await ServiceRepository.updateServiceRequestEvent(body);
+      ApiResponseHandlerModel response = await changeStatusApiCall(serviceRequestCode,statusCode);
+
 
       if(response.status == 'S') {
         // var jsonResponse = json.decode(response.data.toString());
+        ApiResponseHandlerModel response1 = await changeStatusApiCall(serviceRequestCode,9);
+        if(response1.status == 'S') {
 
-        yield UpdateSuccessServiceStatusState();
+          yield UpdateSuccessServiceStatusState(statusCode);
+        } else if(response1.status == 'F'){
+          yield ErrorServiceReportState( response1.message ??"Something went wrong please try after sometimes");
+        }else{
+          yield ErrorServiceReportState( "Something went wrong please try after sometimes");
+        }
+
       } else if(response.status == 'F'){
         yield ErrorServiceReportState( response.message ??"Something went wrong please try after sometimes");
       }else{
@@ -275,5 +279,16 @@ class UpdateServiceRequestEvent extends ServiceReportEvent {
       developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
       yield ErrorServiceReportState( _.toString());
     }
+  }
+
+  changeStatusApiCall(serviceRequestCode,statusCode) async {
+    var body = {
+      // "code": userDetailsModel?.userCode
+      "serviceRequestCode": serviceRequestCode,
+      "statusCode": statusCode
+    };
+    ApiResponseHandlerModel response = await ServiceRepository.updateServiceRequestEvent(body);
+
+    return response;
   }
 }

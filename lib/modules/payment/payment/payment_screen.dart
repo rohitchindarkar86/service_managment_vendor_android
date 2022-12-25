@@ -11,12 +11,15 @@ import '../../../style/style.dart';
 import '../../../utility/hex_color.dart';
 import '../../../widgets/AppLoader.dart';
 import '../../../widgets/success_request_page.dart';
+import '../../dashboard/dashboard/dashboard_page.dart';
 
 class PaymentScreen extends StatefulWidget {
   final ServiceListModel serviceList;
+  final String fromScreen;
   const PaymentScreen({
     required PaymentBloc paymentBloc,
     required this.serviceList,
+    required this.fromScreen,
     Key? key,
   })  : _paymentBloc = paymentBloc,
         super(key: key);
@@ -83,6 +86,11 @@ class PaymentScreenState extends State<PaymentScreen> {
           height = MediaQuery.of(context).size.height;
           return WillPopScope(
             onWillPop: () async {
+              if(widget.fromScreen == 'ServiceReport'){
+               Navigator.popAndPushNamed(context, DashboardPage.routeName);
+              }else {
+                Navigator.pop(context);
+              }
               return true;
             },
             child: Container(

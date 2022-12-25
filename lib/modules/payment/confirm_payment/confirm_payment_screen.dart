@@ -472,7 +472,7 @@ class ConfirmPaymentScreenState extends State<ConfirmPaymentScreen> {
                             child: ElevatedButton(
                               child: Text('Proceed To Payment'),
                               onPressed: () {
-                                Navigator.pushNamed(context, PaymentPage.routeName);
+                                // Navigator.pushNamed(context, PaymentPage.routeName);
                               },
                               style: ElevatedButton.styleFrom(
                                   primary: HexColor('ED8F2D'),

@@ -794,7 +794,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                     height: 40,
                     alignment: Alignment.center,
                     color:  HexColor('ED8F2D'),
-                    child: Text('Add To Inventory',style: TextStyle(fontSize: 16,color: HexColor('FFFFFF'),fontFamily: Style().font_medium()),)
+                    child: Text('Product QR-Code Mapping',style: TextStyle(fontSize: 16,color: HexColor('FFFFFF'),fontFamily: Style().font_medium()),)
                 ),
               ),
             ],
@@ -868,7 +868,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
       child: ElevatedButton(
         child: Text('Proceed To Payment'),
         onPressed: () {
-          Navigator.pushNamed(context, PaymentPage.routeName,arguments: {"selectedRequest":widget.serviceList});
+          Navigator.pushNamed(context, PaymentPage.routeName,arguments: {"selectedRequest":widget.serviceList,'fromScreen':''});
         },
         style: ElevatedButton.styleFrom(
             primary: HexColor('008d00'),

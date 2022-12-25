@@ -138,8 +138,12 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
 
           }
           if(currentState is UpdateSuccessServiceStatusState){
-            isApiCall = false;
-            Navigator.pop(context,true);
+
+              isApiCall = false;
+
+              Navigator.pushReplacementNamed(context, PaymentPage.routeName,
+                  arguments: {"selectedRequest": widget.serviceList,'fromScreen':'ServiceReport'});
+
           }
 
         },
@@ -256,7 +260,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: MultiSelectDialogField(
               items: _actionTBTitems,
-              title: Text("Action to be taken"),
+              title: Text("Check Report"),
               selectedColor: HexColor('ED8F2D'),
               searchable: true,
               decoration: BoxDecoration(
@@ -272,7 +276,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                 color: HexColor('464646'),
               ),
               buttonText: Text(
-                "Action to be taken",
+                "Check Report",
                 style: TextStyle(
                   color:HexColor('464646'),
                   fontSize: 16,
@@ -291,7 +295,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: MultiSelectDialogField(
               items: _actionitems,
-              title: Text("Action"),
+              title: Text("Action Taken"),
               selectedColor: HexColor('ED8F2D'),
               searchable: true,
               decoration: BoxDecoration(
@@ -307,7 +311,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                 color: HexColor('464646'),
               ),
               buttonText: Text(
-                "Action",
+                "Action Taken",
                 style: TextStyle(
                   color:HexColor('464646'),
                   fontSize: 16,

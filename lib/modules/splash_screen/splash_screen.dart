@@ -59,10 +59,28 @@ class _SplashScreenState extends State<SplashScreen> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Place',
-                                style: TextStyle(fontFamily: Style().font_bold(),fontSize: 30,color: HexColor('#ED8F2D')),
+                                text: 'PLACE',
+                                style: TextStyle(fontFamily: Style().font_bold(),fontSize: 26,color: HexColor('#ED8F2D')),
                               ),
-                              TextSpan(text: ' Your Service ',style: TextStyle(fontFamily: Style().font_regular(),fontSize: 30,color: HexColor('000000'))),
+                              TextSpan(text: ' YOUR SERVICE',style: TextStyle(fontFamily: Style().font_regular(),fontSize: 26,color: HexColor('000000'))),
+                            ],
+                          ),
+
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.center,
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Powered By : Bextreme Service Pvt. Ltd.',
+                                style: TextStyle(fontFamily: Style().font_bold(),fontSize: 14,color: Colors.black38),
+                              ),
                             ],
                           ),
 

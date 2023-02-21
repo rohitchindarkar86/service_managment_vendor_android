@@ -53,10 +53,37 @@ class UpdateRazaroPayState extends PaymentState {
   String toString() => 'ErrorPaymentState';
 }
 
+class PaymentCheckRazaroPayState extends PaymentState {
+  PaymentCheckRazaroPayState(this.statusCode);
+
+  final int statusCode;
+
+
+  @override
+  String toString() => 'ErrorPaymentState';
+}
+
 class LoaderPaymentState extends PaymentState {
   LoaderPaymentState();
   @override
   String toString() => 'ErrorPaymentState';
+
+}
+
+class UpdateSuccessServiceStatusState extends PaymentState {
+  String successMsg;
+  UpdateSuccessServiceStatusState(this.successMsg);
+
+  @override
+  String toString() => 'ServiceListingState';
+
+}
+class PaymentDetailsState extends PaymentState {
+  double amount;
+  PaymentDetailsState(this.amount);
+
+  @override
+  String toString() => 'PaymentDetailsState';
 
 }
 

@@ -50,7 +50,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
   @override
   void initState() {
     super.initState();
-    // EmailController.text ='info@ursasofttech.com';
+    // EmailController.text ='singhsk39@gmail.com';
     // PasswordController.text ='use4Test';
     _load();
 

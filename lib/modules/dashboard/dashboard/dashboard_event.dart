@@ -88,6 +88,8 @@ class UserDetailsApiLoginEvent extends DashboardEvent {
           }
 
 
+        }else if(jsonResponse['userTypeCode'] ==1){
+          yield AdminLoginState();
         }else{
           yield UserInvalidState();
         }
@@ -130,7 +132,6 @@ class ServiceListEvent extends DashboardEvent {
     }
   }
 }
-
 
 class UpdateServiceRequestEvent extends DashboardEvent {
 

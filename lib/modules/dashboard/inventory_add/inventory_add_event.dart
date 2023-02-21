@@ -41,6 +41,32 @@ class LoadInventoryAddEvent extends InventoryAddEvent {
   }
 }
 
+class ApplianceSubTypeEvent extends InventoryAddEvent {
+  int applianceCode;
+  ApplianceSubTypeEvent (this.applianceCode);
+  @override
+  Stream<InventoryAddState> applyAsync(
+      {InventoryAddState? currentState, InventoryAddBloc? bloc}) async* {
+    try {
+
+      var bodyJson ={
+        "code": applianceCode,
+      };
+      yield LoadingInventoryAddState(1);
+      ApiResponseHandlerModel response = await MasterRepository.ApplianceSubTypeMasterList(bodyJson);
+
+      if(response.status == "S") {
+        yield SuccessSubApplianceFetch();
+      }else{
+
+      }
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorInventoryAddState( _.toString());
+    }
+  }
+}
+
 class BrandEvent extends InventoryAddEvent {
   BrandEvent ();
   @override
@@ -69,6 +95,62 @@ class BrandEvent extends InventoryAddEvent {
   }
 }
 
+class RefrigerantMasterEvent extends InventoryAddEvent {
+  RefrigerantMasterEvent ();
+  @override
+  Stream<InventoryAddState> applyAsync(
+      {InventoryAddState? currentState, InventoryAddBloc? bloc}) async* {
+    try {
+
+      var bodyJson ={
+        "masterDataName": "Refrigerant",
+        "usePaging": false,
+        "pageSize": 0,
+        "currentIndex": 0
+      };
+      yield LoadingInventoryAddState(1);
+      ApiResponseHandlerModel response = await MasterRepository.refrigerantMasterList(bodyJson);
+
+      if(response.status == "S") {
+        yield RefrigerantFetch();
+      }else{
+
+      }
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorInventoryAddState( _.toString());
+    }
+  }
+}
+
+class UnitQuantityMasterEvent extends InventoryAddEvent {
+  UnitQuantityMasterEvent ();
+  @override
+  Stream<InventoryAddState> applyAsync(
+      {InventoryAddState? currentState, InventoryAddBloc? bloc}) async* {
+    try {
+
+      var bodyJson ={
+        "masterDataName": "UnitQuantity",
+        "usePaging": false,
+        "pageSize": 0,
+        "currentIndex": 0
+      };
+      yield LoadingInventoryAddState(1);
+      ApiResponseHandlerModel response = await MasterRepository.UnitQtyMasterList(bodyJson);
+
+      if(response.status == "S") {
+        yield UnitQuantityFetch();
+      }else{
+
+      }
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorInventoryAddState( _.toString());
+    }
+  }
+}
+
 class AddInventoryEvent extends InventoryAddEvent {
   AddInventoryModel addInventoryModel = AddInventoryModel();
   AddInventoryEvent (this.addInventoryModel);
@@ -81,6 +163,10 @@ class AddInventoryEvent extends InventoryAddEvent {
       var bodyJson ={
         "customerCode": addInventoryModel.customerCode,
         "applianceTypeCode": addInventoryModel.applianceTypeCode,
+        "applianceSubTypeCode": addInventoryModel.applianceSubTypeCode,
+        "unitQuantityCode": addInventoryModel.unitQuantityCode,
+        "refrigerantCode": addInventoryModel.refrigerantCode,
+        "modelNumber": addInventoryModel.modelNumber,
         "brandCode": addInventoryModel.brandCode,
         "baseWarrantyYears": addInventoryModel.baseWarrantyYears,
         "extendedWarrantyYears": addInventoryModel.extendedWarrantyYears,

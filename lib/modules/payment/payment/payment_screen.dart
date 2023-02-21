@@ -1,13 +1,10 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vendor_app/modules/payment/payment/index.dart';
-
-import '../../../models/master/action_taken_master_model.dart';
-import '../../../models/service_request/action_taken_model.dart';
 import '../../../models/service_request/service_list_model.dart';
 import '../../../style/style.dart';
+import '../../../utility/app_utility.dart';
 import '../../../utility/hex_color.dart';
 import '../../../widgets/AppLoader.dart';
 import '../../../widgets/success_request_page.dart';
@@ -45,10 +42,10 @@ class PaymentScreenState extends State<PaymentScreen> {
   bool isQRCode = false;
   String QrCodeUrl = '';
   String QrId = '';
+  String btnText = 'Continue';
   @override
   void initState() {
     super.initState();
-    totalAmt = (serviceAmt! + extraServiceAmt!);
 
     _load();
   }
@@ -71,10 +68,31 @@ class PaymentScreenState extends State<PaymentScreen> {
             isApiCall = true;
           }
           if (currentState is UpdateRazaroPayState) {
+            btnText = "Check Payment Status";
             isApiCall = false;
             isQRCode = true;
             QrCodeUrl = currentState.razorQRCode;
             QrId = currentState.razorQRCode_id;
+          }
+          if (currentState is PaymentCheckRazaroPayState) {
+            isApiCall = false;
+            if(currentState.statusCode == -1){
+              AppUtility.showToast("Payment Qr Expired.Please try again.");
+              Navigator.pop(context);
+            }else if(currentState.statusCode == 0){
+              AppUtility.showToast("Payment in Process. Please try again after client payment done");
+            } else if(currentState.statusCode == 1){
+              AppUtility.showToast("Payment Done.");
+              widget._paymentBloc.add(UpdateServiceRequestStatusEvent(widget.serviceList.serviceRequestCode!,11));
+            }
+          }
+          if (currentState is UpdateSuccessServiceStatusState) {
+            isApiCall = false;
+            Navigator.pushNamedAndRemoveUntil(context, DashboardPage.routeName, (route) => false);
+          }
+          if (currentState is PaymentDetailsState) {
+            isApiCall = false;
+            totalAmt = currentState.amount;
           }
 
         },
@@ -204,16 +222,18 @@ class PaymentScreenState extends State<PaymentScreen> {
                                 width: MediaQuery.of(context).size.width,
                                 height: 45,
                                 child: ElevatedButton(
-                                  child: Text('Continue'),
+                                  child: Text('${btnText}'),
                                   onPressed: () {
-                                    if(!isQRCode) {
-                                      paymentConfirmBottomSheet(
-                                        context: context,
-                                        height: height! * 0.35,);
-                                    }else{
-                                      widget._paymentBloc.add(
-                                          PaymentCheckRequestEvent(QrId));
-                                    }
+
+                                      if (!isQRCode) {
+                                        paymentConfirmBottomSheet(
+                                          context: context,
+                                          height: height! * 0.35,);
+                                      } else {
+                                        print('Payment Status');
+                                        widget._paymentBloc.add(
+                                            PaymentCheckRequestEvent(QrId,widget.serviceList));
+                                      }
 
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -249,7 +269,7 @@ class PaymentScreenState extends State<PaymentScreen> {
   }
 
   void _load() {
-
+    widget._paymentBloc.add(PaymentDetailsEvent(widget.serviceList));
   }
 
   paymentConfirmBottomSheet({
@@ -323,7 +343,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                                 .serviceRequestDetailCode!,
                                             widget.serviceList
                                                 .serviceRequestSeriesCode!,
-                                            499));
+                                            totalAmt!));
                                   }                                },
                                 style: ElevatedButton.styleFrom(
                                     primary: HexColor('ED8F2D'),

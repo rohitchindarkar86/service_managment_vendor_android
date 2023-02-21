@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vendor_app/modules/dashboard/dashboard/dashboard_page.dart';
 import 'package:vendor_app/widgets/success_password_fetch.dart';
 
+import 'modules/admin/admin_dashboard/admin_dashboard_page.dart';
 import 'modules/dashboard/inventory_add/inventory_add_page.dart';
 import 'modules/dashboard/reached_service_details/index.dart';
 import 'modules/login/otp_verification/otp_verification_page.dart';
@@ -39,6 +40,10 @@ class RouteGenerator {
       case DashboardPage.routeName:
         return MaterialPageRoute(
           builder: (builder) => DashboardPage(),
+        );
+        case AdminDashboardPage.routeName:
+        return MaterialPageRoute(
+          builder: (builder) => AdminDashboardPage(),
         );
 
       case ViewProfilePage.routeName:

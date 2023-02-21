@@ -78,6 +78,17 @@ class UserInvalidState extends DashboardState {
   List<Object> get props => [];
 }
 
+class AdminLoginState extends DashboardState {
+  AdminLoginState();
+
+
+  @override
+  String toString() => 'UserInvalidState';
+
+  @override
+  List<Object> get props => [];
+}
+
 class ServiceListingState extends DashboardState {
   List<ServiceListModel> serviceList=[];
   ServiceListingState(this.serviceList);

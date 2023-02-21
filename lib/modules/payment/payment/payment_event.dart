@@ -1,15 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer' as developer;
-
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vendor_app/modules/login/repository/master_repository.dart';
 import 'package:vendor_app/modules/payment/payment/index.dart';
 import 'package:meta/meta.dart';
 import 'package:vendor_app/modules/payment/repository/payment_repository.dart';
-
 import '../../../models/apiResponseHandlerModel.dart';
-import '../../../models/master/action_taken_master_model.dart';
+import '../../../models/service_request/service_list_model.dart';
+import '../../dashboard/repository/service_repository.dart';
 
 @immutable
 abstract class PaymentEvent {
@@ -45,7 +41,7 @@ class PaymentGenerateRequestEvent extends PaymentEvent {
   int serviceRequestCode;
   int serviceRequestDetailsCode;
   String serviceRequestSeriesCode;
-  int amount;
+  double amount;
   PaymentGenerateRequestEvent(this.serviceRequestCode,this.serviceRequestDetailsCode,this.serviceRequestSeriesCode,this.amount);
   @override
   Stream<PaymentState> applyAsync(
@@ -83,10 +79,12 @@ class PaymentGenerateRequestEvent extends PaymentEvent {
     }
   }
 }
+
 class PaymentCheckRequestEvent extends PaymentEvent {
 
   String qr_id;
-  PaymentCheckRequestEvent(this.qr_id);
+  ServiceListModel serviceList;
+  PaymentCheckRequestEvent(this.qr_id,this.serviceList);
   @override
   Stream<PaymentState> applyAsync(
       {PaymentState? currentState, PaymentBloc? bloc}) async* {
@@ -94,13 +92,86 @@ class PaymentCheckRequestEvent extends PaymentEvent {
       yield LoaderPaymentState();
 
       var body = {
-      "param": qr_id
+        "serviceRequestCode": serviceList.serviceRequestCode,
+        "serviceRequestDetailsCode": serviceList.serviceRequestDetailCode,
+        "serviceRequestSeriesCode": serviceList.serviceRequestSeriesCode
     };
       ApiResponseHandlerModel response = await PaymentRepository.qrCodeCheckEvent(body);
 
       if(response.status == 'S') {
 
           print(''+response.data.toString());
+          yield PaymentCheckRazaroPayState(response.data['is_Success']);
+      } else if(response.status == 'F'){
+        yield ErrorPaymentState( response.message ??"Something went wrong please try after sometimes");
+      }else{
+        yield ErrorPaymentState( "Something went wrong please try after sometimes");
+      }
+
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorPaymentState( _.toString());
+    }
+  }
+}
+
+class UpdateServiceRequestStatusEvent extends PaymentEvent {
+
+  int serviceRequestCode;
+  int statusCode;
+  UpdateServiceRequestStatusEvent(this.serviceRequestCode,this.statusCode);
+  @override
+  Stream<PaymentState> applyAsync(
+      {PaymentState? currentState, PaymentBloc? bloc}) async* {
+    try {
+
+      yield LoaderPaymentState();
+      var body = {
+        // "code": userDetailsModel?.userCode
+        "serviceRequestCode": serviceRequestCode,
+        "statusCode": statusCode
+      };
+      ApiResponseHandlerModel response = await ServiceRepository.updateServiceRequestEvent(body);
+
+      if(response.status == 'S') {
+        // var jsonResponse = json.decode(response.data.toString());
+
+        yield UpdateSuccessServiceStatusState(response.data.toString());
+      } else if(response.status == 'F'){
+        yield ErrorPaymentState( response.message ??"Something went wrong please try after sometimes");
+      }else{
+        yield ErrorPaymentState( "Something went wrong please try after sometimes");
+      }
+
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorPaymentState( _.toString());
+    }
+  }
+}
+
+class PaymentDetailsEvent extends PaymentEvent {
+
+  ServiceListModel serviceList;
+  PaymentDetailsEvent(this.serviceList);
+  @override
+  Stream<PaymentState> applyAsync(
+      {PaymentState? currentState, PaymentBloc? bloc}) async* {
+    try {
+
+      yield LoaderPaymentState();
+      var body = {
+        "serviceRequestCode": serviceList.serviceRequestCode,
+        "serviceRequestSeriesCode": serviceList.serviceRequestSeriesCode
+      };
+      ApiResponseHandlerModel response = await PaymentRepository.paymentDetailsEvent(body);
+
+      if(response.status == 'S') {
+        // var jsonResponse = json.decode(response.data.toString());
+        if(response.data['isSuccess']){
+          yield PaymentDetailsState(double.parse(response.data['paymentAmount'].toString()));
+        }
+
 
       } else if(response.status == 'F'){
         yield ErrorPaymentState( response.message ??"Something went wrong please try after sometimes");

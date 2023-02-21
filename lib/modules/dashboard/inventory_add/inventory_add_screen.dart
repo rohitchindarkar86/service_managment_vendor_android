@@ -1,11 +1,14 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vendor_app/models/master/refrigerant_master_model.dart';
 import 'package:vendor_app/modules/dashboard/inventory_add/index.dart';
 import 'package:vendor_app/widgets/AppLoader.dart';
 
 import '../../../models/add_inventory/add_inventory_model.dart';
 import '../../../models/master/brand_master_model.dart';
+import '../../../models/master/sub_applicance_master_model.dart';
+import '../../../models/master/unit_qty_master_model.dart';
 import '../../../models/service_request/service_list_model.dart';
 import '../../../style/style.dart';
 import '../../../utility/app_utility.dart';
@@ -33,11 +36,16 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
 
   double? height;
   String selectedBrandData='';
+  String selectedSubApplianceData='';
 
   int selectedBrandId = 0;
+  int selectedSubApplianceId = 0;
+  int selectedCapacityId = 0;
+  int selectedGasTypeId = 0;
   bool isWarrenty = false;
   bool isApiCall = false;
   List<BrandMasterModel>? applianceBrandData;
+  List<SubApplianceMasterModel>? subApplianceBrandData;
   String? qrText = '';
   TextEditingController serialNo = TextEditingController();
   TextEditingController modellNo = TextEditingController();
@@ -45,8 +53,11 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
   AddInventoryModel addInventoryModel = AddInventoryModel();
 
   List<String> yearList = [];
-  List<String> gasType = ["R22","R332","R410","R13","R406","Others"];
+  List<RefrigerantMasterModel>? gasType;
+  List<UnitQtyMasterModel>? unitQtyType;
+  // List<String> gasType = ["R22","R332","R410","R13","R406","Others"];
   String selectedGasType="";
+  String selectedCapacity="";
   @override
   void initState() {
     super.initState();
@@ -69,9 +80,25 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
             isApiCall = true;
           }
 
+          if(currentState is SuccessSubApplianceFetch){
+            isApiCall = false;
+            subApplianceBrandData = golbalSubApplianceMasterModel;
+            widget._inventoryAddBloc.add(RefrigerantMasterEvent());
+          }
           if(currentState is SuccessBrandFetch){
             isApiCall = false;
             applianceBrandData = golbalBrandMasterModel;
+            widget._inventoryAddBloc.add(RefrigerantMasterEvent());
+          }
+          if(currentState is RefrigerantFetch){
+            isApiCall = false;
+            gasType = golbalRefrigerantMasterModel;
+            widget._inventoryAddBloc.add(UnitQuantityMasterEvent());
+          }
+          if(currentState is UnitQuantityFetch){
+            isApiCall = false;
+            unitQtyType = golbalUnitQtyMasterModel;
+
           }
           if(currentState is SuccessAddInventoryFetch){
             AppUtility.showToast('Added To Inventory');
@@ -147,13 +174,15 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                           borderRadius: BorderRadius.all(Radius.circular(5))
                                       ),
                                       child:DropdownButtonHideUnderline(
-                                        child: DropdownSearch<String>(
-                                          items: yearList,
+                                        child: DropdownSearch<SubApplianceMasterModel>(
+                                          items: subApplianceBrandData,
                                           mode: Mode.MENU,
                                           showSearchBox:false,
-                                          dropdownSearchDecoration: InputDecoration(labelText: "",labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
-                                          itemAsString: (String? u) => u!.toString(),
-                                          onChanged: (String? data) { print(data!.toString());
+                                          dropdownSearchDecoration: InputDecoration(labelText: selectedSubApplianceData,labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
+                                          itemAsString: (SubApplianceMasterModel? u) => u!.description!.toString(),
+                                          onChanged: (SubApplianceMasterModel? data) { print(data!.toString());
+                                          selectedSubApplianceData = data.description.toString();
+                                          selectedSubApplianceId = data.key!;
                                           setState(() {
                                           });
                                           },
@@ -254,8 +283,20 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                           border: Border.all(color: HexColor('464646').withOpacity(0.3),),
                                           borderRadius: BorderRadius.all(Radius.circular(5))
                                       ),
-                                      child:TextField(
-                                        controller: serialNo,
+                                      child:DropdownButtonHideUnderline(
+                                        child: DropdownSearch<UnitQtyMasterModel>(
+                                          items: unitQtyType,
+                                          mode: Mode.MENU,
+                                          showSearchBox:false,
+                                          dropdownSearchDecoration: InputDecoration(labelText: selectedCapacity,labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
+                                          itemAsString: (UnitQtyMasterModel? u) => u!.description!.toString(),
+                                          onChanged: (UnitQtyMasterModel? data) { print(data!.toString());
+                                          selectedCapacity = data.description!;
+                                          selectedCapacityId = data.key!;
+                                          setState(() {
+                                          });
+                                          },
+                                        ),
                                       )
                                   ),
 
@@ -276,14 +317,15 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                           borderRadius: BorderRadius.all(Radius.circular(5))
                                       ),
                                       child:DropdownButtonHideUnderline(
-                                        child: DropdownSearch<String>(
+                                        child: DropdownSearch<RefrigerantMasterModel>(
                                           items: gasType,
                                           mode: Mode.MENU,
                                           showSearchBox:false,
                                           dropdownSearchDecoration: InputDecoration(labelText: selectedGasType,labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
-                                          itemAsString: (String? u) => u!.toString(),
-                                          onChanged: (String? data) { print(data!.toString());
-                                          selectedGasType = data;
+                                          itemAsString: (RefrigerantMasterModel? u) => u!.description!.toString(),
+                                          onChanged: (RefrigerantMasterModel? data) { print(data!.toString());
+                                          selectedGasType = data.description!;
+                                          selectedGasTypeId = data.key!;
                                           setState(() {
                                           });
                                           },
@@ -400,21 +442,27 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
   }
 
   void _load() {
+    widget._inventoryAddBloc.add(ApplianceSubTypeEvent(widget.serviceList.userApplianceTypeCode!));
     widget._inventoryAddBloc.add(BrandEvent());
+
 
   }
 
   setAddInventoryData(){
     addInventoryModel.customerCode = widget.serviceList.customerCode;
     addInventoryModel.applianceTypeCode = widget.serviceList.userApplianceTypeCode;
+    addInventoryModel.applianceSubTypeCode = selectedSubApplianceId;
+    addInventoryModel.unitQuantityCode = selectedCapacityId;
+    addInventoryModel.refrigerantCode = selectedGasTypeId;
     addInventoryModel.brandCode = selectedBrandId;
     addInventoryModel.baseWarrantyYears = 0;
     addInventoryModel.extendedWarrantyYears = 0;
     addInventoryModel.applianceinWarranty = isWarrenty;
     addInventoryModel.serialNumber = serialNo.text.toString();
-    addInventoryModel.manufacturingDate = '';
+    addInventoryModel.manufacturingDate = '2022-10-05T15:20:54.078Z';
     addInventoryModel.userApplianceUniqueCode = qrText.toString().replaceAll('PYSAPP', '');
     addInventoryModel.serviceRequestCode = widget.serviceList.serviceRequestCode;
+    addInventoryModel.modelNumber = modellNo.text.toString();
 
     widget._inventoryAddBloc.add(AddInventoryEvent(addInventoryModel));
   }

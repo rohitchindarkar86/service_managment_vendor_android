@@ -39,11 +39,34 @@ class LoadingInventoryAddState extends InventoryAddState {
 
 }
 
+class SuccessSubApplianceFetch extends InventoryAddState {
+  SuccessSubApplianceFetch();
+
+  @override
+  String toString() => 'SuccessSubApplianceFetch';
+
+}
 class SuccessBrandFetch extends InventoryAddState {
   SuccessBrandFetch();
 
   @override
   String toString() => 'InventoryAddState';
+
+}
+
+class UnitQuantityFetch extends InventoryAddState {
+  UnitQuantityFetch();
+
+  @override
+  String toString() => 'InventoryAddState';
+
+}
+
+class RefrigerantFetch extends InventoryAddState {
+  RefrigerantFetch();
+
+  @override
+  String toString() => 'RefrigerantState';
 
 }
 

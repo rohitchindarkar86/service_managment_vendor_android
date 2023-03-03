@@ -122,7 +122,7 @@ class ServiceRepository {
             'Authorization': 'Bearer ${AppConstant.userTokken}',
           },
           apiMode: "POST",
-          apiUrl: AppConstant.ADD_INVENTORY_REQUEST,
+          apiUrl: AppConstant. ADD_INVENTORY_REQUEST,
           body: bodyJson.toString(),
           onTimeOut: () {
             throw Exception('Timeout occurred');

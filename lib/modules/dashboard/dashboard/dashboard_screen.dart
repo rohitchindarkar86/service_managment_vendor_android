@@ -18,7 +18,6 @@ import '../../../models/service_request/service_list_model.dart';
 import '../../../widgets/AppLoader.dart';
 import '../../../widgets/LogoutOverlay.dart';
 import '../../../widgets/dashboard/shimmer_service_listing_widget.dart';
-import '../../admin/admin_dashboard/admin_dashboard_page.dart';
 import '../../profile/view_profile/view_profile_screen.dart';
 import '../reached_service_details/reached_service_details_page.dart';
 
@@ -81,10 +80,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                   'Invalid User.Please try with Technician Login', HexColor('FFFFFF'), 4);
               AppUtility.logoutUser(context);
           }
-          if (currentState is AdminLoginState) {
-              isApiCall = false;
-              Navigator.pushReplacementNamed(context, AdminDashboardPage.routeName);
-          }
+
           if (currentState is UserSuccessState) {
             techName = (userDetailsModel?.technicianName)!;
             getUserData();

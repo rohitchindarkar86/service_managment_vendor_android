@@ -73,7 +73,6 @@ class UserDetailsApiLoginEvent extends DashboardEvent {
           if(response.status == 'S') {
 
             var jsonResponse = response.data;
-            print(jsonResponse[0]);
             sharedPreferences = await SharedPreferences.getInstance();
             sharedPreferences.setString("userDetails",  json.encode(jsonResponse[0]));
             UserDetailsModel userDetailsModel1 = UserDetailsModel.fromJson(jsonResponse[0]);
@@ -88,8 +87,6 @@ class UserDetailsApiLoginEvent extends DashboardEvent {
           }
 
 
-        }else if(jsonResponse['userTypeCode'] ==1){
-          yield AdminLoginState();
         }else{
           yield UserInvalidState();
         }
@@ -110,7 +107,6 @@ class ServiceListEvent extends DashboardEvent {
   @override
   Stream<DashboardState> applyAsync({DashboardState? currentState, DashboardBloc? bloc}) async* {
     try {
-      SharedPreferences sharedPreferences;
       yield LoadingDashboardState(1);
       var body = {
         "code": userDetailsModel?.vendorUserCode
@@ -141,7 +137,6 @@ class UpdateServiceRequestEvent extends DashboardEvent {
   @override
   Stream<DashboardState> applyAsync({DashboardState? currentState, DashboardBloc? bloc}) async* {
     try {
-      SharedPreferences sharedPreferences;
       yield LoadingDashboardState(0);
       var body = {
         // "code": userDetailsModel?.userCode

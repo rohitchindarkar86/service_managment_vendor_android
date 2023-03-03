@@ -107,8 +107,8 @@ class _EntryApplicationState extends State<EntryApplication>
     return ValueListenableBuilder(
       valueListenable: Hive.box(THEME_PREF_STORAGE_BOX).listenable(),
       builder: (context, box1, widget) {
-        var themeMode;
-        themeMode = box.get("themeMode", defaultValue: true);
+        // var themeMode;
+        // themeMode = box.get("themeMode", defaultValue: true);
         return Material(
           child: Directionality(
             textDirection: ui.TextDirection.ltr,
@@ -124,7 +124,7 @@ class _EntryApplicationState extends State<EntryApplication>
                     debugShowCheckedModeBanner: false,
                     initialRoute: this.initialRoute,
                     onGenerateRoute: RouteGenerator.generateRoute,
-                    themeMode: themeMode ? ThemeMode.light : ThemeMode.light,
+                    // themeMode: themeMode ? ThemeMode.light : ThemeMode.light,
                     theme: lightTheme,
                     darkTheme: darkTheme,
                     localizationsDelegates: context.localizationDelegates,

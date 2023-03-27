@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as developer;
+import 'dart:io';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vendor_app/modules/dashboard/dashboard/index.dart';
 import 'package:meta/meta.dart';
+import 'package:vendor_app/utility/app_constant.dart';
 
 import '../../../models/apiResponseHandlerModel.dart';
 import '../../../models/login/user_details_model.dart';
@@ -153,6 +155,32 @@ class UpdateServiceRequestEvent extends DashboardEvent {
         yield ErrorDashboardState( response.message ??"Something went wrong please try after sometimes");
       }else{
         yield ErrorDashboardState( "Something went wrong please try after sometimes");
+      }
+
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadTechnicianLoginEvent', error: _, stackTrace: stackTrace);
+      yield ErrorDashboardState( _.toString());
+    }
+  }
+}
+
+class UpdateUserFCMEvent extends DashboardEvent {
+
+
+  UpdateUserFCMEvent();
+  @override
+  Stream<DashboardState> applyAsync({DashboardState? currentState, DashboardBloc? bloc}) async* {
+    try {
+
+      var body = {
+        "userCode": userDetailsModel?.userCode,
+        "userTypeCode": 3,
+        "deviceOSTypeCode": Platform.isAndroid ? 1 : 2,
+        "deviceFCMToken":AppConstant.fcmTokken,
+      };
+      if(AppConstant.fcmTokken != '') {
+        ApiResponseHandlerModel response = await ServiceRepository
+            .userFCMTokenUpdateEvent(body);
       }
 
     } catch (_, stackTrace) {

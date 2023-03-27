@@ -88,7 +88,8 @@ class PaymentScreenState extends State<PaymentScreen> {
           }
           if (currentState is UpdateSuccessServiceStatusState) {
             isApiCall = false;
-            Navigator.pushNamedAndRemoveUntil(context, DashboardPage.routeName, (route) => false);
+            Navigator.pushReplacementNamed(context, SuccessRequestPage.routeName);
+            // Navigator.pushNamedAndRemoveUntil(context, DashboardPage.routeName, (route) => false);
           }
           if (currentState is PaymentDetailsState) {
             isApiCall = false;
@@ -333,7 +334,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                   if(_paymentRadioValue1 == 0){
-                                    Navigator.pushNamed(context, SuccessRequestPage.routeName);
+                                    widget._paymentBloc.add(UpdateServiceRequestStatusEvent(widget.serviceList.serviceRequestCode!,11));
                                   }else {
                                     widget._paymentBloc.add(
                                         PaymentGenerateRequestEvent(

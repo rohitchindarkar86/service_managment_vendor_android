@@ -803,7 +803,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
       ),
     ):Column(
       children: [
-        (orderBookListModels?.length ??0) != 0? Container(
+        Container(
             padding: EdgeInsets.only(top: 8,left: 16,right: 16),
             width: MediaQuery.of(context).size.width,
             child: Row(
@@ -814,8 +814,8 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                   alignment: Alignment.centerLeft,
                   child: Text('Appliance Order History',maxLines:1,style: TextStyle(fontFamily: Style().font_bold(),fontSize: 14,color: Colors.black),),),
               ],
-            )):SizedBox(),
-        Container(
+            )),
+        (orderBookListModels!=null && orderBookListModels!.isNotEmpty) ? Container(
           child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
@@ -823,6 +823,9 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
             itemBuilder: complaintList,
             itemCount: orderBookListModels?.length ??0,
           ),
+        ):Container(
+          margin: EdgeInsets.only(top: 16),
+          child: const Text('No Records Found'),
         ),
       ],
     );
@@ -929,4 +932,6 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
 
     );
   }
+
+
 }

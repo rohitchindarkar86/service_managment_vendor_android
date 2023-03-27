@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:vendor_app/models/network_helper_error_model.dart';
 import 'package:vendor_app/utility/app_constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:dio/adapter.dart';
 
 import 'network_connectivity.dart';
 
@@ -130,7 +131,12 @@ class NetworkHelper {
     }
 
     try {
-
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (HttpClient client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
       final response = await dio.request(apiUrl!,
         data: body,
         options: Options(

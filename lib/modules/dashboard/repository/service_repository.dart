@@ -138,7 +138,7 @@ class ServiceRepository {
 
 
 
-        if(jsonResponse['isAddSuccess']) {
+        if(jsonResponse['isMapSuccess']) {
           apiResponseHandler.data = jsonResponse;
           apiResponseHandler.message = 'success';
           apiResponseHandler.status = "S";
@@ -192,12 +192,19 @@ class ServiceRepository {
         var jsonResponse = response.data;
 
         if(jsonResponse != null  ) {
-          List<OrderBookListModel> orderBookListModel = List<OrderBookListModel>.from(
-              jsonResponse.map((x) => OrderBookListModel.fromJson(x)));
-          apiResponseHandler.data = orderBookListModel;
-          apiResponseHandler.message = 'success';
-          apiResponseHandler.status = "S";
-
+          if(jsonResponse is String){
+            List<OrderBookListModel> orderBookListModel = [];
+            apiResponseHandler.data = orderBookListModel;
+            apiResponseHandler.message = 'success';
+            apiResponseHandler.status = "S";
+          }else {
+            List<OrderBookListModel> orderBookListModel = List<
+                OrderBookListModel>.from(
+                jsonResponse.map((x) => OrderBookListModel.fromJson(x)));
+            apiResponseHandler.data = orderBookListModel;
+            apiResponseHandler.message = 'success';
+            apiResponseHandler.status = "S";
+          }
           return apiResponseHandler;
         }else{
           apiResponseHandler.data = jsonResponse;
@@ -220,9 +227,51 @@ class ServiceRepository {
     }
   }
 
+  //Updated FCM token
+  static Future<dynamic> userFCMTokenUpdateEvent(bodyJson) async {
+    bodyJson =  json.encode(bodyJson);
+    var apiResponseHandler =  ApiResponseHandlerModel();
+    try {
+      final response = await NetworkHelper.CallApiServer(
+          headers:{
+            "accept": "*/*",
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ${AppConstant.userTokken}',
+          },
+          apiMode: "POST",
+          apiUrl: AppConstant.ADD_USER_FCM_TOKEN,
+          body: bodyJson.toString(),
+          onTimeOut: () {
+            throw Exception('Timeout occurred');
+          });
+      var jsonResponse;
+      if (response.statusCode == 400) {
+        apiResponseHandler.data = [];
+        apiResponseHandler.message = response.message;
+        apiResponseHandler.status = "F";
+        return apiResponseHandler;
+      } else if (response.statusCode == 200) {
 
+        var jsonResponse = response.data;
 
+        apiResponseHandler.data = jsonResponse;
+        apiResponseHandler.message = 'success';
+        apiResponseHandler.status = "S";
 
-
+        return apiResponseHandler;
+      } else {
+        apiResponseHandler.data = jsonResponse;
+        apiResponseHandler.message = "fail";
+        apiResponseHandler.status = "F";
+        return apiResponseHandler;
+      }
+    } catch (e) {
+      apiResponseHandler.data = [];
+      apiResponseHandler.message =
+      "Something went wrong, please try after some time";
+      apiResponseHandler.status = "E";
+      return apiResponseHandler;
+    }
+  }
 
 }

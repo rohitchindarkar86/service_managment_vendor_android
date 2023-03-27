@@ -51,6 +51,9 @@ class DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(seconds: 2), () => 100,).then((value) {
+      AppUtility.appUpdateDialog(context: context);
+    });
     _load();
   }
 
@@ -86,6 +89,7 @@ class DashboardScreenState extends State<DashboardScreen> {
             getUserData();
             isApiCall = false;
             widget._dashboardBloc.add(ServiceListEvent());
+            widget._dashboardBloc.add(UpdateUserFCMEvent());
           }
           if (currentState is ServiceListingState) {
             isApiCall = false;
@@ -439,7 +443,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                         Container(
                           alignment:Alignment.centerLeft,
                           child: Text(
-                            'Service Date:-  ${serviceList?[index].scheduledTimeFrom}',
+                            'Service Date:-  ${serviceList?[index].scheduledTimeFrom} - ${serviceList?[index].scheduledTimeTill?.split(' ')[1].toString()}',
                             style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
                           ) ,
                         ),
@@ -976,9 +980,7 @@ class DashboardScreenState extends State<DashboardScreen> {
         widget._dashboardBloc.add(UserDetailsApiLoginEvent());
       } else {
         String? jsonResponse = sharedPreferences?.getString("userDetails");
-        print("sdfsdfsdf:-" + jsonResponse.toString());
         var valueMap = json.decode(jsonResponse!);
-        print("sdfsdfsdfsdasdas:-" + valueMap.toString());
         UserDetailsModel userDetailsModel = UserDetailsModel.fromJson(valueMap);
         setUserDetailsModel(userDetailsModel);
         techName = (userDetailsModel.technicianName)!;
@@ -987,6 +989,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
         });
         widget._dashboardBloc.add(ServiceListEvent());
+        widget._dashboardBloc.add(UpdateUserFCMEvent());
       }
     }catch(e){
       print(e.toString());

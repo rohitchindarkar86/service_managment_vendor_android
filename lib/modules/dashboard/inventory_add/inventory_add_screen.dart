@@ -464,7 +464,7 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
     addInventoryModel.serviceRequestCode = widget.serviceList.serviceRequestCode;
     addInventoryModel.modelNumber = modellNo.text.toString();
 
-    widget._inventoryAddBloc.add(AddInventoryEvent(addInventoryModel));
+    widget._inventoryAddBloc.add(AddInventoryEvent(addInventoryModel,widget.serviceList));
   }
 
    validateAddInventory(){

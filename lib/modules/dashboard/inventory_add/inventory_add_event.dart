@@ -8,6 +8,7 @@ import 'package:meta/meta.dart';
 import '../../../models/add_inventory/add_inventory_model.dart';
 import '../../../models/apiResponseHandlerModel.dart';
 import '../../../models/login/user_details_model.dart';
+import '../../../models/service_request/service_list_model.dart';
 import '../../../utility/app_utility.dart';
 import '../../login/repository/master_repository.dart';
 import '../repository/service_repository.dart';
@@ -153,7 +154,8 @@ class UnitQuantityMasterEvent extends InventoryAddEvent {
 
 class AddInventoryEvent extends InventoryAddEvent {
   AddInventoryModel addInventoryModel = AddInventoryModel();
-  AddInventoryEvent (this.addInventoryModel);
+  ServiceListModel serviceListModel;
+  AddInventoryEvent (this.addInventoryModel,this.serviceListModel);
   @override
   Stream<InventoryAddState> applyAsync(
       {InventoryAddState? currentState, InventoryAddBloc? bloc}) async* {
@@ -161,6 +163,9 @@ class AddInventoryEvent extends InventoryAddEvent {
 
       yield LoadingInventoryAddState(1);
       var bodyJson ={
+        "serviceRequestCode":serviceListModel.serviceRequestCode,
+        "serviceRequestDetailCode":serviceListModel.serviceRequestDetailCode,
+        "userApplianceCode":serviceListModel.userApplianceCode,
         "customerCode": addInventoryModel.customerCode,
         "applianceTypeCode": addInventoryModel.applianceTypeCode,
         "applianceSubTypeCode": addInventoryModel.applianceSubTypeCode,

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../utility/hex_color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:launch_review/launch_review.dart';
 
 import '../modules/login/technician_login/technician_login_page.dart';
 import '../style/style.dart';
+import 'app_constant.dart';
 
 class AppUtility{
 
@@ -104,10 +106,46 @@ class AppUtility{
       case 10:
         return HexColor('#A9DFBF');
       case 11:
-        return HexColor('#C0392B');
+        return HexColor('#2ECC71');
 
       default:
         return HexColor('#D6DBDF');
     }
   }
+
+  static appUpdateDialog( {required BuildContext context}){
+
+    if(AppConstant.isForceUpdate && (AppConstant.appVersionCode<AppConstant.remoteConfigAppVersionCode)){
+      //update your app
+    }else {
+      return null;
+    }
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Place you Service Technician Update',style: TextStyle(fontWeight: FontWeight.normal),),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('A new version of app is available,',style: TextStyle(fontWeight: FontWeight.w300),),
+                Text('with new & extra features.',style: TextStyle(fontWeight: FontWeight.w300),),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Update'),
+              onPressed: () {
+                LaunchReview.launch(androidAppId: AppConstant.appLink,
+                    iOSAppId: '');
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

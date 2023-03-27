@@ -52,6 +52,10 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
     super.initState();
     // EmailController.text ='singhsk39@gmail.com';
     // PasswordController.text ='use4Test';
+    Future.delayed(const Duration(seconds: 2), () => 100,).then((value) {
+      AppUtility.appUpdateDialog(context: context);
+    });
+
     _load();
 
     emailIdFocusNode.addListener(() {

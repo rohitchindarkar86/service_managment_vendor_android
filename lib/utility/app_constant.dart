@@ -27,11 +27,12 @@ class AppConstant{
   static String GET_TECHNICIAN = server_address + "api/Technician/GetTechnician";
 
   //User Details
+  static String ADD_USER_FCM_TOKEN = server_address + "api/User/AddUserFCMToken";
 
   //Service Details
   static String GET_SERVICE_REQUEST = server_address + "api/ServiceRequest/GetServiceRequestsForTechnician";
   static String UPDATE_SERVICE_REQUEST = server_address + "api/ServiceRequest/UpdateServiceRequestStatus";
-  static String ADD_INVENTORY_REQUEST = server_address + "api/Customer/AddUserAppliance";
+  static String ADD_INVENTORY_REQUEST = server_address + "api/ServiceRequest/UpdateServiceRequestMapAppliance";
   static String SERVICE_DETAILS_REQUEST = server_address + "api/ServiceRequest/GetServiceRequestsForApplianceWithDetailsByGUID";
   static String SERVICE_REQUEST_ADD_PARTS = server_address + "api/ServiceRequest/UpdateServiceRequestAddParts";
 
@@ -49,4 +50,13 @@ class AppConstant{
   static String generate_qr_code = server_address + "api/Utility/GenerateApplianceQRCodePDF";
 
   static String userTokken ='';
+  static String fcmTokken ='';
+
+  //remote Config
+  static bool isForceUpdate = false;
+  static int appVersionCode = 1;
+  static int remoteConfigAppVersionCode = 1;
+
+  //Playstore link
+  static String appLink = 'https://play.google.com/store/apps/details?id=com.shakvan_technologies.pys_tech';
 }

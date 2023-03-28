@@ -9,6 +9,7 @@ import 'modules/login/technician_login/technician_login_page.dart';
 import 'modules/payment/confirm_payment/confirm_payment_page.dart';
 import 'modules/payment/payment/payment_page.dart';
 import 'modules/payment/service_report/service_report_page.dart';
+import 'modules/profile/notification/notification/notification_page.dart';
 import 'modules/profile/view_profile/view_profile_page.dart';
 import 'modules/scanner/qr_scanner.dart';
 import 'modules/splash_screen/splash_screen.dart';
@@ -93,6 +94,11 @@ class RouteGenerator {
           builder: (context) => InventoryAddPage(),
           settings: settings
           // settings omitted to hide route name
+        );
+      case NotificationPage.routeName:
+        return MaterialPageRoute(
+            builder: (builder) => NotificationPage(),
+            settings: settings
         );
       default:
         return errorRoute();

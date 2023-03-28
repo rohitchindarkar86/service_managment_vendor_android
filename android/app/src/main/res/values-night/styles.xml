@@ -15,5 +15,5 @@
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
-    <color name="NotificationColor">#F44336</color>
+    <color name="NotificationColor">#ED8F2D</color>
 </resources>

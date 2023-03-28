@@ -49,6 +49,9 @@ class AppConstant{
   //Admin
   static String generate_qr_code = server_address + "api/Utility/GenerateApplianceQRCodePDF";
 
+  //Notification
+  static String USER_NOTIFICATION = server_address + "api/Notification/GetNotificationHistory";
+
   static String userTokken ='';
   static String fcmTokken ='';
 

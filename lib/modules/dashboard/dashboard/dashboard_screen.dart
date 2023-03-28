@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vendor_app/generated/locale_keys.g.dart';
 import 'package:vendor_app/modules/dashboard/dashboard/index.dart';
+import 'package:vendor_app/modules/profile/notification/notification/index.dart';
 import 'package:vendor_app/style/style.dart';
 import 'package:vendor_app/utility/app_utility.dart';
 import 'package:vendor_app/utility/hex_color.dart';
@@ -171,7 +172,9 @@ class DashboardScreenState extends State<DashboardScreen> {
                                           },
                                           child: Icon(Icons.logout,size: 25,color: Colors.white,)),
                                     ),
-                                    Icon(Icons.notifications_none_sharp,size: 25,color: Colors.white,),
+                                    IconButton(icon :new Icon(Icons.notifications_none_sharp),color: Colors.white, onPressed: () {
+                                      Navigator.pushNamed(context, NotificationPage.routeName);
+                                    },),
                                   ],
                                 )
 

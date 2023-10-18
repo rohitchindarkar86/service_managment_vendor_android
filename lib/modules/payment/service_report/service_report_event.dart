@@ -116,15 +116,15 @@ class ActionMasterEvent extends ServiceReportEvent {
 }
 
 class PartsReplacedMasterEvent extends ServiceReportEvent {
-
-  PartsReplacedMasterEvent();
+  int applianceCode;
+  PartsReplacedMasterEvent(this.applianceCode);
   @override
   Stream<ServiceReportState> applyAsync(
       {ServiceReportState? currentState, ServiceReportBloc? bloc}) async* {
     try {
       // yield LoaderState();
       var body = {
-        "code": 0
+        "code": applianceCode
       };
       ApiResponseHandlerModel response = await MasterRepository.partsReplacedEvent(body);
 

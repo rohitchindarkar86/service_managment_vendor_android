@@ -48,6 +48,7 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
   List<SubApplianceMasterModel>? subApplianceBrandData;
   String? qrText = '';
   TextEditingController serialNo = TextEditingController();
+  TextEditingController serialNoOutdoor = TextEditingController();
   TextEditingController modellNo = TextEditingController();
 
   AddInventoryModel addInventoryModel = AddInventoryModel();
@@ -266,6 +267,26 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                         controller: serialNo,
                                       )
                                   ),
+                                  selectedSubApplianceData  == "Split Air Conditioning"?SizedBox(height: 12,):const SizedBox(),
+                                  selectedSubApplianceData  == "Split Air Conditioning"?Container(
+                                      height: 35,
+                                      alignment: Alignment.centerLeft,
+                                      margin: EdgeInsets.only(left: 12),
+                                      child: Text('Serial No (Outdoor Unit)',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)):const SizedBox(),
+                                  selectedSubApplianceData  == "Split Air Conditioning"?Container(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width,
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.only(left: 4),
+                                      margin: EdgeInsets.only(left: 12,right: 12),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: HexColor('464646').withOpacity(0.3),),
+                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                      ),
+                                      child:TextField(
+                                        controller: serialNoOutdoor,
+                                      )
+                                  ):const SizedBox(),
 
                                   SizedBox(height: 12,),
                                   Container(

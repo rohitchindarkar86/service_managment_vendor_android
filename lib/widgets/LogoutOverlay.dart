@@ -72,11 +72,13 @@ class LogoutOverlayState extends State<LogoutOverlay>
                             child: ButtonTheme(
                                 height: 35.0,
                                 minWidth: 110.0,
-                                child: RaisedButton(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                  splashColor: Colors.white.withAlpha(40),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: HexColor('ED8F2D'),
+                                      // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                      textStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
                                   child: Text(
                                     '${widget.fromScreen == 'Logout'?"Logout":LocaleKeys.ExitExitBtn.tr()}',
                                     textAlign: TextAlign.center,
@@ -97,11 +99,7 @@ class LogoutOverlayState extends State<LogoutOverlay>
                               child:  ButtonTheme(
                                   height: 35.0,
                                   minWidth: 110.0,
-                                  child: RaisedButton(
-                                    color: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5.0)),
-                                    splashColor: Colors.white.withAlpha(40),
+                                  child: ElevatedButton(
                                     child: Text(
                                       '${LocaleKeys.ExitCancelBtn.tr()}',
                                       textAlign: TextAlign.center,
@@ -113,6 +111,12 @@ class LogoutOverlayState extends State<LogoutOverlay>
                                     onPressed: () {
                                      Navigator.pop(context);
                                     },
+                            style: ElevatedButton.styleFrom(
+                                primary: HexColor('ED8F2D'),
+                                // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                textStyle: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
                                   ))
                           ),
                         ],

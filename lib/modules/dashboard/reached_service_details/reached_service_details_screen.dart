@@ -338,7 +338,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                           ],
                         ),
                       ):SizedBox(),
-                      widget.serviceList.serviceStatusSysCode == 9  ? Container(
+                      widget.serviceList.serviceStatusSysCode == 9 ||widget.serviceList.serviceStatusSysCode == 5 ? Container(
                         margin: EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [

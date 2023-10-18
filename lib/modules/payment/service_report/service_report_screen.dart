@@ -112,7 +112,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
             _actionitems = _action
                 .map((action) => MultiSelectItem<ResultModel>(action, action.name))
                 .toList();
-            widget._serviceReportBloc.add(PartsReplacedMasterEvent());
+            widget._serviceReportBloc.add(PartsReplacedMasterEvent(widget.serviceList.userApplianceTypeCode!));
           }
           if (currentState is SparePartsState) {
 

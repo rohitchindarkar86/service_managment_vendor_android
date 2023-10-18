@@ -1,4 +1,4 @@
-package com.shakvan_technologies.pys_tech
+package com.shakvan_technologies.pys_technician
 
 import io.flutter.embedding.android.FlutterActivity
 

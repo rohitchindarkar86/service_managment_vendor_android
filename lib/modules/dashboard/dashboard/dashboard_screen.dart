@@ -541,14 +541,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                                   ElevatedButton(
                                     child: Text(' Start Work '),
                                     onPressed: () {
-                                      // int selectedService = serviceList?[index].serviceRequestCode ?? 0;
-                                      // InProcessServiceBottomSheet(context: context,height: height! *0.4, serviceRequestCode: selectedService);
-                                      Navigator.pushNamed(context, ReachedServiceDetailsPage.routeName,arguments: {'selectedRequest':serviceList?[index]}).then((value) {
-                                        if(value.toString() == 'updateList'){
-                                          widget._dashboardBloc.add(ServiceListEvent());
-                                        }
-                                      });
-
+                                      int selectedService = serviceList?[index].serviceRequestCode ?? 0;
+                                      InProcessServiceBottomSheet(context: context,height: height! *0.40, serviceRequestCode: selectedService);
                                     },
                                     style: ElevatedButton.styleFrom(
                                         primary: HexColor('008d00'),

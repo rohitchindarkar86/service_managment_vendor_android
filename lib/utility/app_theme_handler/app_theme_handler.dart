@@ -22,9 +22,9 @@ class AppThemeHandler {
       box = Hive.box(THEME_PREF_STORAGE_BOX);
       await box.put(
           "themeMode",
-          SchedulerBinding.instance?.window.platformBrightness == Brightness.dark
+          SchedulerBinding.instance.window.platformBrightness == Brightness.dark
               ? false
-              : true);
+              : false);
       return;
     }
     await Hive.openBox(THEME_PREF_STORAGE_BOX);
@@ -38,16 +38,15 @@ class AppThemeHandler {
   }
 
   Future<void> _checkThemePref() async {
-    if ((_androidSdkVersion != null && _androidSdkVersion >= 29) ||
-        (_iosVersion != null &&
-            _iosVersion.isNotEmpty &&
+    if ((_androidSdkVersion >= 29) ||
+        (_iosVersion.isNotEmpty &&
             double.parse(_iosVersion) >= 13.0)) {
        box = Hive.box(THEME_PREF_STORAGE_BOX);
       await box.put(
           "themeMode",
-          SchedulerBinding.instance?.window.platformBrightness == Brightness.dark
+          SchedulerBinding.instance.window.platformBrightness == Brightness.dark
               ? false
-              : true);
+              : false);
     }
   }
 }

@@ -180,7 +180,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                               ),
                                               new Text(
                                                 'Cash',
-                                                style: new TextStyle(fontSize: 16.0),
+                                                style: new TextStyle(fontSize: 16.0,color: HexColor('000000'),),
                                               ),
                                               new Radio(
                                                 value: 1,
@@ -191,9 +191,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                               ),
                                               new Text(
                                                 'Online',
-                                                style: new TextStyle(
-                                                  fontSize: 16.0,
-                                                ),
+                                                style: new TextStyle(fontSize: 16.0,color: HexColor('000000'),),
                                               ),
 
                                             ],

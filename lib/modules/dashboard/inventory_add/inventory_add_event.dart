@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer' as developer;
 
 import 'package:vendor_app/modules/dashboard/inventory_add/index.dart';
@@ -177,6 +176,7 @@ class AddInventoryEvent extends InventoryAddEvent {
         "extendedWarrantyYears": addInventoryModel.extendedWarrantyYears,
         "applianceinWarranty": addInventoryModel.applianceinWarranty,
         "serialNumber": addInventoryModel.serialNumber,
+        "serialNumber_2": addInventoryModel.serialNumber_2,
         "manufacturingDate": addInventoryModel.manufacturingDate,
         "userApplianceUniqueCode": addInventoryModel.userApplianceUniqueCode
       };

@@ -10,6 +10,7 @@ class AddInventoryModel{
   int? extendedWarrantyYears = 0;
   bool? applianceinWarranty = true;
   String? serialNumber = "";
+  String? serialNumber_2 = "";
   String? manufacturingDate = "2022-10-05T15:20:54.078Z";
   String? userApplianceUniqueCode = "";
   String? modelNumber = "";
@@ -17,7 +18,7 @@ class AddInventoryModel{
   int? serviceRequestCode = 0;
 
 
-  AddInventoryModel({this.customerCode,this.applianceTypeCode,this.applianceSubTypeCode,this.unitQuantityCode,this.refrigerantCode,this.brandCode,this.baseWarrantyYears,this.extendedWarrantyYears,this.applianceinWarranty,this.serialNumber,this.manufacturingDate,this.userApplianceUniqueCode,this.serviceRequestCode,this.modelNumber});
+  AddInventoryModel({this.customerCode,this.applianceTypeCode,this.applianceSubTypeCode,this.unitQuantityCode,this.refrigerantCode,this.brandCode,this.baseWarrantyYears,this.extendedWarrantyYears,this.applianceinWarranty,this.serialNumber,this.serialNumber_2,this.manufacturingDate,this.userApplianceUniqueCode,this.serviceRequestCode,this.modelNumber});
 
   Map<String, dynamic> toJson() => {
     'customerCode': customerCode,
@@ -30,6 +31,7 @@ class AddInventoryModel{
     'extendedWarrantyYears': extendedWarrantyYears,
     'applianceinWarranty': applianceinWarranty,
     'serialNumber': serialNumber,
+    'serialNumber_2': serialNumber_2,
     'manufacturingDate': manufacturingDate,
     'userApplianceUniqueCode': userApplianceUniqueCode,
     'modelNumber': modelNumber,

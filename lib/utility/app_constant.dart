@@ -2,8 +2,9 @@
 class AppConstant{
 
   static bool isLive =false;
-  static String live_server_address = '';
-  static String uat_server_address = 'https://dev.placeyourservice.com/';
+  static String live_server_address = 'https://portal.placeyourservice.com/';
+  static String uat_server_address = 'https://uat.placeyourservice.com/';
+
   static String server_address = isLive ?live_server_address:uat_server_address;
   static int networkTimeOut = 60;
 

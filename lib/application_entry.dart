@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:vendor_app/app_themes/dark_theme/dark_theme.dart';
 import 'package:vendor_app/app_themes/light_theme/light_theme.dart';
 import 'package:vendor_app/route_generator.dart';
 import 'package:vendor_app/utility/app_theme_handler/app_theme_handler.dart';
@@ -23,7 +22,7 @@ class EntryApplication extends StatefulWidget {
 
   @override
   _EntryApplicationState createState() {
-    return _EntryApplicationState(this.initialRoute);
+    return _EntryApplicationState(initialRoute);
   }
 }
 
@@ -35,7 +34,7 @@ class _EntryApplicationState extends State<EntryApplication>
   @override
   void initState()  {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -86,11 +85,10 @@ class _EntryApplicationState extends State<EntryApplication>
   String? token;
   getToken() async {
     token = (await FirebaseMessaging.instance.getToken())!;
-    print("Token:- "+token.toString());
   }
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -116,11 +114,11 @@ class _EntryApplicationState extends State<EntryApplication>
                   right: 0,
                   child: MaterialApp(
                     debugShowCheckedModeBanner: false,
-                    initialRoute: this.initialRoute,
+                    initialRoute:initialRoute,
                     onGenerateRoute: RouteGenerator.generateRoute,
                     // themeMode: themeMode ? ThemeMode.light : ThemeMode.light,
                     theme: lightTheme,
-                    darkTheme: darkTheme,
+                    darkTheme: lightTheme,
                     localizationsDelegates: context.localizationDelegates,
                     supportedLocales: context.supportedLocales,
                     locale: context.locale,
@@ -143,8 +141,9 @@ class _EntryApplicationState extends State<EntryApplication>
         CustomLogPrinter.printDebugLog('appLifeCycleState inactive');
         break;
       case AppLifecycleState.resumed:
-        if (kReleaseMode)
-        CustomLogPrinter.printDebugLog('appLifeCycleState resumed');
+        if (kReleaseMode) {
+          CustomLogPrinter.printDebugLog('appLifeCycleState resumed');
+        }
         break;
       case AppLifecycleState.paused:
         CustomLogPrinter.printDebugLog('appLifeCycleState paused');
@@ -163,7 +162,6 @@ class _EntryApplicationState extends State<EntryApplication>
     showFlutterNotification(message);
     // If you're going to use other Firebase services in the background, such as Firestore,
     // make sure you call `initializeApp` before using other Firebase services.
-    print('Handling a background message ${message.messageId}');
   }
 
   /// Create a [AndroidNotificationChannel] for heads up notifications

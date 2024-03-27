@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -18,7 +17,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 
 final AppThemeHandler appThemeHandler = AppThemeHandler();
- AndroidNotificationChannel channel = AndroidNotificationChannel(
+ AndroidNotificationChannel channel = const AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
   importance: Importance.high,
@@ -32,7 +31,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
 }
 
 Future<void> setupFlutterNotifications() async {
@@ -86,7 +84,6 @@ Future<void> main() async{
   );
   FirebaseMessaging.instance.getToken().then((token){
     AppConstant.fcmTokken = token!;
-    print("token is $token");
   });
 
   await application();
@@ -103,7 +100,7 @@ Future<void> application() async{
     await appThemeHandler.getApiLevel();
 
     runApp(EasyLocalization(
-        child: EntryApplication('/splash'),
+        child: const EntryApplication('/splash'),
         supportedLocales: L10n.locales,
         fallbackLocale: L10n.locales.first,
         path: 'assets/translations')

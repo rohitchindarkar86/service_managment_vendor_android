@@ -480,6 +480,7 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
     addInventoryModel.extendedWarrantyYears = 0;
     addInventoryModel.applianceinWarranty = isWarrenty;
     addInventoryModel.serialNumber = serialNo.text.toString();
+    addInventoryModel.serialNumber_2 = serialNoOutdoor.text.toString();
     addInventoryModel.manufacturingDate = '2022-10-05T15:20:54.078Z';
     addInventoryModel.userApplianceUniqueCode = qrText.toString().replaceAll('PYSAPP', '');
     addInventoryModel.serviceRequestCode = widget.serviceList.serviceRequestCode;

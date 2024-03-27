@@ -44,14 +44,14 @@ class ErrorServiceReportState extends ServiceReportState {
   List<Object> get props => [errorMessage];
 }
 
-class ActionTakenState extends ServiceReportState {
-  List<ActionTakenMasterModel> actionTakenMasterModel;
-  ActionTakenState(this.actionTakenMasterModel);
+class CheckReportState extends ServiceReportState {
+  List<ActionTakenMasterModel> checkReportMasterModel;
+  CheckReportState(this.checkReportMasterModel);
 
 }
-class ActionState extends ServiceReportState {
-  List<ActionTakenMasterModel> actionTakenMasterModel;
-  ActionState(this.actionTakenMasterModel);
+class StatusState extends ServiceReportState {
+  List<ActionTakenMasterModel> statusMasterModel;
+  StatusState(this.statusMasterModel);
 
 }
 class SparePartsState extends ServiceReportState {

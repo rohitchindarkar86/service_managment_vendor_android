@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vendor_app/modules/payment/payment/index.dart';
+import 'package:vendor_app/utility/app_constant.dart';
 import '../../../models/service_request/service_list_model.dart';
 import '../../../style/style.dart';
 import '../../../utility/app_utility.dart';
@@ -37,12 +38,15 @@ class PaymentScreenState extends State<PaymentScreen> {
   int _paymentRadioValue1=0;
   double? serviceAmt = 499;
   double? extraServiceAmt = 0;
-  double? totalAmt = 0;
+  double totalAmt = 0;
+  double gstAmt = 0;
+  double subTotalAmt = 0;
   bool isApiCall = false;
   bool isQRCode = false;
   String QrCodeUrl = '';
   String QrId = '';
   String btnText = 'Continue';
+  var orderDetails;
   @override
   void initState() {
     super.initState();
@@ -58,7 +62,7 @@ class PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PaymentBloc, PaymentState>(
-        listener: (Context, currentState) {
+        listener: (context, currentState) {
           if (currentState is UnPaymentState) {}
           if (currentState is ErrorPaymentState) {
             isApiCall = false;
@@ -93,7 +97,14 @@ class PaymentScreenState extends State<PaymentScreen> {
           }
           if (currentState is PaymentDetailsState) {
             isApiCall = false;
-            totalAmt = currentState.amount;
+            if(currentState.amountDetails != null && currentState.amountDetails.length > 0) {
+              orderDetails = currentState.amountDetails;
+              for (int i = 0; i < currentState.amountDetails.length; i++) {
+                subTotalAmt = subTotalAmt + (double.parse(currentState.amountDetails[i]['part_Price'].toString())+ double.parse(currentState.amountDetails[i]['labour_Price'].toString()));
+              }
+              gstAmt = (subTotalAmt * (AppConstant.gst_percentage! / 100));
+              totalAmt = subTotalAmt + gstAmt;
+            }
           }
 
         },
@@ -112,50 +123,45 @@ class PaymentScreenState extends State<PaymentScreen> {
               }
               return true;
             },
-            child: Container(
+            child: SizedBox(
               height: height,
 
               child: Stack(
                 children: [
                   Column(
                     children: [
-                      SizedBox(height: 16,),
+                      const SizedBox(height: 16,),
                       Expanded(
                           child:SingleChildScrollView(
                             child:!isQRCode ? Container(
-                              margin: EdgeInsets.symmetric(horizontal: 16),
+                              margin: const EdgeInsets.symmetric(horizontal: 16),
                               child: Column(
                                 children: [
 
-                                  SizedBox(height: 16,),
+                                  const SizedBox(height: 16,),
 
-                                  SizedBox(height: 6,),
+                                  const SizedBox(height: 6,),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
                                     color: Colors.white,
                                     child: Column(
                                       // mainAxisAlignment: MainAxisAlignment.start,
                                       // crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
 
-                                        SizedBox(height: 16,),
-                                        Container(
-
-                                          child:   Text(
-                                            'Rs. ${totalAmt}',
-                                            style: TextStyle(fontSize: 26 ,fontFamily: Style().font_regular(),color: HexColor('#000000').withOpacity(0.7)  ),
-                                          ),
+                                        const SizedBox(height: 16,),
+                                        Text(
+                                          '₹ ${totalAmt.toStringAsFixed(2)}',
+                                          style: TextStyle(fontSize: 26 ,fontFamily: Style().font_regular(),color: HexColor('#000000').withOpacity(0.7)  ),
                                         ),
-                                        SizedBox(height: 8,),
-                                        Container(
-
-                                          child:   Text(
-                                            'Total Amount Payable',
-                                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#000000').withOpacity(0.7)  ),
-                                          ),),
+                                        const SizedBox(height: 8,),
+                                        Text(
+                                          'Total Amount Payable',
+                                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#000000').withOpacity(0.7)  ),
+                                        ),
 
 
-                                        SizedBox(height: 36,),
+                                        const SizedBox(height: 36,),
                                         Container(
                                           alignment: Alignment.centerLeft,
                                           child:   Text(
@@ -169,7 +175,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: <Widget>[
-                                              new Radio(
+                                              Radio(
                                                 value: 0,
                                                 fillColor: MaterialStateColor.resolveWith((states) =>  HexColor('ED8F2D')),
                                                 activeColor: HexColor('ED8F2D'),
@@ -178,50 +184,125 @@ class PaymentScreenState extends State<PaymentScreen> {
                                                   _paymentRadioValueChange(val);
                                                 },
                                               ),
-                                              new Text(
+                                               Text(
                                                 'Cash',
-                                                style: new TextStyle(fontSize: 16.0,color: HexColor('000000'),),
+                                                style: TextStyle(fontSize: 16.0,color: HexColor('000000'),),
                                               ),
-                                              new Radio(
+                                               Radio(
                                                 value: 1,
                                                 fillColor: MaterialStateColor.resolveWith((states) =>  HexColor('ED8F2D')),
                                                 activeColor: HexColor('ED8F2D'),
                                                 groupValue: _paymentRadioValue1,
                                                 onChanged: (val){ _paymentRadioValueChange(val);},
                                               ),
-                                              new Text(
+                                              Text(
                                                 'Online',
-                                                style: new TextStyle(fontSize: 16.0,color: HexColor('000000'),),
+                                                style: TextStyle(fontSize: 16.0,color: HexColor('000000'),),
                                               ),
 
                                             ],
                                           ),
                                         ),
-                                        SizedBox(height: 16,),
+                                        const SizedBox(height: 16,),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    color: Colors.white,
+                                    child: Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      // crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+
+                                        const SizedBox(height: 16,),
+
+                                        Container(
+                                          alignment: Alignment.centerLeft,
+                                          child:   Text(
+                                            'Payment Details',
+                                            style: TextStyle(fontSize: 16 ,fontFamily: Style().font_bold(),color: HexColor('#000000').withOpacity(0.7)  ),
+                                          ),
+                                        ),
+                                        orderDetails  != null ?ListView.builder(   physics: const AlwaysScrollableScrollPhysics(),
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          itemBuilder: complaintList,
+                                          itemCount: orderDetails.length ??0,):const SizedBox(),
+
+                                        const SizedBox(height: 8,),
+                                        const Divider(height: 1,thickness: 1,color: Colors.black26,),
+                                        const SizedBox(height: 16,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width,
+                                          margin: const EdgeInsets.only(right: 8),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Expanded(child: Text('Sub Total ')),
+                                                  Text("₹ ${subTotalAmt.toStringAsFixed(2)}"),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 4,),
+                                              Row(
+                                                children: [
+                                                  Expanded(child: Text('GST ${AppConstant.gst_percentage}%')),
+                                                  Text("₹ ${gstAmt.toStringAsFixed(2)}"),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+                                        const SizedBox(height: 8,),
+                                        const Divider(height: 1,thickness: 1,color: Colors.black26,),
+                                        const SizedBox(height: 16,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width,
+                                          margin: const EdgeInsets.only(right: 8),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Expanded(child: Text('Total')),
+                                                  Text("₹ ${totalAmt.toStringAsFixed(2)}"),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        
+                                        const SizedBox(height: 16,),
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
                             ):
-                            Container(
+                            SizedBox(
                               height: height! * 0.8,
                               child:  Image.network(QrCodeUrl),
                             )
 
                           )
                       ),
-                      SizedBox(height: 8,),
+                      const SizedBox(height: 8,),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [
                             Expanded(
-                              child:   Container(
+                              child:   SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 height: 45,
                                 child: ElevatedButton(
-                                  child: Text('${btnText}'),
+                                  child: Text(btnText),
                                   onPressed: () {
 
                                       if (!isQRCode) {
@@ -238,7 +319,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                   style: ElevatedButton.styleFrom(
                                       primary: HexColor('ED8F2D'),
                                       // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold)),
                                 ),
@@ -248,7 +329,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                         ),
                       ),
 
-                      SizedBox(height: 8,),
+                      const SizedBox(height: 8,),
                     ],
                   ),
                   isApiCall ? AppLoader() : Container(),
@@ -283,11 +364,11 @@ class PaymentScreenState extends State<PaymentScreen> {
           return Container(
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.black
-                : Color(0xFF737373),
+                : const Color(0xFF737373),
             child: Container(
                 height: height,
                 padding:
-                EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
+                const EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
                 child: Column(
                   children: [
                     Container(
@@ -296,13 +377,13 @@ class PaymentScreenState extends State<PaymentScreen> {
                       height: 4,
                       width: 64,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 18,
                     ),
-                    Container(
+                    SizedBox(
                         height: 120,
                         child: Lottie.asset('assets/lottie_anim/complete_check.json')),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
                     Container(
@@ -319,65 +400,62 @@ class PaymentScreenState extends State<PaymentScreen> {
 
 
                     Expanded(child: Container(),),
-                    Container(
-
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child:  Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 45,
-                              child: ElevatedButton(
-                                child: Text('Yes'),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  if(_paymentRadioValue1 == 0){
-                                    widget._paymentBloc.add(UpdateServiceRequestStatusEvent(widget.serviceList.serviceRequestCode!,11));
-                                  }else {
-                                    widget._paymentBloc.add(
-                                        PaymentGenerateRequestEvent(
-                                            widget.serviceList
-                                                .serviceRequestCode!,
-                                            widget.serviceList
-                                                .serviceRequestDetailCode!,
-                                            widget.serviceList
-                                                .serviceRequestSeriesCode!,
-                                            totalAmt!));
-                                  }                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: HexColor('ED8F2D'),
-                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                    textStyle: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child:  SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: const Text('Yes'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                if(_paymentRadioValue1 == 0){
+                                  widget._paymentBloc.add(UpdateServiceRequestStatusEvent(widget.serviceList.serviceRequestCode!,11));
+                                }else {
+                                  widget._paymentBloc.add(
+                                      PaymentGenerateRequestEvent(
+                                          widget.serviceList
+                                              .serviceRequestCode!,
+                                          widget.serviceList
+                                              .serviceRequestDetailCode!,
+                                          widget.serviceList
+                                              .serviceRequestSeriesCode!,
+                                          totalAmt!));
+                                }                                },
+                              style: ElevatedButton.styleFrom(
+                                  primary: HexColor('ED8F2D'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
                             ),
                           ),
-                          SizedBox(width: 8,),
-                          Expanded(
-                            child:  Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 45,
-                              child: ElevatedButton(
-                                child: Text('No'),
-                                onPressed: () {
-                                  Navigator.pop(context);
+                        ),
+                        const SizedBox(width: 8,),
+                        Expanded(
+                          child:  SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: const Text('No'),
+                              onPressed: () {
+                                Navigator.pop(context);
 
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: HexColor('ED8F2D'),
-                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                    textStyle: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ),
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: HexColor('ED8F2D'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
 
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
 
@@ -385,13 +463,28 @@ class PaymentScreenState extends State<PaymentScreen> {
                 ),
                 decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(20),
-                    topRight: const Radius.circular(20),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
                 )),
           );
         });
   }
+
+  Widget complaintList(BuildContext context, int index) {
+    return Container(
+      margin: const EdgeInsets.only(top: 16, right: 8, left: 0),
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: Text((index+1).toString() +'. '+ orderDetails[index]['part_Description'].toString(),),
+            ),
+            Text('₹ ${(double.parse(orderDetails[index]['part_Price'].toString())+ double.parse(orderDetails[index]['labour_Price'].toString())).toStringAsFixed(2)}')
+          ]),
+    );
+  }
+
 
 }

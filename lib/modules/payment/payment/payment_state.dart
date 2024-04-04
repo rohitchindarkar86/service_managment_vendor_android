@@ -79,8 +79,8 @@ class UpdateSuccessServiceStatusState extends PaymentState {
 
 }
 class PaymentDetailsState extends PaymentState {
-  double amount;
-  PaymentDetailsState(this.amount);
+  var amountDetails;
+  PaymentDetailsState(this.amountDetails);
 
   @override
   String toString() => 'PaymentDetailsState';

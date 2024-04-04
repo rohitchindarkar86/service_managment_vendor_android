@@ -130,9 +130,12 @@ void _fetchConfig() async {
   //
   // AppConstant.remoteConfigAppVersionCode = int.parse(packageInfo.buildNumber);
   // AppConstant.appVersionCode = int.parse(packageInfo.buildNumber);
-  //
-  // await _remoteConfig.fetchAndActivate();
+
+  await _remoteConfig.fetchAndActivate();
   // AppConstant.remoteConfigAppVersionCode = _remoteConfig.getInt('app_version_code');
   // AppConstant.isForceUpdate = _remoteConfig.getBool('is_force_update');
+
+  AppConstant.gst_percentage = _remoteConfig.getDouble('gst_percentage');
+
 
 }

@@ -116,11 +116,7 @@ class StatusMasterEvent extends ServiceReportEvent {
     try {
       // yield LoaderState();
 
-        var response = [{
-          "key": 5,
-          "value": "SVCCNC",
-          "description": "Service Cancelled"
-        },
+        var response = [
           {
             "key": 7,
             "value": "SVCPFR",

@@ -61,6 +61,9 @@ class AppConstant{
   static int appVersionCode = 1;
   static int remoteConfigAppVersionCode = 1;
 
+  //gst percentage from Config
+  static double ?gst_percentage;
+
   //Playstore link
   static String appLink = 'https://play.google.com/store/apps/details?id=com.shakvan_technologies.pys_tech';
 }

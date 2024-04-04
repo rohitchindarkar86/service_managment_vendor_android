@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -58,7 +57,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
 
     return BlocConsumer<ReachedServiceDetailsBloc, ReachedServiceDetailsState>(
         bloc: widget._reachedServiceDetailsBloc,
-        listener: (Context, currentState) {
+        listener: (context, currentState) {
           if (currentState is UnReachedServiceDetailsState) {}
           if (currentState is ErrorReachedServiceDetailsState) {}
           if (currentState is LoadingListDetailsState) {
@@ -95,7 +94,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
             onWillPop: () async {
               return true;
             },
-            child: Container(
+            child: SizedBox(
               height: height,
 
               child: Stack(
@@ -103,9 +102,9 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                   Column(
                     children: [
 
-                      SizedBox(height: 16,),
+                      const SizedBox(height: 16,),
                       Expanded(
-                          child:Container(
+                          child:SingleChildScrollView(
 
                             child: Column(
                               children: [
@@ -113,14 +112,14 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                   width: MediaQuery.of(context).size.width,
                                   color: AppUtility.serviceColorPicker(widget.serviceList.serviceStatusSysCode),),
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
                                   color: Colors.white,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
 
-                                      SizedBox(height: 16,),
+                                      const SizedBox(height: 16,),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,11 +131,11 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                             ),
                                           ),
                                           Container(
-                                            padding: EdgeInsets.all(4),
+                                            padding: const EdgeInsets.all(4),
                                             decoration: BoxDecoration(
                                               // color: index ==  0?Colors.red.withOpacity(0.2): index ==  1? Colors.blue.withOpacity(0.2):HexColor('#18D184').withOpacity(0.2),
                                               color: AppUtility.serviceColorPicker(widget.serviceList.serviceStatusSysCode).withOpacity(0.2),
-                                              borderRadius: BorderRadius.all( Radius.circular(5)),
+                                              borderRadius: const BorderRadius.all( Radius.circular(5)),
                                             ),
                                             child: Text(
                                               '${widget.serviceList.serviceStatus}',
@@ -145,7 +144,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 8,),
+                                      const SizedBox(height: 8,),
                                       Container(
                                           width: MediaQuery.of(context).size.width ,
                                           alignment: Alignment.centerLeft,
@@ -167,123 +166,116 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
 
 
                                       ),
-                                      SizedBox(height: 16,),
+                                      const SizedBox(height: 16,),
 
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 24,),
+                                const SizedBox(height: 24,),
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
                                   color: Colors.white,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 16,),
-                                      Container(
-                                        child:   Text(
-                                          'Job Details',
-                                          style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#494949')  ),
-                                        ),
+                                      const SizedBox(height: 16,),
+                                      Text(
+                                        'Job Details',
+                                        style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#494949')  ),
                                       ),
-                                      SizedBox(height: 16,),
+                                      const SizedBox(height: 16,),
                                       Row(
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: MediaQuery.of(context).size.width*0.4,
                                             child:   Text(
                                               'Complaint ID',
                                               style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
                                             ),
                                           ),
-                                          Expanded(child: Container(
-                                            child:   Text(
-                                              '${widget.serviceList.serviceRequestSeriesCode}',
-                                              style: TextStyle(fontSize: 14 ,fontFamily: Style().font_bold(),color: HexColor('#000000')  ),
-                                            ),
+                                          Expanded(child: Text(
+                                            '${widget.serviceList.serviceRequestSeriesCode}',
+                                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_bold(),color: HexColor('#000000')  ),
                                           ))
                                         ],
                                       ),
-                                      SizedBox(height: 8,),
+                                      const SizedBox(height: 8,),
                                       Row(
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: MediaQuery.of(context).size.width*0.4,
                                             child:   Text(
                                               'Service Date',
                                               style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
                                             ),
                                           ),
-                                          Expanded(child: Container(
-                                            child:   Text(
-                                              '${widget.serviceList.scheduledDate}',
-                                              style: TextStyle(fontSize: 14 ,fontFamily: Style().font_bold(),color: HexColor('#000000')  ),
-                                            ),
+                                          Expanded(child: Text(
+                                            '${widget.serviceList.scheduledDate}',
+                                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_bold(),color: HexColor('#000000')  ),
                                           ))
                                         ],
                                       ),
-                                      SizedBox(height: 8,),
+                                      const SizedBox(height: 8,),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: MediaQuery.of(context).size.width*0.4,
                                             child:   Text(
                                               'Service Request',
                                               style: TextStyle(fontSize: 14 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
                                             ),
                                           ),
-                                          Expanded(child: Container(
-                                            child:   Text(
-                                              '${ widget.serviceList.userApplianceType} - ${widget.serviceList.serviceCategory} - ${widget.serviceList.serviceComplaintCode?[0].description}',
-                                              style: TextStyle(fontSize: 14 ,fontFamily: Style().font_bold(),color: HexColor('#000000') ),
-                                            ),
+                                          Expanded(child: Text(
+                                            '${ widget.serviceList.userApplianceType} - ${widget.serviceList.serviceCategory} - ${widget.serviceList.serviceComplaintCode?[0].description}',
+                                            style: TextStyle(fontSize: 14 ,fontFamily: Style().font_bold(),color: HexColor('#000000') ),
                                           ))
                                         ],
                                       ),
-                                      SizedBox(height: 16,),
+                                      const SizedBox(height: 16,),
                                     ],
                                   ),
                                 ),
-                                widget.serviceList.serviceStatusSysCode == 6 ? applianceDetailsWidget():SizedBox()
+                                widget.serviceList.serviceStatusSysCode == 6 ? applianceDetailsWidget():const SizedBox()
                               ],
                             ),
                           )
                       ),
-                      SizedBox(height: 8,),
-                      widget.serviceList.serviceStatusSysCode == 4  ?Column(
+                      const SizedBox(height: 8,),
+                      widget.serviceList.serviceStatusSysCode == 4  ?const Column(
                         children: [
                           Text('Please Check Appliance Before Filling Service Report.',style: TextStyle(fontSize: 12),),
                           SizedBox(height: 6,),
                         ],
-                      )  :SizedBox(),
+                      )  :const SizedBox(),
                       widget.serviceList.serviceStatusSysCode == 6  ? Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 8),
+                          margin: const EdgeInsets.symmetric(horizontal: 8),
                           width: MediaQuery.of(context).size.width,
                           height: 45,
                           child: ElevatedButton(
-                            child: Text('Service Report'),
+                            child: const Text('Service Report'),
                             onPressed: () {
                               Navigator.pushNamed(context, ServiceReportPage.routeName,arguments:{"selectedRequest":widget.serviceList}).then((value){
-                                if(value != null && value == true)
+                                if(value != null && value == true) {
                                   Navigator.pop(context,"updateList");
+                                }
                               });
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: HexColor('ea4747'),
                                 // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold)),
                           ),
                         ),
-                      ):SizedBox(),
+                      ):const SizedBox(),
                       widget.serviceList.serviceStatusSysCode == 7 || widget.serviceList.serviceStatusSysCode == 8 ? Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [
                             Expanded(
@@ -291,9 +283,9 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             )
                           ],
                         ),
-                      ):SizedBox(),
+                      ):const SizedBox(),
                       widget.serviceList.serviceStatusSysCode == 9 ||widget.serviceList.serviceStatusSysCode == 5 ? Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [
                             Expanded(
@@ -301,8 +293,8 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             ),
                           ],
                         ),
-                      ):SizedBox(),
-                      SizedBox(height: 8,),
+                      ):const SizedBox(),
+                      const SizedBox(height: 8,),
                     ],
                   ),
                   isApiCall ? AppLoader() : Container(),
@@ -326,13 +318,13 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
           return Container(
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.black
-                : Color(0xFF737373),
+                : const Color(0xFF737373),
             child: Padding(
                 padding: MediaQuery.of(context).viewInsets,
               child: Container(
                   height: height,
                   padding:
-                  EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
+                  const EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
                   child: Column(
                     children: [
                       Container(
@@ -341,13 +333,13 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                         height: 4,
                         width: 64,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 18,
                       ),
-                      Container(
+                      SizedBox(
                           height: 150,
                           child: Lottie.asset('assets/lottie_anim/complete_check.json')),
-                      SizedBox(
+                      const SizedBox(
                         height: 12,
                       ),
                       Container(
@@ -360,7 +352,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                               color: Theme.of(context).colorScheme.onSecondary),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
                       Container(
@@ -380,7 +372,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                       minLines: 3,
                       maxLines: 3,
                       decoration:  InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 12,),
+                        contentPadding: const EdgeInsets.only(left: 12,),
                         fillColor: HexColor('ED8F2D'),
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: HexColor('ED8F2D')),
@@ -398,14 +390,14 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                       // controller: EmailController,
                     )
                 ),
-                      SizedBox(
+                      const SizedBox(
                         height: 24,
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: 45,
                         child: ElevatedButton(
-                          child: Text('Yes'),
+                          child: const Text('Yes'),
                           onPressed: () {
                             Navigator.pop(context);
                             Navigator.pushNamed(context, CancelRequestPage.routeName);
@@ -413,12 +405,12 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                           style: ElevatedButton.styleFrom(
                               primary: HexColor('ED8F2D'),
                               // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold)),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
                       Container(
@@ -432,7 +424,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             },
                             child: Text('Close',style: TextStyle(fontFamily: Style().font_medium(),fontSize: 14,color: HexColor('252222').withOpacity(0.75)),)),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
 
@@ -440,9 +432,9 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                   ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).backgroundColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(20),
-                      topRight: const Radius.circular(20),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
                     ),
                   )),
             ),
@@ -462,11 +454,11 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
           return Container(
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.black
-                : Color(0xFF737373),
+                : const Color(0xFF737373),
             child: Container(
                 height: height,
                 padding:
-                EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
+                const EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
                 child: Column(
                   children: [
                     Container(
@@ -475,13 +467,13 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                       height: 4,
                       width: 64,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 18,
                     ),
-                    Container(
+                    SizedBox(
                         height: 120,
                         child: Lottie.asset('assets/lottie_anim/complete_check.json')),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
                     Container(
@@ -504,57 +496,54 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             fontFamily: Style().font_regular(),
                             color: Theme.of(context).colorScheme.onSecondary),
                       ),
-                    ):SizedBox(),
+                    ):const SizedBox(),
 
-                    Expanded(child: Container(),),
-                    Container(
-
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child:  Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 45,
-                              child: ElevatedButton(
-                                child: Text('Yes'),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,9));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: HexColor('ED8F2D'),
-                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                    textStyle: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ),
+                    const Expanded(child: SizedBox(),),
+                    Row(
+                      children: [
+                        Expanded(
+                          child:  SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: const Text('Yes'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,9));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: HexColor('ED8F2D'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
                             ),
                           ),
-                          SizedBox(width: 8,),
-                          Expanded(
-                            child:  Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 45,
-                              child: ElevatedButton(
-                                child: Text('No'),
-                                onPressed: () {
-                                  Navigator.pop(context);
+                        ),
+                        const SizedBox(width: 8,),
+                        Expanded(
+                          child:  SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: const Text('No'),
+                              onPressed: () {
+                                Navigator.pop(context);
 
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: HexColor('ED8F2D'),
-                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                    textStyle: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ),
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: HexColor('ED8F2D'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
 
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
 
@@ -562,9 +551,9 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                 ),
                 decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(20),
-                    topRight: const Radius.circular(20),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
                 )),
           );
@@ -583,11 +572,11 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
           return Container(
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.black
-                : Color(0xFF737373),
+                : const Color(0xFF737373),
             child: Container(
                 height: height,
                 padding:
-                EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
+                const EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
                 child: Column(
                   children: [
                     Container(
@@ -596,13 +585,13 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                       height: 4,
                       width: 64,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 18,
                     ),
-                    Container(
+                    SizedBox(
                         height: 120,
                         child: Lottie.asset('assets/lottie_anim/complete_check.json')),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
                     Container(
@@ -627,55 +616,52 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                       ),
                     ),
 
-                    Expanded(child: Container(),),
-                    Container(
-
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child:  Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 45,
-                              child: ElevatedButton(
-                                child: Text('Yes'),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,7));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: HexColor('ED8F2D'),
-                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                    textStyle: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ),
+                    const Expanded(child: SizedBox(),),
+                    Row(
+                      children: [
+                        Expanded(
+                          child:  SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: const Text('Yes'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,7));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: HexColor('ED8F2D'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
                             ),
                           ),
-                          SizedBox(width: 8,),
-                          Expanded(
-                            child:  Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 45,
-                              child: ElevatedButton(
-                                child: Text('No'),
-                                onPressed: () {
-                                  Navigator.pop(context);
+                        ),
+                        const SizedBox(width: 8,),
+                        Expanded(
+                          child:  SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: const Text('No'),
+                              onPressed: () {
+                                Navigator.pop(context);
 
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: HexColor('ED8F2D'),
-                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                    textStyle: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ),
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: HexColor('ED8F2D'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
 
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
 
@@ -683,9 +669,9 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                 ),
                 decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(20),
-                    topRight: const Radius.circular(20),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
                 )),
           );
@@ -700,15 +686,15 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
             child:   Text(
               !isInventoryData?'Is there any QR code on Appliance?':'Click below button for Appliance Details',
               style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#494949')  ),
             ),
           ),
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           GestureDetector(
             onTap: (){
               Navigator.pushNamed(context, '/qrScanner').then((value){
@@ -718,7 +704,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
               });
             },
             child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
                 height: 40,
                 alignment: Alignment.center,
                 color:  HexColor('ED8F2D'),
@@ -727,16 +713,16 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
           ),
           Column(
             children: [
-              SizedBox(height: 8,),
+              const SizedBox(height: 8,),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
                 alignment: Alignment.center,
                 child:   Text(
                   'OR',
                   style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#494949')  ),
                 ),
               ),
-              SizedBox(height: 8,),
+              const SizedBox(height: 8,),
               GestureDetector(
                 onTap: (){
                   Navigator.pushNamed(context, InventoryAddPage.routeName,arguments: {"selectedRequest":widget.serviceList}).then((value) {
@@ -744,7 +730,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                   });
                 },
                 child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     height: 40,
                     alignment: Alignment.center,
                     color:  HexColor('ED8F2D'),
@@ -758,7 +744,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
     ):Column(
       children: [
         Container(
-            padding: EdgeInsets.only(top: 8,left: 16,right: 16),
+            padding: const EdgeInsets.only(top: 8,left: 16,right: 16),
             width: MediaQuery.of(context).size.width,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -769,16 +755,15 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                   child: Text('Appliance Order History',maxLines:1,style: TextStyle(fontFamily: Style().font_bold(),fontSize: 14,color: Colors.black),),),
               ],
             )),
-        (orderBookListModels!=null && orderBookListModels!.isNotEmpty) ? Container(
-          child: ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            itemBuilder: complaintList,
-            itemCount: orderBookListModels?.length ??0,
-          ),
+        (orderBookListModels!=null && orderBookListModels!.isNotEmpty) ? ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          primary: false,
+          itemBuilder: complaintList,
+          itemCount: orderBookListModels?.length ??0,
         ):Container(
-          margin: EdgeInsets.only(top: 16),
+          margin: const EdgeInsets.only(top: 16),
           child: const Text('No Records Found'),
         ),
       ],
@@ -800,18 +785,18 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
   }
 
   serviceCompleteButton(showNote){
-    return  Container(
+    return  SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 45,
       child: ElevatedButton(
-        child: Text('Service Complete'),
+        child: const Text('Service Complete'),
         onPressed: () {
           completeRequestBottomSheet(context: context,height: height! *0.38,showNote:showNote);
         },
         style: ElevatedButton.styleFrom(
             primary: HexColor('008d00'),
             // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold)),
       ),
@@ -819,18 +804,18 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
   }
 
   paymentButton(){
-    return  Container(
+    return  SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 45,
       child: ElevatedButton(
-        child: Text('Proceed To Payment'),
+        child: const Text('Proceed To Payment'),
         onPressed: () {
           Navigator.pushNamed(context, PaymentPage.routeName,arguments: {"selectedRequest":widget.serviceList,'fromScreen':''});
         },
         style: ElevatedButton.styleFrom(
             primary: HexColor('008d00'),
             // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold)),
       ),
@@ -840,13 +825,13 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
   Widget complaintList(BuildContext context, int index) {
     OrderBookListModel orderBookListModel =orderBookListModels![index];
     return Container(
-        margin: EdgeInsets.only(top: 8),
+        margin: const EdgeInsets.only(top: 8),
         color: Colors.white,
         child:
         Column(
           children: [
             Container(
-                padding: EdgeInsets.only(top: 8,left: 16,right: 16),
+                padding: const EdgeInsets.only(top: 8,left: 16,right: 16),
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -857,26 +842,26 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                       child: Text('Order No - ${orderBookListModel.serviceRequestSeriesCode}',maxLines:1,style: TextStyle(fontFamily: Style().font_bold(),fontSize: 12,color: Theme.of(context).colorScheme.secondary),),),
                   ],
                 )),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Container(
               // height: 100,
-              padding: EdgeInsets.only(top: 0,left: 16,right: 0),
+              padding: const EdgeInsets.only(top: 0,left: 16,right: 0),
               alignment: Alignment.centerLeft,
               child: Text('Order Service - ${orderBookListModel.createdDate}',maxLines:1,style: TextStyle(fontFamily: Style().font_bold(),fontSize: 12,color: Theme.of(context).colorScheme.secondary),),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Container(
               // height: 100,
-              padding: EdgeInsets.only(top: 0,left: 16,right: 0),
+              padding: const EdgeInsets.only(top: 0,left: 16,right: 0),
               alignment: Alignment.centerLeft,
               child: Text('${orderBookListModel.serviceRequestDetails![0].applianceName} - ${orderBookListModel.serviceCategory} - ${orderBookListModel.serviceRequestDetails?[0].serviceComplaintCode?[0].description}',maxLines:1,style: TextStyle(fontFamily: Style().font_regular(),fontSize: 16,color: Theme.of(context).colorScheme.secondary),),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
 

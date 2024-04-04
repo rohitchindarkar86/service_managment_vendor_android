@@ -170,10 +170,11 @@ class PaymentDetailsEvent extends PaymentEvent {
         // var jsonResponse = json.decode(response.data.toString());
         if(response.data['isSuccess']){
           if(response.data['serviceStatusSysCode'] == 5){
-            yield PaymentDetailsState(double.parse(response.data['partList'][0]['part_Price'].toString()));
+
+            yield PaymentDetailsState(response.data['partList']);
 
           }
-          yield PaymentDetailsState(double.parse(response.data['paymentAmount'].toString()));
+          yield PaymentDetailsState(response.data['partList']);
         }
 
 

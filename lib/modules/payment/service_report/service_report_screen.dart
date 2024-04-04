@@ -88,7 +88,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ServiceReportBloc, ServiceReportState>(
-        listener: (Context, currentState) {
+        listener: (context, currentState) {
 
           if(currentState is LoaderState){
             isApiCall = true;
@@ -117,7 +117,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
             }
             currentState.sparePartsMasterModel.forEach((element) {
               sparePartsMasterList?.add(element.partDescription.toString());
-              _spareParts.add( ResultModel(id: element.applianceType_Code!, name: element.partDescription!));
+              _spareParts.add( ResultModel(id: element.code!, name: element.partDescription!));
             });
             if(_sparePartsitems != null){
               _sparePartsitems.clear();
@@ -180,7 +180,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
             onWillPop: () async {
               return true;
             },
-            child: Container(
+            child: SizedBox(
               height: height,
 
               child: Stack(
@@ -224,7 +224,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                         child: Row(
                           children: [
                             Expanded(
-                              child:   Container(
+                              child:   SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 height: 45,
                                 child: ElevatedButton(
@@ -357,17 +357,17 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
           Container(
               height: 30,
               alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 16,),
+              margin: const EdgeInsets.only(left: 16,),
               child: Text('Status',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
           Container(
               height: 50,
               width: MediaQuery.of(context).size.width,
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(left: 4),
-              margin: EdgeInsets.only(left: 16,right: 16),
+              padding: const EdgeInsets.only(left: 4),
+              margin: const EdgeInsets.only(left: 16,right: 16),
               decoration: BoxDecoration(
                   border: Border.all(color: HexColor('000000').withOpacity(0.8),width: 2),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                 color: Theme.of(context).primaryColor.withOpacity(0.1),
               ),
               child:DropdownButtonHideUnderline(
@@ -375,7 +375,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                   items: _statusitems,
                   mode: Mode.MENU,
                   showSearchBox:false,
-                  dropdownButtonProps: IconButtonProps(icon:  const Icon(Icons.arrow_circle_down,color: Colors.black, size: 24)),
+                  dropdownButtonProps: const IconButtonProps(icon:  Icon(Icons.arrow_circle_down,color: Colors.black, size: 24)),
                   dropdownSearchDecoration: InputDecoration(labelText: _selectedStatus,labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
                   itemAsString: (MultiSelectItem? u) => u!.label.toString(),
                   onChanged: (MultiSelectItem? data) { print(data!.toString());
@@ -425,7 +425,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                     const SizedBox(
                       height: 18,
                     ),
-                    Container(
+                    SizedBox(
                         height: 120,
                         child: Lottie.asset('assets/lottie_anim/complete_check.json')),
                     const SizedBox(
@@ -444,52 +444,49 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                     ),
 
 
-                    Expanded(child: Container(),),
-                    Container(
-
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child:  Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 45,
-                              child: ElevatedButton(
-                                child: const Text('Yes'),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                    widget._serviceReportBloc.add(UpdateServiceCheckReportEvent(widget.serviceList.serviceRequestCode!,widget.serviceList.serviceRequestDetailCode!,_selectedActionTBT!));
-                               },
-                                style: ElevatedButton.styleFrom(
-                                    primary: HexColor('ED8F2D'),
-                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                    textStyle: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ),
+                    const Expanded(child: SizedBox(),),
+                    Row(
+                      children: [
+                        Expanded(
+                          child:  SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: const Text('Yes'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                  widget._serviceReportBloc.add(UpdateServiceCheckReportEvent(widget.serviceList.serviceRequestCode!,widget.serviceList.serviceRequestDetailCode!,_selectedActionTBT!));
+                             },
+                              style: ElevatedButton.styleFrom(
+                                  primary: HexColor('ED8F2D'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
                             ),
                           ),
-                          const SizedBox(width: 8,),
-                          Expanded(
-                            child:  Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 45,
-                              child: ElevatedButton(
-                                child: const Text('No'),
-                                onPressed: () {
-                                  Navigator.pop(context);
+                        ),
+                        const SizedBox(width: 8,),
+                        Expanded(
+                          child:  SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: const Text('No'),
+                              onPressed: () {
+                                Navigator.pop(context);
 
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: HexColor('ED8F2D'),
-                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                    textStyle: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ),
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: HexColor('ED8F2D'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
 
                     const SizedBox(

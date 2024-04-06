@@ -5,6 +5,8 @@ import 'package:vendor_app/utility/hex_color.dart';
 class TechnicianLoginPage extends StatefulWidget {
   static const String routeName = '/technicianLogin';
 
+  const TechnicianLoginPage({Key? key}) : super(key: key);
+
   @override
   _TechnicianLoginPageState createState() => _TechnicianLoginPageState();
 }

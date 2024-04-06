@@ -7,6 +7,8 @@ import '../../../utility/hex_color.dart';
 class ConfirmPaymentPage extends StatefulWidget {
   static const String routeName = '/confirmPayment';
 
+  const ConfirmPaymentPage({Key? key}) : super(key: key);
+
   @override
   _ConfirmPaymentPageState createState() => _ConfirmPaymentPageState();
 }
@@ -24,7 +26,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('ED8F2D'),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.white, //change your color here
         ),
         title: Text('Complete Request',style: TextStyle(color: Colors.white,fontFamily: Style().font_medium(),fontSize: 16),),

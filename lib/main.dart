@@ -13,7 +13,6 @@ import 'package:vendor_app/utility/app_constant.dart';
 import 'package:vendor_app/utility/app_theme_handler/app_theme_handler.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:package_info_plus/package_info_plus.dart';
 
 
 final AppThemeHandler appThemeHandler = AppThemeHandler();

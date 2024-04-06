@@ -1,9 +1,6 @@
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
-import 'package:vendor_app/generated/locale_keys.g.dart';
 import 'package:vendor_app/modules/dashboard/dashboard/dashboard_page.dart';
 import 'package:vendor_app/modules/login/technician_login/index.dart';
 import 'package:vendor_app/style/style.dart';
@@ -11,6 +8,8 @@ import 'package:vendor_app/utility/hex_color.dart';
 
 class SuccessPasswordPage extends StatefulWidget {
   static const String routeName = '/successPasswordPage';
+
+  const SuccessPasswordPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SuccessPasswordPageState();
@@ -36,32 +35,30 @@ class SuccessPasswordPageState extends State<SuccessPasswordPage>
           Navigator.pushNamedAndRemoveUntil(context, DashboardPage.routeName, (route) => false);
           return true;
         },
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child:Column(
             children: [
-              Expanded(child: Container(
+              Expanded(child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: Column(
                   children: [
                     SizedBox(
                       height:MediaQuery.of(context).size.height * 0.15 ,
                     ),
-                    Container(
+                    SizedBox(
                         height: 180,
                         child: Lottie.asset('assets/lottie_anim/success_request.json')),
                     SizedBox(
                       height:MediaQuery.of(context).size.height * 0.05 ,
                     ),
-                    Container(
-                      child: Text(
-                        'Your Password is\n${password}.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: Style().font_medium(),
-                          color: HexColor('000000')
-                        ),
+                    Text(
+                      'Your Password is\n$password.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: Style().font_medium(),
+                        color: HexColor('000000')
                       ),
                     ),
 
@@ -69,24 +66,24 @@ class SuccessPasswordPageState extends State<SuccessPasswordPage>
                   ],
                 ),
               ),),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 45,
                 child: ElevatedButton(
-                  child: Text('Go To Login'),
+                  child: const Text('Go To Login'),
                   onPressed: () {
                    Navigator.pushNamedAndRemoveUntil(context, TechnicianLoginPage.routeName, (route) => false);
 
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: HexColor('008d00'),
+                      backgroundColor: HexColor('008d00'),
                       // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold)),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               )
             ],

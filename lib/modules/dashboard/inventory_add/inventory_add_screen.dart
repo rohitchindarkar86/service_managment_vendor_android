@@ -49,7 +49,7 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
   String? qrText = '';
   TextEditingController serialNo = TextEditingController();
   TextEditingController serialNoOutdoor = TextEditingController();
-  TextEditingController modellNo = TextEditingController();
+  TextEditingController modelNo = TextEditingController();
 
   AddInventoryModel addInventoryModel = AddInventoryModel();
 
@@ -75,7 +75,7 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
 
     return BlocConsumer<InventoryAddBloc, InventoryAddState>(
         bloc: widget._inventoryAddBloc,
-        listener: (Context, currentState) {
+        listener: (context, currentState) {
 
           if(currentState is LoadingInventoryAddState){
             isApiCall = true;
@@ -123,37 +123,37 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
             },
             child: Stack(
               children: [
-                Container(
+                SizedBox(
                   height: height,
 
                   child: Column(
                     children: [
-                      SizedBox(height: 16,),
+                      const SizedBox(height: 16,),
                       Expanded(
                         child:Container(
                             width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(horizontal: 12,vertical: 2),
+                            margin: const EdgeInsets.symmetric(horizontal: 12,vertical: 2),
                             decoration: BoxDecoration(
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                       color: Colors.black54.withOpacity(0.1),
                                       blurRadius: 5.0,
-                                      offset: Offset(0.0, 0.75)
+                                      offset: const Offset(0.0, 0.75)
                                   ),
 
                                 ],
-                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                                borderRadius: const BorderRadius.all(Radius.circular(5)),
                                 color: Colors.white
                             ),
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  SizedBox(height: 6,),
+                                  const SizedBox(height: 6,),
                                   Container(
                                       alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.symmetric(horizontal: 12,vertical: 2),
+                                      margin: const EdgeInsets.symmetric(horizontal: 12,vertical: 2),
                                       child: Text('${widget.serviceList.userApplianceType} - Appliance Details',maxLines:3,style: TextStyle(fontFamily: Style().font_bold(),fontSize: 16,),)),
-                                  SizedBox(height: 6,),
+                                  const SizedBox(height: 6,),
                                   Divider(
                                     height: 2,
                                     thickness: 1,
@@ -162,17 +162,17 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                   Container(
                                       height: 35,
                                       alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(left: 12),
+                                      margin: const EdgeInsets.only(left: 12),
                                       child: Text('Appliance Type',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
                                   Container(
                                       height: 40,
                                       width: MediaQuery.of(context).size.width,
                                       alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.only(left: 4),
-                                      margin: EdgeInsets.only(left: 12,right: 12),
+                                      padding: const EdgeInsets.only(left: 4),
+                                      margin: const EdgeInsets.only(left: 12,right: 12),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: HexColor('464646').withOpacity(0.3),),
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                          borderRadius: const BorderRadius.all(Radius.circular(5))
                                       ),
                                       child:DropdownButtonHideUnderline(
                                         child: DropdownSearch<SubApplianceMasterModel>(
@@ -181,8 +181,8 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                           showSearchBox:false,
                                           dropdownSearchDecoration: InputDecoration(labelText: selectedSubApplianceData,labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
                                           itemAsString: (SubApplianceMasterModel? u) => u!.description!.toString(),
-                                          onChanged: (SubApplianceMasterModel? data) { print(data!.toString());
-                                          selectedSubApplianceData = data.description.toString();
+                                          onChanged: (SubApplianceMasterModel? data) {
+                                          selectedSubApplianceData = data!.description.toString();
                                           selectedSubApplianceId = data.key!;
                                           setState(() {
                                           });
@@ -191,21 +191,21 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                       )
                                   ),
 
-                                  SizedBox(height: 12,),
+                                  const SizedBox(height: 12,),
                                   Container(
                                       height: 35,
                                       alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(left: 12),
+                                      margin: const EdgeInsets.only(left: 12),
                                       child: Text('Appliance Brand',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
                                   Container(
                                     height: 40,
                                     width: MediaQuery.of(context).size.width,
                                     alignment: Alignment.centerLeft,
-                                    padding: EdgeInsets.only(left: 4),
-                                    margin: EdgeInsets.only(left: 12,right: 12),
+                                    padding: const EdgeInsets.only(left: 4),
+                                    margin: const EdgeInsets.only(left: 12,right: 12),
                                     decoration: BoxDecoration(
                                         border: Border.all(color: HexColor('464646').withOpacity(0.3),),
-                                        borderRadius: BorderRadius.all(Radius.circular(5))
+                                        borderRadius: const BorderRadius.all(Radius.circular(5))
                                     ),
                                     child:
                                     DropdownButtonHideUnderline(
@@ -213,10 +213,10 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                         items: applianceBrandData,
                                         mode: Mode.MENU,
                                         showSearchBox:true,
-                                        dropdownSearchDecoration: InputDecoration(labelText: "${selectedBrandData}",labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
+                                        dropdownSearchDecoration: InputDecoration(labelText: selectedBrandData,labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
                                         itemAsString: (BrandMasterModel? u) => u!.value.toString(),
-                                        onChanged: (BrandMasterModel? data) { print(data!.value.toString());
-                                        selectedBrandData = data.value.toString();
+                                        onChanged: (BrandMasterModel? data) {
+                                        selectedBrandData = data!.value.toString();
                                         selectedBrandId = data.key!;
                                         setState(() {
 
@@ -226,83 +226,83 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                     ),),
 
 
-                                  SizedBox(height: 12,),
+                                  const SizedBox(height: 12,),
                                   Container(
                                       height: 35,
                                       alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(left: 12),
+                                      margin: const EdgeInsets.only(left: 12),
                                       child: Text('Model No',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
                                   Container(
                                       height: 40,
                                       width: MediaQuery.of(context).size.width,
                                       alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.only(left: 4),
-                                      margin: EdgeInsets.only(left: 12,right: 12),
+                                      padding: const EdgeInsets.only(left: 4),
+                                      margin: const EdgeInsets.only(left: 12,right: 12),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: HexColor('464646').withOpacity(0.3),),
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                          borderRadius: const BorderRadius.all(Radius.circular(5))
                                       ),
                                       child:TextField(
-                                        controller: modellNo,
+                                        controller: modelNo,
                                       )
                                   ),
 
-                                  SizedBox(height: 12,),
+                                  const SizedBox(height: 12,),
                                   Container(
                                       height: 35,
                                       alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(left: 12),
+                                      margin: const EdgeInsets.only(left: 12),
                                       child: Text('Serial No',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
                                   Container(
                                       height: 40,
                                       width: MediaQuery.of(context).size.width,
                                       alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.only(left: 4),
-                                      margin: EdgeInsets.only(left: 12,right: 12),
+                                      padding: const EdgeInsets.only(left: 4),
+                                      margin: const EdgeInsets.only(left: 12,right: 12),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: HexColor('464646').withOpacity(0.3),),
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                          borderRadius: const BorderRadius.all(Radius.circular(5))
                                       ),
                                       child:TextField(
                                         controller: serialNo,
                                       )
                                   ),
-                                  selectedSubApplianceData  == "Split Air Conditioning"?SizedBox(height: 12,):const SizedBox(),
+                                  selectedSubApplianceData  == "Split Air Conditioning"?const SizedBox(height: 12,):const SizedBox(),
                                   selectedSubApplianceData  == "Split Air Conditioning"?Container(
                                       height: 35,
                                       alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(left: 12),
+                                      margin: const EdgeInsets.only(left: 12),
                                       child: Text('Serial No (Outdoor Unit)',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)):const SizedBox(),
                                   selectedSubApplianceData  == "Split Air Conditioning"?Container(
                                       height: 40,
                                       width: MediaQuery.of(context).size.width,
                                       alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.only(left: 4),
-                                      margin: EdgeInsets.only(left: 12,right: 12),
+                                      padding: const EdgeInsets.only(left: 4),
+                                      margin: const EdgeInsets.only(left: 12,right: 12),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: HexColor('464646').withOpacity(0.3),),
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                          borderRadius: const BorderRadius.all(Radius.circular(5))
                                       ),
                                       child:TextField(
                                         controller: serialNoOutdoor,
                                       )
                                   ):const SizedBox(),
 
-                                  SizedBox(height: 12,),
+                                  const SizedBox(height: 12,),
                                   Container(
                                       height: 35,
                                       alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(left: 12),
+                                      margin: const EdgeInsets.only(left: 12),
                                       child: Text('Capacity',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
                                   Container(
                                       height: 40,
                                       width: MediaQuery.of(context).size.width,
                                       alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.only(left: 4),
-                                      margin: EdgeInsets.only(left: 12,right: 12),
+                                      padding: const EdgeInsets.only(left: 4),
+                                      margin: const EdgeInsets.only(left: 12,right: 12),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: HexColor('464646').withOpacity(0.3),),
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                          borderRadius: const BorderRadius.all(Radius.circular(5))
                                       ),
                                       child:DropdownButtonHideUnderline(
                                         child: DropdownSearch<UnitQtyMasterModel>(
@@ -311,8 +311,8 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                           showSearchBox:false,
                                           dropdownSearchDecoration: InputDecoration(labelText: selectedCapacity,labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
                                           itemAsString: (UnitQtyMasterModel? u) => u!.description!.toString(),
-                                          onChanged: (UnitQtyMasterModel? data) { print(data!.toString());
-                                          selectedCapacity = data.description!;
+                                          onChanged: (UnitQtyMasterModel? data) {
+                                          selectedCapacity = data!.description!;
                                           selectedCapacityId = data.key!;
                                           setState(() {
                                           });
@@ -321,21 +321,21 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                       )
                                   ),
 
-                                  SizedBox(height: 12,),
+                                  const SizedBox(height: 12,),
                                   Container(
                                       height: 35,
                                       alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(left: 12),
+                                      margin: const EdgeInsets.only(left: 12),
                                       child: Text('Gas Type',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
                                   Container(
                                       height: 40,
                                       width: MediaQuery.of(context).size.width,
                                       alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.only(left: 4),
-                                      margin: EdgeInsets.only(left: 12,right: 12),
+                                      padding: const EdgeInsets.only(left: 4),
+                                      margin: const EdgeInsets.only(left: 12,right: 12),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: HexColor('464646').withOpacity(0.3),),
-                                          borderRadius: BorderRadius.all(Radius.circular(5))
+                                          borderRadius: const BorderRadius.all(Radius.circular(5))
                                       ),
                                       child:DropdownButtonHideUnderline(
                                         child: DropdownSearch<RefrigerantMasterModel>(
@@ -344,8 +344,8 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                           showSearchBox:false,
                                           dropdownSearchDecoration: InputDecoration(labelText: selectedGasType,labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
                                           itemAsString: (RefrigerantMasterModel? u) => u!.description!.toString(),
-                                          onChanged: (RefrigerantMasterModel? data) { print(data!.toString());
-                                          selectedGasType = data.description!;
+                                          onChanged: (RefrigerantMasterModel? data) {
+                                          selectedGasType = data!.description!;
                                           selectedGasTypeId = data.key!;
                                           setState(() {
                                           });
@@ -354,23 +354,23 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                       )
                                   ),
 
-                                  SizedBox(height: 12,),
+                                  const SizedBox(height: 12,),
                                   qrText!=''?Column(
                                     children: [
                                       Container(
                                           height: 35,
                                           alignment: Alignment.centerLeft,
-                                          margin: EdgeInsets.only(left: 12),
+                                          margin: const EdgeInsets.only(left: 12),
                                           child: Text('Scanned QR',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
                                       Container(
                                           height: 40,
                                           width: MediaQuery.of(context).size.width,
                                           alignment: Alignment.centerLeft,
-                                          padding: EdgeInsets.only(left: 4),
-                                          margin: EdgeInsets.only(left: 12,right: 12),
+                                          padding: const EdgeInsets.only(left: 4),
+                                          margin: const EdgeInsets.only(left: 12,right: 12),
                                           decoration: BoxDecoration(
                                               border: Border.all(color: HexColor('464646').withOpacity(0.3),),
-                                              borderRadius: BorderRadius.all(Radius.circular(5))
+                                              borderRadius: const BorderRadius.all(Radius.circular(5))
                                           ),
                                           child:Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -384,8 +384,8 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
 
                                                     });
                                                   },
-                                                  child: Icon(Icons.cancel,color: Colors.orange,)),
-                                              SizedBox(width: 6,)
+                                                  child: const Icon(Icons.cancel,color: Colors.orange,)),
+                                              const SizedBox(width: 6,)
                                             ],
                                           )
 
@@ -407,11 +407,11 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                         width: MediaQuery.of(context).size.width,
                                         height: 45,
                                         color: Colors.orange,
-                                        margin: EdgeInsets.symmetric(horizontal: 16),
-                                        padding: EdgeInsets.symmetric(horizontal: 16),
+                                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                                        padding: const EdgeInsets.symmetric(horizontal: 16),
                                         child:Row(
                                           children: [
-                                            Icon(Icons.qr_code_scanner_rounded,color: Colors.white,),
+                                            const Icon(Icons.qr_code_scanner_rounded,color: Colors.white,),
                                             Text(
                                               'Scan  Qr Code',
                                               textAlign: TextAlign.center,
@@ -427,24 +427,23 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
                                   ),
 
 
-                                  SizedBox(height: 12,),
+                                  const SizedBox(height: 12,),
                                 ],
                               ),
                             )
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: 45,
                         child: ElevatedButton(
-                          child: Text('ADD'),
+                          child: const Text('ADD'),
                           onPressed: () {
                             validateAddInventory();
                           },
                           style: ElevatedButton.styleFrom(
-                              primary: HexColor('ED8F2D'),
-                              // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                              textStyle: TextStyle(
+                              backgroundColor: HexColor('ED8F2D'),
+                              textStyle: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold)),
                         ),
@@ -484,7 +483,7 @@ class InventoryAddScreenState extends State<InventoryAddScreen> {
     addInventoryModel.manufacturingDate = '2022-10-05T15:20:54.078Z';
     addInventoryModel.userApplianceUniqueCode = qrText.toString().replaceAll('PYSAPP', '');
     addInventoryModel.serviceRequestCode = widget.serviceList.serviceRequestCode;
-    addInventoryModel.modelNumber = modellNo.text.toString();
+    addInventoryModel.modelNumber = modelNo.text.toString();
 
     widget._inventoryAddBloc.add(AddInventoryEvent(addInventoryModel,widget.serviceList));
   }

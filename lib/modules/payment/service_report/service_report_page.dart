@@ -8,6 +8,8 @@ import '../../../utility/hex_color.dart';
 class ServiceReportPage extends StatefulWidget {
   static const String routeName = '/serviceReport';
 
+  const ServiceReportPage({Key? key}) : super(key: key);
+
   @override
   _ServiceReportPageState createState() => _ServiceReportPageState();
 }
@@ -22,7 +24,7 @@ class _ServiceReportPageState extends State<ServiceReportPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('ED8F2D'),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.white, //change your color here
         ),
         title: Text('Service Report',style: TextStyle(color: Colors.white,fontFamily: Style().font_medium(),fontSize: 16),),

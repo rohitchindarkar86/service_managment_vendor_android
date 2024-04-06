@@ -4,6 +4,8 @@ import 'package:vendor_app/modules/profile/notification/notification/index.dart'
 class NotificationPage extends StatefulWidget {
   static const String routeName = '/notification';
 
+  const NotificationPage({Key? key}) : super(key: key);
+
   @override
   _NotificationPageState createState() => _NotificationPageState();
 }

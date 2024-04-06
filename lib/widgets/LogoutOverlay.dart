@@ -10,7 +10,7 @@ import '../utility/app_utility.dart';
 
 class LogoutOverlay extends StatefulWidget {
   String fromScreen;
-  LogoutOverlay(this.fromScreen);
+  LogoutOverlay(this.fromScreen, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => LogoutOverlayState();
 }
@@ -25,7 +25,7 @@ class LogoutOverlayState extends State<LogoutOverlay>
     super.initState();
 
     controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 450));
     scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
 
@@ -44,83 +44,84 @@ class LogoutOverlayState extends State<LogoutOverlay>
         child: ScaleTransition(
           scale: scaleAnimation,
           child: Container(
-              margin: EdgeInsets.all(20.0),
-              padding: EdgeInsets.all(15.0),
+              margin: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(15.0),
               height: 180.0,
-
               decoration: ShapeDecoration(
-                  color: HexColor('ED8F2D'),
+                  color: HexColor('#FFFFFF'),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0))),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 30.0, left: 20.0, right: 20.0),
-                        child: Text(
-                          "${widget.fromScreen == 'Logout'?'Are you sure,you want to Logout?':LocaleKeys.ExitHeadingText.tr()}",
-                          style: TextStyle(color: Colors.white,fontFamily:  Style().font_regular(), fontSize: 16.0),
-                        ),
-                      )),
-                  Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: ButtonTheme(
-                                height: 35.0,
-                                minWidth: 110.0,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: HexColor('ED8F2D'),
-                                      // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                      textStyle: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold)),
-                                  child: Text(
-                                    '${widget.fromScreen == 'Logout'?"Logout":LocaleKeys.ExitExitBtn.tr()}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 30.0, left: 20.0, right: 20.0),
+                    child: Text(
+                      widget.fromScreen == 'Logout'?'Are you sure,you want to Logout?':LocaleKeys.ExitHeadingText.tr(),
+                      style: TextStyle(color: Colors.black,fontFamily:  Style().font_regular(), fontSize: 16.0),
+                    ),
+                  ),
+                  const SizedBox(height: 3,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ButtonTheme(
+                            height: 35.0,
+                            minWidth: 110.0,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: HexColor('ED8F2D'),
+                                  // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                  textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
+                              child: Text(
+                                widget.fromScreen == 'Logout'?"Logout":LocaleKeys.ExitExitBtn.tr(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: HexColor('#FFFFFF'),
+                                    fontFamily: Style().font_medium(),
+                                    fontSize: 14.0),
+                              ),
+                              onPressed: () {
+                                widget.fromScreen == 'Logout'?
+                                AppUtility.logoutUser(context): SystemNavigator.pop();
+                              },
+                            )),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20.0, right: 10.0, top: 10.0, bottom: 10.0),
+                          child:  ButtonTheme(
+                              height: 35.0,
+                              minWidth: 110.0,
+                              child: ElevatedButton(
+                                child: Text(
+                                  LocaleKeys.ExitCancelBtn.tr(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: HexColor('#FFFFFF'),
+                                      fontFamily: Style().font_medium(),
+                                      fontSize: 14.0),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: HexColor('ED8F2D'),
+                                    // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                    textStyle: TextStyle(
+                                        fontSize: 16,
                                         color: HexColor('ED8F2D'),
-                                        fontFamily: Style().font_medium(),
-                                        fontSize: 14.0),
-                                  ),
-                                  onPressed: () {
-                                    widget.fromScreen == 'Logout'?
-                                    AppUtility.logoutUser(context): SystemNavigator.pop();
-                                  },
-                                )),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20.0, right: 10.0, top: 10.0, bottom: 10.0),
-                              child:  ButtonTheme(
-                                  height: 35.0,
-                                  minWidth: 110.0,
-                                  child: ElevatedButton(
-                                    child: Text(
-                                      '${LocaleKeys.ExitCancelBtn.tr()}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: HexColor('ED8F2D'),
-                                          fontFamily: Style().font_medium(),
-                                          fontSize: 14.0),
-                                    ),
-                                    onPressed: () {
-                                     Navigator.pop(context);
-                                    },
-                            style: ElevatedButton.styleFrom(
-                                primary: HexColor('ED8F2D'),
-                                // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                textStyle: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
-                                  ))
-                          ),
-                        ],
-                      ))
+                                        fontWeight: FontWeight.bold)),
+                              ))
+                      ),
+                    ],
+                  )
                 ],
               )),
         ),

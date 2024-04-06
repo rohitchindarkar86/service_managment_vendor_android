@@ -8,6 +8,8 @@ import '../../../utility/hex_color.dart';
 class ReachedServiceDetailsPage extends StatefulWidget {
   static const String routeName = '/reachedServiceDetails';
 
+  const ReachedServiceDetailsPage({Key? key}) : super(key: key);
+
   @override
   _ReachedServiceDetailsPageState createState() => _ReachedServiceDetailsPageState();
 }
@@ -22,7 +24,7 @@ class _ReachedServiceDetailsPageState extends State<ReachedServiceDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('ED8F2D'),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.white, //change your color here
         ),
         title: Text('On Going Service',style: TextStyle(color: Colors.white,fontFamily: Style().font_medium(),fontSize: 16),),

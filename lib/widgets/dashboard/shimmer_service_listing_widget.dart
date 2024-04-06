@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../utility/hex_color.dart';
 
 class ShimmerServiceWidget extends StatelessWidget {
+  const ShimmerServiceWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -61,7 +61,7 @@ class ShimmerServiceWidget extends StatelessWidget {
                                   children: [
                                     Container(
                                       height: 18,
-                                      margin: EdgeInsets.only(top: 8),
+                                      margin: const EdgeInsets.only(top: 8),
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(color: Colors.white,
                                           borderRadius: BorderRadius.circular(5)
@@ -102,7 +102,7 @@ class ShimmerServiceWidget extends StatelessWidget {
                                     children: [
                                       Container(
                                         height: 12,
-                                        margin: EdgeInsets.only(top: 8),
+                                        margin: const EdgeInsets.only(top: 8),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(color: Colors.white,
                                             borderRadius: BorderRadius.circular(5)
@@ -110,7 +110,7 @@ class ShimmerServiceWidget extends StatelessWidget {
                                       ),
                                       Container(
                                         height: 12,
-                                        margin: EdgeInsets.only(top: 8),
+                                        margin: const EdgeInsets.only(top: 8),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(color: Colors.white,
                                             borderRadius: BorderRadius.circular(5)
@@ -124,7 +124,7 @@ class ShimmerServiceWidget extends StatelessWidget {
                               Container(
                                 width: 80,
                                 height: 35,
-                                margin: EdgeInsets.only(top: 6),
+                                margin: const EdgeInsets.only(top: 6),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(color: Colors.white,
                                     borderRadius: BorderRadius.circular(5)

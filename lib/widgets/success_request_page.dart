@@ -7,6 +7,8 @@ import 'package:vendor_app/utility/hex_color.dart';
 
 class SuccessRequestPage extends StatefulWidget {
   static const String routeName = '/successRequestPage';
+
+  const SuccessRequestPage({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => SuccessRequestPageState();
 }
@@ -83,7 +85,7 @@ class SuccessRequestPageState extends State<SuccessRequestPage>
 
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: HexColor('008d00'),
+                      backgroundColor: HexColor('008d00'),
                       // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                       textStyle: const TextStyle(
                           fontSize: 16,

@@ -18,22 +18,22 @@ import 'widgets/success_request_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    final args = settings.arguments;
+   // final args = settings.arguments;
 
     switch (settings.name) {
       case '/splash':
         return MaterialPageRoute(
-          builder: (context) => SplashScreen(),
+          builder: (context) => const SplashScreen(),
           // settings omitted to hide route name
         );
 
       case TechnicianLoginPage.routeName:
         return MaterialPageRoute(
-          builder: (builder) => TechnicianLoginPage(),
+          builder: (builder) => const TechnicianLoginPage(),
         );
         case OtpVerificationPage.routeName:
         return MaterialPageRoute(
-          builder: (builder) => OtpVerificationPage(),
+          builder: (builder) => const OtpVerificationPage(),
           settings: settings
         );
 
@@ -44,60 +44,60 @@ class RouteGenerator {
 
       case ViewProfilePage.routeName:
         return MaterialPageRoute(
-          builder: (builder) => ViewProfilePage(),
+          builder: (builder) => const ViewProfilePage(),
         );
 
       case ReachedServiceDetailsPage.routeName:
         return MaterialPageRoute(
-          builder: (builder) => ReachedServiceDetailsPage(),
+          builder: (builder) => const ReachedServiceDetailsPage(),
           settings: settings
         );
 
       case CancelRequestPage.routeName:
         return MaterialPageRoute(
-          builder: (builder) => CancelRequestPage(),
+          builder: (builder) => const CancelRequestPage(),
         );
 
       case SuccessRequestPage.routeName:
         return MaterialPageRoute(
-          builder: (builder) => SuccessRequestPage(),
+          builder: (builder) => const SuccessRequestPage(),
         );
       case SuccessPasswordPage.routeName:
         return MaterialPageRoute(
-          builder: (builder) => SuccessPasswordPage(),
+          builder: (builder) => const SuccessPasswordPage(),
             settings: settings
         );
       case ConfirmPaymentPage.routeName:
         return MaterialPageRoute(
-          builder: (builder) => ConfirmPaymentPage(),
+          builder: (builder) => const ConfirmPaymentPage(),
             settings: settings
         );
         case PaymentPage.routeName:
         return MaterialPageRoute(
-          builder: (builder) => PaymentPage(),
+          builder: (builder) => const PaymentPage(),
             settings: settings
         );
 
       case ServiceReportPage.routeName:
         return MaterialPageRoute(
-          builder: (builder) => ServiceReportPage(),
+          builder: (builder) => const ServiceReportPage(),
             settings: settings
         );
       case '/qrScanner':
         return MaterialPageRoute(
-          builder: (context) => QRScanner(),
+          builder: (context) => const QRScanner(),
           settings: settings
           // settings omitted to hide route name
         );
         case InventoryAddPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => InventoryAddPage(),
+          builder: (context) => const InventoryAddPage(),
           settings: settings
           // settings omitted to hide route name
         );
       case NotificationPage.routeName:
         return MaterialPageRoute(
-            builder: (builder) => NotificationPage(),
+            builder: (builder) => const NotificationPage(),
             settings: settings
         );
       default:
@@ -107,7 +107,7 @@ class RouteGenerator {
 
   static Route<dynamic> errorRoute() {
     return MaterialPageRoute(builder: (builder) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: Text('Error'),
         ),

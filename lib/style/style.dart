@@ -8,10 +8,10 @@ class Style {
   static Container cardDivider = Container(
     width: double.infinity,
     height: 10.0,
-    color: Color.fromRGBO(222, 221, 222, 100.0),
+    color: const Color.fromRGBO(222, 221, 222, 100.0),
   );
   static Container contentDivider = Container(
-    margin: EdgeInsets.only(top: 10.0),
+    margin: const EdgeInsets.only(top: 10.0),
     width: double.infinity,
     height: 2.0,
     color: HexColor("#e5e5e5"),

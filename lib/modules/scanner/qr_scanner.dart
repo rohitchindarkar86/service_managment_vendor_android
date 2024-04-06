@@ -8,9 +8,10 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../style/style.dart';
 import '../../utility/hex_color.dart';
-import '../payment/confirm_payment/confirm_payment_page.dart';
 
 class QRScanner extends StatefulWidget {
+  const QRScanner({Key? key}) : super(key: key);
+
   @override
   _QRScannerState createState() => _QRScannerState();
 }
@@ -45,7 +46,7 @@ class _QRScannerState extends State<QRScanner> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('ED8F2D'),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.white, //change your color here
         ),
         title: Text('Qr Scanner',style: TextStyle(color: Colors.white,fontFamily: Style().font_medium(),fontSize: 16),),
@@ -54,11 +55,11 @@ class _QRScannerState extends State<QRScanner> {
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             height: 40,
             alignment: Alignment.center,
             color:  HexColor('ED8F2D'),
-              child: Text('Please Scan Our Company Qr Code On Appliance.',style: TextStyle(fontSize: 16,color: HexColor('FFFFFF'),fontFamily: Style().font_medium()),)
+              child: Text('Please Scan Our Company Qr Code On Appliance.',style: TextStyle(fontSize: 16,color: HexColor('#FFFFFF'),fontFamily: Style().font_medium()),)
           ),
           Expanded(
             child: Stack(
@@ -72,7 +73,7 @@ class _QRScannerState extends State<QRScanner> {
               height: MediaQuery.of(context).size.height-50,
               width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
-                child: Icon(Icons.qr_code_scanner,size: 180,)),
+                child: const Icon(Icons.qr_code_scanner,size: 180,)),
           ],
           )
 
@@ -91,19 +92,12 @@ class _QRScannerState extends State<QRScanner> {
         if(describeEnum(result!.format).toString() == 'qrcode'){
 
           if(result!.code.toString().contains('PYSAPP')){
-            print('${describeEnum(result!.format)}   Data: ${result!.code}');
             if(!isCapturedOnce) {
               isCapturedOnce = true;
-              // if(fromClick=="Yes") {
-              //   Navigator.pop(context);
-              //   Navigator.pushNamed(context, ConfirmPaymentPage.routeName,arguments: {"fromClick":"Yes","captureCode":result!.code.toString()});
-              // }else{
-              //   Navigator.pop(context, result!.code.toString());
-              // }
+
               Navigator.pop(context, result!.code.toString().replaceAll('PYSAPP-', ''));
             }
           }else{
-            print('Wrong QR'+result!.code.toString());
           }
         }
       });

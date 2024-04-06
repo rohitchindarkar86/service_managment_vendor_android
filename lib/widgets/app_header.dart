@@ -6,7 +6,7 @@ import '../../utility/hex_color.dart';
 class AppHeaderWidget extends StatelessWidget{
   String headerText;
   Function backPress;
-  AppHeaderWidget(this.headerText,this.backPress);
+  AppHeaderWidget(this.headerText,this.backPress, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +16,7 @@ class AppHeaderWidget extends StatelessWidget{
             BoxShadow(
                 color: Colors.black54.withOpacity(0.1),
                 blurRadius: 15.0,
-                offset: Offset(0.0, 0.75)
+                offset: const Offset(0.0, 0.75)
             )
           ],
           color: HexColor('#ED8F2D'),
@@ -25,7 +25,7 @@ class AppHeaderWidget extends StatelessWidget{
             .of(context)
             .size
             .width,
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
             horizontal: 16),
         child: Row(
           // mainAxisAlignment: MainAxisAlignment
@@ -37,16 +37,16 @@ class AppHeaderWidget extends StatelessWidget{
               onTap: (){
                 backPress();
               },
-              child: Icon(Icons.arrow_back,
+              child: const Icon(Icons.arrow_back,
                 color: Colors.white,),
             ),
-            SizedBox(width: 16,),
+            const SizedBox(width: 16,),
             Expanded(
               child: Container(
                 alignment: Alignment
                     .centerLeft,
                 child: Text(
-                    "${headerText}",
+                    headerText,
                     style: TextStyle(
                         fontSize: 16,
                         fontFamily: Style()

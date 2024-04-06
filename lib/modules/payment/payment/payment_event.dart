@@ -61,8 +61,8 @@ class PaymentGenerateRequestEvent extends PaymentEvent {
 
         if(response.data['image_url'] != null ||response.data['image_url'] ==''){
           String razorQRCode =response.data['image_url'];
-          String razorQRCode_id =response.data['id'];
-          yield UpdateRazaroPayState(razorQRCode,razorQRCode_id);
+          String razorQRCodeId =response.data['id'];
+          yield UpdateRazaroPayState(razorQRCode,razorQRCodeId);
         }else{
           yield ErrorPaymentState( response.message ??"Something went wrong please try after sometimes");
         }
@@ -82,9 +82,9 @@ class PaymentGenerateRequestEvent extends PaymentEvent {
 
 class PaymentCheckRequestEvent extends PaymentEvent {
 
-  String qr_id;
+  String qrId;
   ServiceListModel serviceList;
-  PaymentCheckRequestEvent(this.qr_id,this.serviceList);
+  PaymentCheckRequestEvent(this.qrId,this.serviceList);
   @override
   Stream<PaymentState> applyAsync(
       {PaymentState? currentState, PaymentBloc? bloc}) async* {

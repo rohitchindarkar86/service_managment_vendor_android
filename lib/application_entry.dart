@@ -18,7 +18,7 @@ import 'package:vendor_app/utility/hex_color.dart';
 
 class EntryApplication extends StatefulWidget {
   final String initialRoute;
-  const  EntryApplication(this.initialRoute);
+  const  EntryApplication(this.initialRoute, {Key? key}) : super(key: key);
 
   @override
   _EntryApplicationState createState() {

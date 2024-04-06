@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vendor_app/modules/profile/notification/notification/index.dart';
 
@@ -64,7 +63,7 @@ class NotificationScreenState extends State<NotificationScreen> {
           return SafeArea(
             child: Container(
                 color: HexColor('#F1F9FE'),
-              padding: EdgeInsets.only(),
+              padding: const EdgeInsets.only(),
               child: Stack(
                 children: [
                   Column(
@@ -76,7 +75,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                         ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
-                          physics: ClampingScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index){
                             return ItemNotificationServiceListWidget(userNotificationListModel![index]);
                           },

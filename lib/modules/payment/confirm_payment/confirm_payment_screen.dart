@@ -5,7 +5,6 @@ import 'package:vendor_app/utility/app_utility.dart';
 
 import '../../../style/style.dart';
 import '../../../utility/hex_color.dart';
-import '../payment/payment_page.dart';
 
 class ConfirmPaymentScreen extends StatefulWidget {
   final String fromClick;
@@ -55,7 +54,7 @@ class ConfirmPaymentScreenState extends State<ConfirmPaymentScreen> {
   Widget build(BuildContext context) {
 
     return BlocConsumer<ConfirmPaymentBloc, ConfirmPaymentState>(
-        listener: (Context, currentState) {
+        listener: (context, currentState) {
           if (currentState is UnConfirmPaymentState) {}
           if (currentState is ErrorConfirmPaymentState) {}
           if (currentState is InConfirmPaymentState) {}
@@ -70,414 +69,410 @@ class ConfirmPaymentScreenState extends State<ConfirmPaymentScreen> {
             onWillPop: () async {
               return true;
             },
-            child: Container(
+            child: SizedBox(
               height: height,
 
               child: Column(
                 children: [
-                  SizedBox(height: 16,),
+                  const SizedBox(height: 16,),
                   Expanded(
                       child:SingleChildScrollView(
-                        child: Container(
-
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 16),
-                                alignment: Alignment.centerLeft,
-                                child:  Text(
-                                  'Appliance Details',
-                                  style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
-                                ),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 16),
+                              alignment: Alignment.centerLeft,
+                              child:  Text(
+                                'Appliance Details',
+                                style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#000000')  ),
                               ),
-                              SizedBox(height: 6,),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                color: Colors.white,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 16,),
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child:  Text(
-                                        'Service Details',
-                                        style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#000000')  ),
-                                      ),
+                            ),
+                            const SizedBox(height: 6,),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              color: Colors.white,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 16,),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child:  Text(
+                                      'Service Details',
+                                      style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#000000')  ),
                                     ),
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child:  Text(
-                                        '1234567801',
-                                        style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#000000').withOpacity(0.5)  ),
-                                      ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child:  Text(
+                                      '1234567801',
+                                      style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#000000').withOpacity(0.5)  ),
                                     ),
-                                    SizedBox(height: 16,),
-                                    Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+                                  ),
+                                  const SizedBox(height: 16,),
+                                  Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    border: Border.all(color: HexColor('464646').withOpacity(0.3)),
 
-                                    ),
-                                    child:Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
+                                  ),
+                                  child:Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          height: 35,
+                                          alignment: Alignment.centerLeft,
+                                          margin: const EdgeInsets.only(left: 8),
+                                          child: Text('Appliance',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
+                                      Divider(
+                                        height: 2,
+                                        thickness: 1,
+                                        color:  HexColor('464646').withOpacity(0.3),
+                                      ),
+                                      Container(
+                                        height: 40,
+                                        width: MediaQuery.of(context).size.width,
+                                        alignment: Alignment.centerLeft,
+                                        margin: const EdgeInsets.only(left: 8),
+                                        child:
+                                        DropdownButtonHideUnderline(
+                                          child: DropdownButton<String>(
+                                            isExpanded: true,
+                                            value: applianceDropDownValue,
+                                            items: <String>['AC', 'Refrigerator', 'Oven', 'TV'].map((String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value,style: TextStyle(fontSize: 16,color: HexColor('000000')),),
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                applianceDropDownValue = value;
+                                              });
+                                            },
+                                          ),
+                                        ),)
+
+                                    ],
+                                  )
+
+                              ),
+                                  const SizedBox(height: 8,),
+                                  Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+
+                                      ),
+                                      child:Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                              height: 35,
+                                              alignment: Alignment.centerLeft,
+                                              margin: const EdgeInsets.only(left: 8),
+                                              child: Text('Appliance Company Name',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
+                                          Divider(
+                                            height: 2,
+                                            thickness: 1,
+                                            color:  HexColor('464646').withOpacity(0.3),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                            width: MediaQuery.of(context).size.width,
+                                            alignment: Alignment.centerLeft,
+                                            margin: const EdgeInsets.only(left: 8),
+                                            child: DropdownButtonHideUnderline(
+                                              child: DropdownButton<String>(
+                                                isExpanded: true,
+                                                value: applianceCompanyNameDropDownValue,
+                                                items: <String>['Carrier', 'LG', 'Samsung', 'Onida'].map((String value) {
+                                                  return DropdownMenuItem<String>(
+                                                    value: value,
+                                                    child: Text(value),
+                                                  );
+                                                }).toList(),
+                                                onChanged: (_) {},
+                                              ),
+                                            ),)
+
+                                        ],
+                                      )
+
+                                  ),
+                                  const SizedBox(height: 8,),
+                                  Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+
+                                      ),
+                                      child:Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                              height: 35,
+                                              alignment: Alignment.centerLeft,
+                                              margin: const EdgeInsets.only(left: 8),
+                                              child: Text('Appliance Date Of Purchase',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
+                                          Divider(
+                                            height: 2,
+                                            thickness: 1,
+                                            color:  HexColor('464646').withOpacity(0.3),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                            width: MediaQuery.of(context).size.width,
+                                            alignment: Alignment.centerLeft,
+                                            margin: const EdgeInsets.only(left: 8),
+                                            child:
+                                            DropdownButtonHideUnderline(
+                                              child: DropdownButton<String>(
+                                                isExpanded: true,
+                                                value: applianceDOPDropDownValue,
+                                                items: <String>['2021', '2020', '2019', '2018'].map((String value) {
+                                                  return DropdownMenuItem<String>(
+                                                    value: value,
+                                                    child: Text(value),
+                                                  );
+                                                }).toList(),
+                                                onChanged: (_) {},
+                                              ),
+                                            ),)
+
+                                        ],
+                                      )
+
+                                  ),
+                                  const SizedBox(height: 8,),
+                                  Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+
+                                      ),
+                                      child:Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                              height: 35,
+                                              alignment: Alignment.centerLeft,
+                                              margin: const EdgeInsets.only(left: 8),
+                                              child: Text('Appliance Area',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
+                                          Divider(
+                                            height: 2,
+                                            thickness: 1,
+                                            color:  HexColor('464646').withOpacity(0.3),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                            width: MediaQuery.of(context).size.width,
+                                            alignment: Alignment.centerLeft,
+                                            margin: const EdgeInsets.only(left: 8),
+                                            child:
+                                            DropdownButtonHideUnderline(
+                                              child: DropdownButton<String>(
+                                                isExpanded: true,
+                                                value: applianceAreaDropDownValue,
+                                                items: <String>['Hall', 'Kitchen', 'Bedroom1', 'Bedroom2','Bedroom3', 'Bedroom4','Other'].map((String value) {
+                                                  return DropdownMenuItem<String>(
+                                                    value: value,
+                                                    child: Text(value),
+                                                  );
+                                                }).toList(),
+                                                onChanged: (_) {},
+                                              ),
+                                            ),)
+
+                                        ],
+                                      )
+
+                                  ),
+                                  const SizedBox(height: 8,),
+                                  Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+
+                                      ),
+                                      child:Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                              height: 35,
+                                              alignment: Alignment.centerLeft,
+                                              margin: const EdgeInsets.only(left: 8),
+                                              child: Text('Model No',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
+                                          Divider(
+                                            height: 2,
+                                            thickness: 1,
+                                            color:  HexColor('464646').withOpacity(0.3),
+                                          ),
+                                          Container(
                                             height: 35,
                                             alignment: Alignment.centerLeft,
-                                            margin: EdgeInsets.only(left: 8),
-                                            child: Text('Appliance',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
-                                        Divider(
-                                          height: 2,
-                                          thickness: 1,
-                                          color:  HexColor('464646').withOpacity(0.3),
-                                        ),
-                                        Container(
-                                          height: 40,
-                                          width: MediaQuery.of(context).size.width,
-                                          alignment: Alignment.centerLeft,
-                                          margin: EdgeInsets.only(left: 8),
-                                          child:
-                                          DropdownButtonHideUnderline(
-                                            child: DropdownButton<String>(
-                                              isExpanded: true,
-                                              value: applianceDropDownValue,
-                                              items: <String>['AC', 'Refrigerator', 'Oven', 'TV'].map((String value) {
-                                                return DropdownMenuItem<String>(
-                                                  value: value,
-                                                  child: Text(value,style: TextStyle(fontSize: 16,color: HexColor('000000')),),
-                                                );
-                                              }).toList(),
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  applianceDropDownValue = value;
-                                                });
-                                              },
-                                            ),
-                                          ),)
-
-                                      ],
-                                    )
-
-                                ),
-                                    SizedBox(height: 8,),
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(color: HexColor('464646').withOpacity(0.3)),
-
-                                        ),
-                                        child:Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                height: 35,
-                                                alignment: Alignment.centerLeft,
-                                                margin: EdgeInsets.only(left: 8),
-                                                child: Text('Appliance Comapny Name',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
-                                            Divider(
-                                              height: 2,
-                                              thickness: 1,
-                                              color:  HexColor('464646').withOpacity(0.3),
-                                            ),
-                                            Container(
-                                              height: 40,
-                                              width: MediaQuery.of(context).size.width,
-                                              alignment: Alignment.centerLeft,
-                                              margin: EdgeInsets.only(left: 8),
-                                              child: DropdownButtonHideUnderline(
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  value: applianceCompanyNameDropDownValue,
-                                                  items: <String>['Carrier', 'LG', 'Samsung', 'Onida'].map((String value) {
-                                                    return DropdownMenuItem<String>(
-                                                      value: value,
-                                                      child: Text(value),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged: (_) {},
+                                            margin: const EdgeInsets.only(left: 8),
+                                            child: TextFormField(
+                                              cursorColor: Colors.black,
+                                              minLines: 1,
+                                              maxLines: 1,
+                                              decoration:  InputDecoration(
+                                                contentPadding: const EdgeInsets.only(left: 12,),
+                                                fillColor: HexColor('ED8F2D'),
+                                                enabledBorder: UnderlineInputBorder(
+                                                  borderSide: BorderSide(color: HexColor('ED8F2D')),
                                                 ),
-                                              ),)
-
-                                          ],
-                                        )
-
-                                    ),
-                                    SizedBox(height: 8,),
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(color: HexColor('464646').withOpacity(0.3)),
-
-                                        ),
-                                        child:Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                height: 35,
-                                                alignment: Alignment.centerLeft,
-                                                margin: EdgeInsets.only(left: 8),
-                                                child: Text('Appliance Date Of Purchase',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
-                                            Divider(
-                                              height: 2,
-                                              thickness: 1,
-                                              color:  HexColor('464646').withOpacity(0.3),
-                                            ),
-                                            Container(
-                                              height: 40,
-                                              width: MediaQuery.of(context).size.width,
-                                              alignment: Alignment.centerLeft,
-                                              margin: EdgeInsets.only(left: 8),
-                                              child:
-                                              DropdownButtonHideUnderline(
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  value: applianceDOPDropDownValue,
-                                                  items: <String>['2021', '2020', '2019', '2018'].map((String value) {
-                                                    return DropdownMenuItem<String>(
-                                                      value: value,
-                                                      child: Text(value),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged: (_) {},
+                                                focusedBorder: UnderlineInputBorder(
+                                                  borderSide: BorderSide(color: HexColor('ED8F2D')),
                                                 ),
-                                              ),)
 
-                                          ],
-                                        )
+                                              ),
+                                              style: TextStyle(
+                                                fontFamily: Style().font_regular(),
+                                                fontSize: 16,
+                                                color:  Colors.black,),
+                                              keyboardType: TextInputType.text,
+                                              // controller: EmailController,
+                                            ),)
 
-                                    ),
-                                    SizedBox(height: 8,),
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+                                        ],
+                                      )
 
-                                        ),
-                                        child:Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                height: 35,
-                                                alignment: Alignment.centerLeft,
-                                                margin: EdgeInsets.only(left: 8),
-                                                child: Text('Appliance Area',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
-                                            Divider(
-                                              height: 2,
-                                              thickness: 1,
-                                              color:  HexColor('464646').withOpacity(0.3),
-                                            ),
-                                            Container(
-                                              height: 40,
-                                              width: MediaQuery.of(context).size.width,
-                                              alignment: Alignment.centerLeft,
-                                              margin: EdgeInsets.only(left: 8),
-                                              child:
-                                              DropdownButtonHideUnderline(
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  value: applianceAreaDropDownValue,
-                                                  items: <String>['Hall', 'Kitchen', 'Bedroom1', 'Bedroom2','Bedroom3', 'Bedroom4','Other'].map((String value) {
-                                                    return DropdownMenuItem<String>(
-                                                      value: value,
-                                                      child: Text(value),
-                                                    );
-                                                  }).toList(),
-                                                  onChanged: (_) {},
-                                                ),
-                                              ),)
+                                  ),
+                                  const SizedBox(height: 8,),
+                                  Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        border: Border.all(color: HexColor('464646').withOpacity(0.3)),
 
-                                          ],
-                                        )
-
-                                    ),
-                                    SizedBox(height: 8,),
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(color: HexColor('464646').withOpacity(0.3)),
-
-                                        ),
-                                        child:Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                height: 35,
-                                                alignment: Alignment.centerLeft,
-                                                margin: EdgeInsets.only(left: 8),
-                                                child: Text('Model No',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
-                                            Divider(
-                                              height: 2,
-                                              thickness: 1,
-                                              color:  HexColor('464646').withOpacity(0.3),
-                                            ),
-                                            Container(
+                                      ),
+                                      child:Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
                                               height: 35,
                                               alignment: Alignment.centerLeft,
-                                              margin: EdgeInsets.only(left: 8),
-                                              child: TextFormField(
-                                                cursorColor: Colors.black,
-                                                minLines: 1,
-                                                maxLines: 1,
-                                                decoration:  InputDecoration(
-                                                  contentPadding: EdgeInsets.only(left: 12,),
-                                                  fillColor: HexColor('ED8F2D'),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                    borderSide: BorderSide(color: HexColor('ED8F2D')),
-                                                  ),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                    borderSide: BorderSide(color: HexColor('ED8F2D')),
-                                                  ),
-
+                                              margin: const EdgeInsets.only(left: 8),
+                                              child: Text('Serial No',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
+                                          Divider(
+                                            height: 2,
+                                            thickness: 1,
+                                            color:  HexColor('464646').withOpacity(0.3),
+                                          ),
+                                          Container(
+                                            height: 35,
+                                            alignment: Alignment.centerLeft,
+                                            margin: const EdgeInsets.only(left: 8),
+                                            child: TextFormField(
+                                              cursorColor: Colors.black,
+                                              minLines: 1,
+                                              maxLines: 1,
+                                              decoration:  InputDecoration(
+                                                contentPadding: const EdgeInsets.only(left: 12,),
+                                                fillColor: HexColor('ED8F2D'),
+                                                enabledBorder: UnderlineInputBorder(
+                                                  borderSide: BorderSide(color: HexColor('ED8F2D')),
                                                 ),
-                                                style: TextStyle(
-                                                  fontFamily: Style().font_regular(),
-                                                  fontSize: 16,
-                                                  color:  Colors.black,),
-                                                keyboardType: TextInputType.text,
-                                                // controller: EmailController,
-                                              ),)
+                                                focusedBorder: UnderlineInputBorder(
+                                                  borderSide: BorderSide(color: HexColor('ED8F2D')),
+                                                ),
 
-                                          ],
-                                        )
+                                              ),
+                                              style: TextStyle(
+                                                fontFamily: Style().font_regular(),
+                                                fontSize: 16,
+                                                color:  Colors.black,),
+                                              keyboardType: TextInputType.text,
+                                              // controller: EmailController,
+                                            ),)
 
-                                    ),
-                                    SizedBox(height: 8,),
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+                                        ],
+                                      )
 
-                                        ),
-                                        child:Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                height: 35,
-                                                alignment: Alignment.centerLeft,
-                                                margin: EdgeInsets.only(left: 8),
-                                                child: Text('Serial No',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
-                                            Divider(
-                                              height: 2,
-                                              thickness: 1,
-                                              color:  HexColor('464646').withOpacity(0.3),
-                                            ),
-                                            Container(
+                                  ),
+                                  const SizedBox(height: 8,),
+                                  Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        border: Border.all(color: HexColor('464646').withOpacity(0.3)),
+
+                                      ),
+                                      child:Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
                                               height: 35,
                                               alignment: Alignment.centerLeft,
-                                              margin: EdgeInsets.only(left: 8),
-                                              child: TextFormField(
-                                                cursorColor: Colors.black,
-                                                minLines: 1,
-                                                maxLines: 1,
-                                                decoration:  InputDecoration(
-                                                  contentPadding: EdgeInsets.only(left: 12,),
-                                                  fillColor: HexColor('ED8F2D'),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                    borderSide: BorderSide(color: HexColor('ED8F2D')),
-                                                  ),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                    borderSide: BorderSide(color: HexColor('ED8F2D')),
-                                                  ),
+                                              margin: const EdgeInsets.only(left: 8),
+                                              child: Text('Qr Code',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
+                                          Divider(
+                                            height: 2,
+                                            thickness: 1,
+                                            color:  HexColor('464646').withOpacity(0.3),
+                                          ),
+                                          Container(
+                                            height: 35,
+                                            alignment: Alignment.centerLeft,
+                                            margin: const EdgeInsets.only(left: 8,right: 8),
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text('$qrCodeValue',style: TextStyle(fontSize: 16,fontFamily: Style().font_regular(),color: HexColor('000000')),),
+                                                GestureDetector(
+                                                    onTap: (){
+                                                      Navigator.pushNamed(context, '/qrScanner').then((value){
+                                                        if(value != null){
+                                                          setState(() {
+                                                            qrCodeValue = value.toString();
+                                                          });
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Icon(Icons.camera_alt_outlined,size: 24,color: HexColor('ED8F2D'),))
+                                              ],
+                                            ))
 
-                                                ),
-                                                style: TextStyle(
-                                                  fontFamily: Style().font_regular(),
-                                                  fontSize: 16,
-                                                  color:  Colors.black,),
-                                                keyboardType: TextInputType.text,
-                                                // controller: EmailController,
-                                              ),)
+                                        ],
+                                      )
 
-                                          ],
-                                        )
-
-                                    ),
-                                    SizedBox(height: 8,),
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(color: HexColor('464646').withOpacity(0.3)),
-
-                                        ),
-                                        child:Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                height: 35,
-                                                alignment: Alignment.centerLeft,
-                                                margin: EdgeInsets.only(left: 8),
-                                                child: Text('Qr Code',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
-                                            Divider(
-                                              height: 2,
-                                              thickness: 1,
-                                              color:  HexColor('464646').withOpacity(0.3),
-                                            ),
-                                            Container(
-                                              height: 35,
-                                              alignment: Alignment.centerLeft,
-                                              margin: EdgeInsets.only(left: 8,right: 8),
-                                              child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text('${qrCodeValue}',style: TextStyle(fontSize: 16,fontFamily: Style().font_regular(),color: HexColor('000000')),),
-                                                  GestureDetector(
-                                                      onTap: (){
-                                                        Navigator.pushNamed(context, '/qrScanner').then((value){
-                                                          print('BackClick:-'+value.toString());
-                                                          if(value != null){
-                                                            setState(() {
-                                                              qrCodeValue = value.toString();
-                                                            });
-                                                          }
-                                                        });
-                                                      },
-                                                      child: Icon(Icons.camera_alt_outlined,size: 24,color: HexColor('ED8F2D'),))
-                                                ],
-                                              ))
-
-                                          ],
-                                        )
-
-                                    ),
-                                    SizedBox(height: 16,),
-                                  ],
-                                ),
+                                  ),
+                                  const SizedBox(height: 16,),
+                                ],
                               ),
-                              SizedBox(height: 16,),
+                            ),
+                            const SizedBox(height: 16,),
 
-                            ],
-                          ),
+                          ],
                         ),
                       )
                   ),
-                  SizedBox(height: 8,),
+                  const SizedBox(height: 8,),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 8),
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
                     child: Row(
                       children: [
                         Expanded(
-                          child:   Container(
+                          child:   SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: Text('Proceed To Payment'),
+                              child: const Text('Proceed To Payment'),
                               onPressed: () {
                                 // Navigator.pushNamed(context, PaymentPage.routeName);
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  backgroundColor: HexColor('ED8F2D'),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold)),
                             ),
@@ -487,7 +482,7 @@ class ConfirmPaymentScreenState extends State<ConfirmPaymentScreen> {
                     ),
                   ),
 
-                  SizedBox(height: 8,),
+                  const SizedBox(height: 8,),
                 ],
               ),
             ),

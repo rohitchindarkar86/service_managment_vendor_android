@@ -9,6 +9,8 @@ import '../../dashboard/dashboard/dashboard_page.dart';
 class PaymentPage extends StatefulWidget {
   static const String routeName = '/payment';
 
+  const PaymentPage({Key? key}) : super(key: key);
+
   @override
   _PaymentPageState createState() => _PaymentPageState();
 }
@@ -24,8 +26,8 @@ class _PaymentPageState extends State<PaymentPage> {
     fromScreen = arguments['fromScreen'];
     return Scaffold(
       appBar: AppBar(
-          leading: new IconButton(
-              icon: new Icon(Icons.arrow_back),
+          leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
               onPressed: (){
                 if(fromScreen == 'ServiceReport'){
                 Navigator.popAndPushNamed(context, DashboardPage.routeName);
@@ -34,7 +36,7 @@ class _PaymentPageState extends State<PaymentPage> {
               }}
           ),
         backgroundColor: HexColor('ED8F2D'),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.white, //change your color here
         ),
         title: Text('Payment',style: TextStyle(color: Colors.white,fontFamily: Style().font_medium(),fontSize: 16),),

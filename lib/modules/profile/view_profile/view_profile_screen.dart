@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -44,7 +43,7 @@ class ViewProfileScreenState extends State<ViewProfileScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<ViewProfileBloc, ViewProfileState>(
         bloc: widget._viewProfileBloc,
-        listener: (Context, currentState) {
+        listener: (context, currentState) {
           if (currentState is UnViewProfileState) {}
           if (currentState is ErrorViewProfileState) {}
           if (currentState is InViewProfileState) {}
@@ -58,40 +57,36 @@ class ViewProfileScreenState extends State<ViewProfileScreen> {
             onWillPop: () async {
               return true;
             },
-            child: Container(
-              child: Column(
-                children: [
-                  SizedBox(height: 24,),
-                  Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 24,right: 24,top:0,bottom: 0),
-                            child: ProfileWidget.profileLableTextWidget('Job Profile Title','Ac Technician'),
-                          ),
-                          SizedBox(height: 16,),
-                          Container(
-                            margin: EdgeInsets.only(left: 24,right: 24,top:0,bottom: 0),
-                            child: ProfileWidget.profileLableTextWidget('Adhar Card Number','10805045097'),
-                          ),
-                          SizedBox(height: 16,),
-                          Container(
-                            margin: EdgeInsets.only(left: 24,right: 24,top:0,bottom: 0),
-                            child: ProfileWidget.profileLableTextWidget('Date Of Birth','10-Mar-1987'),
-                          ),
-                          SizedBox(height: 16,),
-                          Container(
-                            margin: EdgeInsets.only(left: 24,right: 24,top:0,bottom: 0),
-                            child: ProfileWidget.profileLableTextWidget('Blood Group','O+ve'),
-                          )
-                        ],
+            child: Column(
+              children: [
+                const SizedBox(height: 24,),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 24,right: 24,top:0,bottom: 0),
+                        child: ProfileWidget.profileLableTextWidget('Job Profile Title','Ac Technician'),
                       ),
-                    ),
+                      const SizedBox(height: 16,),
+                      Container(
+                        margin: const EdgeInsets.only(left: 24,right: 24,top:0,bottom: 0),
+                        child: ProfileWidget.profileLableTextWidget('Aadhaar Card Number','10805045097'),
+                      ),
+                      const SizedBox(height: 16,),
+                      Container(
+                        margin: const EdgeInsets.only(left: 24,right: 24,top:0,bottom: 0),
+                        child: ProfileWidget.profileLableTextWidget('Date Of Birth','10-Mar-1987'),
+                      ),
+                      const SizedBox(height: 16,),
+                      Container(
+                        margin: const EdgeInsets.only(left: 24,right: 24,top:0,bottom: 0),
+                        child: ProfileWidget.profileLableTextWidget('Blood Group','O+ve'),
+                      )
+                    ],
                   ),
+                ),
 
-                ],
-              ),
+              ],
             ),
           );
         });
@@ -107,24 +102,26 @@ class IdCardScreen extends StatelessWidget {
 
   String techName='';
   String registrationNo='';
-  String addharCardNo='';
+  String aadhaarCardNo='';
   String address='';
-  String booldGroup='';
+  String bloodGroup='';
+
+  IdCardScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     getUserDetailsModel();
     techName = (userDetailsModel?.technicianName)!;
     registrationNo = (userDetailsModel?.userCode.toString())!;
-    addharCardNo = (userDetailsModel?.uidaI_Aadhar.toString())!;
-    booldGroup = (userDetailsModel?.bloodGroup_Desc.toString())!;
+    aadhaarCardNo = (userDetailsModel?.uidaI_Aadhar.toString())!;
+    bloodGroup = (userDetailsModel?.bloodGroup_Desc.toString())!;
     address = (userDetailsModel?.addressLine_1??"")+" "+(userDetailsModel?.addressLine_2 ??"");
     return Scaffold(
         appBar: AppBar(
           backgroundColor: HexColor('ED8F2D'),
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.white, //change your color here
           ),
-          title: Text('Techincian Identity Card',style: TextStyle(color: Colors.white,fontFamily: Style().font_medium(),fontSize: 16),),
+          title: Text('Technician Identity Card',style: TextStyle(color: Colors.white,fontFamily: Style().font_medium(),fontSize: 16),),
         ),
       body:  Scaffold(
         backgroundColor:Colors.white,
@@ -140,7 +137,7 @@ class IdCardScreen extends StatelessWidget {
                         child:Container(
                             height: 520,
                             color: Colors.transparent,
-                            margin: EdgeInsets.only(left: 36,right: 36,top:24,bottom: 2),
+                            margin: const EdgeInsets.only(left: 36,right: 36,top:24,bottom: 2),
                             child: Card(
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -148,7 +145,7 @@ class IdCardScreen extends StatelessWidget {
                               ),
                               child:Stack(
                                 children: <Widget>[
-                                  Container(
+                                  SizedBox(
                                     width: MediaQuery.of(context).size.width,
 
                                     height: 520,
@@ -158,7 +155,7 @@ class IdCardScreen extends StatelessWidget {
                                         //Header
                                         Container(
                                           decoration: BoxDecoration(color: HexColor('85B5CA').withOpacity(0.5),
-                                              borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10),)
+                                              borderRadius: const BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10),)
                                           ),
                                           height: 35,
                                           width: MediaQuery.of(context).size.width,
@@ -171,7 +168,7 @@ class IdCardScreen extends StatelessWidget {
                                                 alignment: Alignment.center,
                                                 child: Image.asset('assets/images/app_logo.png'),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 8,
                                               ),
                                               Container(
@@ -192,25 +189,25 @@ class IdCardScreen extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
+                                        const SizedBox(height: 20,),
 
                                         Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 10),
+                                          margin: const EdgeInsets.symmetric(horizontal: 10),
                                           child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Expanded(child: Container(
-                                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                                margin: const EdgeInsets.symmetric(horizontal: 10),
                                                 child: Column(
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: [
-                                                    Container(
+                                                    SizedBox(
                                                       height: 130,
                                                       child: Image.asset('assets/images/sample_img1.png'),
                                                     ),
                                                     Container(
-                                                      margin: EdgeInsets.only(left: 4,top: 4),
+                                                      margin: const EdgeInsets.only(left: 4,top: 4),
                                                       child: RatingBar.builder(
                                                         ignoreGestures:true,
                                                         itemSize: 14,
@@ -219,8 +216,8 @@ class IdCardScreen extends StatelessWidget {
                                                         direction: Axis.horizontal,
                                                         allowHalfRating: true,
                                                         itemCount: 5,
-                                                        itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                                                        itemBuilder: (context, _) => Icon(
+                                                        itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+                                                        itemBuilder: (context, _) => const Icon(
                                                           Icons.star,
                                                           color: Colors.amber,
                                                         ),
@@ -233,46 +230,44 @@ class IdCardScreen extends StatelessWidget {
                                                       style: TextStyle(fontSize: 16 ,fontFamily: Style().font_medium(),color: HexColor('#494949')  ),
                                                     ),
 
-                                                    SizedBox(height: 24,),
+                                                    const SizedBox(height: 24,),
 
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Expanded(
-                                                          child: Container(
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                              children: [
-                                                                ProfileWidget.idLableWidget('Registration No'),
-                                                                ProfileWidget.idTexteWidget('${registrationNo}'),
-                                                              ],
-                                                            ),
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: [
+                                                              ProfileWidget.idLableWidget('Registration No'),
+                                                              ProfileWidget.idTexteWidget(registrationNo),
+                                                            ],
                                                           ),
                                                         ),
 
-                                                        Expanded(child: Container(
+                                                        Expanded(child: SizedBox(
                                                           width: MediaQuery.of(context).size.width *0.35,
                                                           child: Column(
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             crossAxisAlignment: CrossAxisAlignment.center,
                                                             children: [
-                                                              ProfileWidget.idLableWidget('Aadhar Card No'),
-                                                              ProfileWidget.idTexteWidget('${addharCardNo}'),
+                                                              ProfileWidget.idLableWidget('Aadhaar Card No'),
+                                                              ProfileWidget.idTexteWidget(aadhaarCardNo),
                                                             ],
                                                           ),
                                                         ),)
                                                         
                                                       ],
                                                     ),
-                                                    SizedBox(height: 16,),
+                                                    const SizedBox(height: 16,),
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Expanded(
-                                                          child:  Container(
+                                                          child:  SizedBox(
                                                             width: MediaQuery.of(context).size.width *0.35,
                                                             child: Column(
                                                               mainAxisAlignment: MainAxisAlignment.start,
@@ -285,37 +280,28 @@ class IdCardScreen extends StatelessWidget {
                                                           ),
                                                         ),
 
-                                                        Expanded(child:  Container(
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: [
-                                                              ProfileWidget.idLableWidget('Blood Group'),
-                                                              ProfileWidget.idTexteWidget('${booldGroup}'),
-                                                            ],
-                                                          ),
+                                                        Expanded(child:  Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            ProfileWidget.idLableWidget('Blood Group'),
+                                                            ProfileWidget.idTexteWidget(bloodGroup),
+                                                          ],
                                                         ),)
 
                                                       ],
                                                     ),
-                                                    SizedBox(height: 8,),
-                                                    Container(
-
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: [
-                                                          ProfileWidget.idLableWidget('Address'),
-                                                          ProfileWidget.idTexteWidget('${address}'),
-                                                        ],
-                                                      ),
+                                                    const SizedBox(height: 8,),
+                                                    Column(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        ProfileWidget.idLableWidget('Address'),
+                                                        ProfileWidget.idTexteWidget(address),
+                                                      ],
                                                     ),
-                                                    SizedBox(height: 8,),
-                                                    Container(
-                                                      child: Container(
-                                                        child: Image.asset('assets/images/vaccinated.png',height: 100,),
-                                                      ),
-                                                    ),
+                                                    const SizedBox(height: 8,),
+                                                    Image.asset('assets/images/vaccinated.png',height: 100,),
 
                                                   ],
                                                 ),
@@ -323,7 +309,7 @@ class IdCardScreen extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        SizedBox(height: 2,),
+                                        const SizedBox(height: 2,),
 
                                       ],
                                     ),

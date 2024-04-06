@@ -4,6 +4,8 @@ import 'package:vendor_app/modules/login/otp_verification/index.dart';
 class OtpVerificationPage extends StatefulWidget {
   static const String routeName = '/otpVerification';
 
+  const OtpVerificationPage({Key? key}) : super(key: key);
+
   @override
   _OtpVerificationPageState createState() => _OtpVerificationPageState();
 }

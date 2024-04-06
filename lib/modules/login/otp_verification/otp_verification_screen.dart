@@ -35,24 +35,24 @@ class OtpVerificationScreenState extends State<OtpVerificationScreen> {
   OtpVerificationScreenState();
 
   bool isApiCall = false;
-  TextEditingController _OtpController = TextEditingController();
+  final TextEditingController _otpController = TextEditingController();
   SharedPreferences? sharedPreferences;
   String? mobileNo = '';
   Timer? _timer;
   int sec = 30;
-  String? resendtext = '';
+  String? resendText = '';
   bool? canCheckBiometrics;
   String emailId="";
 
   void startTimer() {
-    const oneSec = const Duration(seconds: 1);
+    const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
           (Timer timer) {
         if (sec == 0) {
           if (mounted) {
             setState(() {
-              resendtext = '${LocaleKeys.OtpVerificationResendOtpLbl.tr()}';
+              resendText = LocaleKeys.OtpVerificationResendOtpLbl.tr();
               timer.cancel();
             });
           }
@@ -60,8 +60,8 @@ class OtpVerificationScreenState extends State<OtpVerificationScreen> {
           if (mounted) {
             setState(() {
               sec--;
-              resendtext =
-              '${LocaleKeys.OtpVerificationResendOtpInLbl.tr()} ${sec} ${LocaleKeys.OtpVerificationSecondLbl.tr()}';
+              resendText =
+              '${LocaleKeys.OtpVerificationResendOtpInLbl.tr()} $sec ${LocaleKeys.OtpVerificationSecondLbl.tr()}';
             });
           }
         }
@@ -94,7 +94,7 @@ class OtpVerificationScreenState extends State<OtpVerificationScreen> {
             FocusScope.of(context).unfocus();
             isApiCall = false;
             AppUtility.ShowToast(context, HexColor('AFE1C3'),
-                '${currentState.errorMessage}', HexColor('0B600B'), 4);
+                currentState.errorMessage, HexColor('0B600B'), 4);
           }
 
 
@@ -122,132 +122,126 @@ class OtpVerificationScreenState extends State<OtpVerificationScreen> {
               Navigator.pop(context, true);
               return true;
             },
-            child: Container(
-              child: SafeArea(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.centerLeft,
-                      height: 56,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 24,
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.centerLeft,
+                    height: 56,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          width: 24,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _timer?.cancel();
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(Icons.arrow_back_ios,size: 24,)
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.fromLTRB(9, 0, 0, 0),
+                          child: Text(
+                            LocaleKeys.OtpVerificationLbl.tr(),
+                            style: TextStyle(
+                                color:
+                                Theme.of(context).colorScheme.blackColor3,
+                                fontSize: 24.0,
+                                fontFamily: Style().font_medium()),
+                            textAlign: TextAlign.center,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              _timer?.cancel();
-                              Navigator.pop(context);
-                            },
-                            child: Icon(Icons.arrow_back_ios,size: 24,)
-                          ),
-                          SizedBox(
-                            width: 12,
-                          ),
-                          Container(
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 60, right: 24, left: 24),
+                    child: Column(
+                      children: [
+                        Container(
                             alignment: Alignment.center,
-                            margin: EdgeInsets.fromLTRB(9, 0, 0, 0),
-                            child: Text(
-                              LocaleKeys.OtpVerificationLbl.tr(),
-                              style: TextStyle(
-                                  color:
-                                  Theme.of(context).colorScheme.blackColor3,
-                                  fontSize: 24.0,
-                                  fontFamily: Style().font_medium()),
-                              textAlign: TextAlign.center,
+                            margin: const EdgeInsets.only(
+                              top: 54,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 60, right: 24, left: 24),
-                      child: Column(
-                        children: [
-                          Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                top: 54,
-                              ),
-                              child: RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                        text:
-                                        '${LocaleKeys.OtpVerificationEnteredOtpSentToLbl.tr()}',
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .blackColor3,
-                                          fontSize: 18.0,
-                                          fontFamily: Style().font_medium(),
-                                        )),
-                                  ],
-                                ),
-                              )),
-                          Container(
-                              margin: const EdgeInsets.only(
-                                  left: 24, right: 24, top: 26),
-                                child: PinCodeTextField(
-                                length: 6,
-                                // obscureText: true,
-                                // obscuringCharacter: '*',
-                                autoFocus: true,
-                                animationType: AnimationType.fade,
-                                pinTheme: PinTheme(
-                                  shape: PinCodeFieldShape.underline,
-                                  fieldHeight: 50,
-                                  fieldWidth: 40,
-                                  activeFillColor: Colors.transparent,
-                                  inactiveColor: HexColor('CED3DB'),
-                                  activeColor: HexColor('CED3DB'),
-                                  inactiveFillColor: Colors.transparent,
-                                  selectedFillColor: Colors.transparent,
-                                ),
-                                // animationDuration: Duration(milliseconds: 300),
-                                // backgroundColor: Colors.blue.shade50,
-                                enableActiveFill: true,
-
-                                // errorAnimationController: errorController,
-                                controller: _OtpController,
-                                inputFormatters: [
-                                  new FilteringTextInputFormatter.allow(
-                                      RegExp("[0-9]"))
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                      text:
+                                      LocaleKeys.OtpVerificationEnteredOtpSentToLbl.tr(),
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .blackColor3,
+                                        fontSize: 18.0,
+                                        fontFamily: Style().font_medium(),
+                                      )),
                                 ],
-                                keyboardType: TextInputType.number,
-                                textStyle: TextStyle(
-                                    fontFamily: Style().font_regular(),
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .blackColor3),
-                                onCompleted: (v) {
-                                  setState(() {
-                                    if (_OtpController.text.length == 0) {
-                                    } else {
-                                      widget._otpVerificationBloc.add(GetOtpApiLoginEvent(emailId,_OtpController.text.toString()));
-                                  }});
-                                },
-                                onChanged: (value) {
-                                  setState(() {
-                                    // currentText = value;
-                                  });
-                                },
+                              ),
+                            )),
+                        Container(
+                            margin: const EdgeInsets.only(
+                                left: 24, right: 24, top: 26),
+                              child: PinCodeTextField(
+                              length: 6,
+                              // obscureText: true,
+                              // obscuringCharacter: '*',
+                              autoFocus: true,
+                              animationType: AnimationType.fade,
+                              pinTheme: PinTheme(
+                                shape: PinCodeFieldShape.underline,
+                                fieldHeight: 50,
+                                fieldWidth: 40,
+                                activeFillColor: Colors.transparent,
+                                inactiveColor: HexColor('CED3DB'),
+                                activeColor: HexColor('CED3DB'),
+                                inactiveFillColor: Colors.transparent,
+                                selectedFillColor: Colors.transparent,
+                              ),
+                              enableActiveFill: true,
+                                controller: _otpController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp("[0-9]"))
+                              ],
+                              keyboardType: TextInputType.number,
+                              textStyle: TextStyle(
+                                  fontFamily: Style().font_regular(),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .blackColor3),
+                              onCompleted: (v) {
+                                setState(() {
+                                  if (_otpController.text.isEmpty) {
+                                  } else {
+                                    widget._otpVerificationBloc.add(GetOtpApiLoginEvent(emailId,_otpController.text.toString()));
+                                }});
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  // currentText = value;
+                                });
+                              },
 
-                                beforeTextPaste: (text) {
-                                  return true;
-                                },
-                                appContext: context,
-                              )),
-                        ],
-                      ),
+                              beforeTextPaste: (text) {
+                                return true;
+                              },
+                              appContext: context,
+                            )),
+                      ],
                     ),
-                    isApiCall ? AppLoader() : Container(),
-                  ],
-                ),
+                  ),
+                  isApiCall ? AppLoader() : Container(),
+                ],
               ),
             ),
           );

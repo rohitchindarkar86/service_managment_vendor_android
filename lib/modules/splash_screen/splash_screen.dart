@@ -9,6 +9,8 @@ import '../../utility/app_constant.dart';
 import '../login/technician_login/technician_login_page.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -31,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
             ),
           ),
@@ -40,54 +42,52 @@ class _SplashScreenState extends State<SplashScreen> {
             children: <Widget>[
               Expanded(
                 flex: 2,
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width *0.35,
-                        alignment: Alignment.center,
-                        child: Image.asset('assets/images/app_logo.png'),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.center,
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'PLACE',
-                                style: TextStyle(fontFamily: Style().font_bold(),fontSize: 26,color: HexColor('#ED8F2D')),
-                              ),
-                              TextSpan(text: ' YOUR SERVICE',style: TextStyle(fontFamily: Style().font_regular(),fontSize: 26,color: HexColor('000000'))),
-                            ],
-                          ),
-
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width *0.35,
+                      alignment: Alignment.center,
+                      child: Image.asset('assets/images/app_logo.png'),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'PLACE',
+                              style: TextStyle(fontFamily: Style().font_bold(),fontSize: 26,color: HexColor('#ED8F2D')),
+                            ),
+                            TextSpan(text: ' YOUR SERVICE',style: TextStyle(fontFamily: Style().font_regular(),fontSize: 26,color: HexColor('000000'))),
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.center,
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Powered By : Bextreme Service Pvt. Ltd.',
-                                style: TextStyle(fontFamily: Style().font_bold(),fontSize: 14,color: Colors.black38),
-                              ),
-                            ],
-                          ),
 
-                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Powered By : Bextreme Service Pvt. Ltd.',
+                              style: TextStyle(fontFamily: Style().font_bold(),fontSize: 14,color: Colors.black38),
+                            ),
+                          ],
+                        ),
+
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -105,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen> {
       AppConstant.userTokken = userToken;
     }
     Timer(
-        Duration(seconds: 5),
+        const Duration(seconds: 5),
             () => Navigator.pushNamed(context, userToken == "" ?TechnicianLoginPage.routeName:DashboardPage.routeName));
   }
 }

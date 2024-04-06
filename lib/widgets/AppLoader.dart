@@ -1,10 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:lottie/lottie.dart';
 
 class AppLoader extends StatelessWidget {
+  const AppLoader({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -30,7 +31,7 @@ class AppLoader extends StatelessWidget {
               ),
             ),
             Center(
-              child: Container(
+              child: SizedBox(
                   height: 100,
                   child: Lottie.asset('assets/lottie_anim/reach_location.json')),
             ),

@@ -266,7 +266,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                               });
                             },
                             style: ElevatedButton.styleFrom(
-                                primary: HexColor('ea4747'),
+                                backgroundColor: HexColor('ea4747'),
                                 // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                 textStyle: const TextStyle(
                                     fontSize: 16,
@@ -403,7 +403,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             Navigator.pushNamed(context, CancelRequestPage.routeName);
                           },
                           style: ElevatedButton.styleFrom(
-                              primary: HexColor('ED8F2D'),
+                              backgroundColor: HexColor('ED8F2D'),
                               // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                               textStyle: const TextStyle(
                                   fontSize: 16,
@@ -431,7 +431,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                     ],
                   ),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).colorScheme.background,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
@@ -512,7 +512,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                 widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,9));
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  backgroundColor: HexColor('ED8F2D'),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                   textStyle: const TextStyle(
                                       fontSize: 16,
@@ -532,7 +532,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
 
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  backgroundColor: HexColor('ED8F2D'),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                   textStyle: const TextStyle(
                                       fontSize: 16,
@@ -550,7 +550,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                   ],
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -630,7 +630,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                 widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,7));
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  backgroundColor: HexColor('ED8F2D'),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                   textStyle: const TextStyle(
                                       fontSize: 16,
@@ -650,7 +650,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
 
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  backgroundColor: HexColor('ED8F2D'),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                   textStyle: const TextStyle(
                                       fontSize: 16,
@@ -668,7 +668,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                   ],
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -708,7 +708,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                 height: 40,
                 alignment: Alignment.center,
                 color:  HexColor('ED8F2D'),
-                child: Text(!isInventoryData?'If Yes Please Scan QR Code.':'Please Scan QR Code',style: TextStyle(fontSize: 16,color: HexColor('FFFFFF'),fontFamily: Style().font_medium()),)
+                child: Text(!isInventoryData?'If Yes Please Scan QR Code.':'Please Scan QR Code',style: TextStyle(fontSize: 16,color: HexColor('#FFFFFF'),fontFamily: Style().font_medium()),)
             ),
           ),
           Column(
@@ -734,7 +734,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                     height: 40,
                     alignment: Alignment.center,
                     color:  HexColor('ED8F2D'),
-                    child: Text('Product QR-Code Mapping',style: TextStyle(fontSize: 16,color: HexColor('FFFFFF'),fontFamily: Style().font_medium()),)
+                    child: Text('Product QR-Code Mapping',style: TextStyle(fontSize: 16,color: HexColor('#FFFFFF'),fontFamily: Style().font_medium()),)
                 ),
               ),
             ],
@@ -794,7 +794,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
           completeRequestBottomSheet(context: context,height: height! *0.38,showNote:showNote);
         },
         style: ElevatedButton.styleFrom(
-            primary: HexColor('008d00'),
+            backgroundColor: HexColor('008d00'),
             // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
             textStyle: const TextStyle(
                 fontSize: 16,
@@ -813,8 +813,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
           Navigator.pushNamed(context, PaymentPage.routeName,arguments: {"selectedRequest":widget.serviceList,'fromScreen':''});
         },
         style: ElevatedButton.styleFrom(
-            primary: HexColor('008d00'),
-            // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+            backgroundColor: HexColor('008d00'),
             textStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold)),

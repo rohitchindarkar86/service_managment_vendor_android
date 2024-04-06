@@ -8,6 +8,8 @@ import '../../../utility/hex_color.dart';
 class InventoryAddPage extends StatefulWidget {
   static const String routeName = '/inventoryAdd';
 
+  const InventoryAddPage({Key? key}) : super(key: key);
+
   @override
   _InventoryAddPageState createState() => _InventoryAddPageState();
 }
@@ -22,10 +24,10 @@ class _InventoryAddPageState extends State<InventoryAddPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('ED8F2D'),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.white, //change your color here
         ),
-        title: Text('Invertory Add',style: TextStyle(color: Colors.white,fontFamily: Style().font_medium(),fontSize: 16),),
+        title: Text('Inventory Add',style: TextStyle(color: Colors.white,fontFamily: Style().font_medium(),fontSize: 16),),
       ),
       body: InventoryAddScreen(inventoryAddBloc: _inventoryAddBloc,serviceList:serviceList),
     );

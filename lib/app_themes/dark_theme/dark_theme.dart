@@ -51,11 +51,9 @@ ThemeData darkTheme = ThemeData(
         onSecondary: Colors.white,
         onSurface: Colors.white,
         primary: Colors.blue,
-        primaryVariant: Colors.blue[700],
         secondary: Color(0XFF172040),
-        secondaryVariant: Color(0xFF1c2754),
         surface: Color(0XFF172040)),
-    primaryColorBrightness: Brightness.dark,
+    // primaryColorBrightness: Brightness.dark,
     scaffoldBackgroundColor: Color(0XFF172040),
     textTheme: TextTheme(
         bodyText1: TextStyle(
@@ -97,5 +95,4 @@ ThemeData darkTheme = ThemeData(
       secondarySelectedColor: Colors.blue,
       selectedColor: Colors.blue,
     ),
-    bottomAppBarColor: Color(0xFF10131d),
-    shadowColor: Color(0xFF061034));
+    shadowColor: Color(0xFF061034), bottomAppBarTheme: BottomAppBarTheme(color: Color(0xFF10131d)));

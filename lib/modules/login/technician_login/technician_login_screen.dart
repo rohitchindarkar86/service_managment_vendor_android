@@ -182,13 +182,17 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                                     cursorColor: Colors.black,
                                     decoration:  InputDecoration(
                                       contentPadding: const EdgeInsets.only(bottom: 12),
-                                      fillColor: HexColor('ED8F2D'),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: HexColor('ED8F2D')),
+                                      fillColor: Colors.orangeAccent,
+                                      enabledBorder: const UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.orangeAccent),
                                       ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: HexColor('ED8F2D')),
+                                      focusedBorder: const UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.orangeAccent),
                                       ),
+                                        errorBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.redAccent),
+                                        ),
+                                        errorStyle: const TextStyle(color: Colors.redAccent),
                                       hintStyle: TextStyle(
                                         fontFamily: Style().font_regular(),
                                         fontSize: 16,
@@ -233,17 +237,20 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                                 child:  Form(
                                   key: _passwordFormKey,
                                   child: TextFormField(
-
-                                    cursorColor: Colors.black,
+                                    cursorColor: Colors.orangeAccent,
                                     decoration:  InputDecoration(
                                       contentPadding: const EdgeInsets.only(bottom: 12),
-                                      fillColor: HexColor('ED8F2D'),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: HexColor('ED8F2D')),
+                                      fillColor: Colors.orangeAccent,
+                                      enabledBorder: const UnderlineInputBorder(
+                                        borderSide: BorderSide(color:Colors.orangeAccent),
                                       ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: HexColor('ED8F2D')),
+                                      focusedBorder: const UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.orangeAccent),
                                       ),
+                                        errorBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.redAccent),
+                                        ),
+                                      errorStyle: const TextStyle(color: Colors.redAccent),
                                       hintStyle: TextStyle(
                                         fontFamily: Style().font_regular(),
                                         fontSize: 16,
@@ -289,7 +296,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                               height: 45,
                               margin: const EdgeInsets.only(top: 4, left: 24, right: 24),
                               child: ElevatedButton(
-                                child: Text(LocaleKeys.LoginSignInBtn.tr()),
+                                child: Text(LocaleKeys.LoginSignInBtn.tr(),style: const TextStyle(color: Colors.white),),
                                 onPressed: () {
                                   if (_emailIdFormKey.currentState!.validate() &&
                                       _passwordFormKey.currentState!.validate()) {
@@ -357,7 +364,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                     ),
                   ],
                 ),
-                isApiCall ? AppLoader() : Container(),
+                isApiCall ? const AppLoader() : Container(),
               ],
             )
 
@@ -467,7 +474,7 @@ class TechnicianLoginScreenState extends State<TechnicianLoginScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 45,
                       child: ElevatedButton(
-                        child: const Text('SUBMIT'),
+                        child: const Text('SUBMIT',style: TextStyle(color: Colors.white),),
                         onPressed: () {
                           if(forgotPassEmailController.text.isEmpty){
                             AppUtility.showToast("Please enter email id.");

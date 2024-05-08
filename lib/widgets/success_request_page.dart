@@ -79,7 +79,7 @@ class SuccessRequestPageState extends State<SuccessRequestPage>
                 width: MediaQuery.of(context).size.width,
                 height: 45,
                 child: ElevatedButton(
-                  child: const Text('Go To Dashboard'),
+                  child: const Text('Go To Dashboard',style: TextStyle(color: Colors.white),),
                   onPressed: () {
                    Navigator.pushNamedAndRemoveUntil(context, DashboardPage.routeName, (route) => false);
 

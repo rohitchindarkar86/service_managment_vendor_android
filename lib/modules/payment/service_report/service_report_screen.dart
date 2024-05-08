@@ -228,7 +228,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                                 width: MediaQuery.of(context).size.width,
                                 height: 45,
                                 child: ElevatedButton(
-                                  child: const Text('Submit Service Report'),
+                                  child: const Text('Submit Service Report',style: TextStyle(color: Colors.white),),
                                   onPressed: () {
                                     serviceSubmitBottomSheet(
                                       context: context,
@@ -236,7 +236,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                                     // Navigator.pushNamed(context, PaymentPage.routeName);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      primary: HexColor('ED8F2D'),
+                                      backgroundColor: HexColor('ED8F2D'),
                                       // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                       textStyle: const TextStyle(
                                           fontSize: 16,
@@ -359,24 +359,24 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.only(left: 16,),
               child: Text('Status',style: TextStyle(fontSize: 14,fontFamily: Style().font_regular(),color: HexColor('#000000')),)),
-          Container(
+          _statusitems != null? Container(
               height: 50,
               width: MediaQuery.of(context).size.width,
               alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(left: 4),
+
               margin: const EdgeInsets.only(left: 16,right: 16),
               decoration: BoxDecoration(
-                  border: Border.all(color: HexColor('000000').withOpacity(0.8),width: 2),
+                  border: Border.all(color: HexColor('000000').withOpacity(0.8),width: 1),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                color: Colors.lightBlueAccent.withOpacity(0.1),
               ),
               child:DropdownButtonHideUnderline(
                 child: DropdownSearch<MultiSelectItem>(
-                  items: _statusitems,
-                  mode: Mode.MENU,
-                  showSearchBox:false,
-                  dropdownButtonProps: const IconButtonProps(icon:  Icon(Icons.arrow_circle_down,color: Colors.black, size: 24)),
-                  dropdownSearchDecoration: InputDecoration(labelText: _selectedStatus,labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
+                  items: _statusitems!,
+                  // mode: Mode.MENU,
+                  // showSearchBox:false,
+                  // dropdownButtonProps: const IconButtonProps(icon:  Icon(Icons.arrow_circle_down,color: Colors.black, size: 24)),
+                  // dropdownSearchDecoration: InputDecoration(labelText: _selectedStatus,labelStyle: TextStyle(fontSize: 20,color: Theme.of(context).colorScheme.secondary,fontFamily: Style().font_regular())),
                   itemAsString: (MultiSelectItem? u) => u!.label.toString(),
                   onChanged: (MultiSelectItem? data) { print(data!.toString());
                   _selectedStatus = data.label;
@@ -386,7 +386,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                   },
                 ),
               )
-          ),
+          ):SizedBox(),
           const SizedBox(height: 16,),
         ],
       ),
@@ -452,13 +452,13 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: const Text('Yes'),
+                              child: const Text('Yes',style: TextStyle(color: Colors.white),),
                               onPressed: () {
                                 Navigator.pop(context);
                                   widget._serviceReportBloc.add(UpdateServiceCheckReportEvent(widget.serviceList.serviceRequestCode!,widget.serviceList.serviceRequestDetailCode!,_selectedActionTBT!));
                              },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  backgroundColor: HexColor('ED8F2D'),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                   textStyle: const TextStyle(
                                       fontSize: 16,
@@ -472,13 +472,13 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: const Text('No'),
+                              child: const Text('No',style: TextStyle(color: Colors.white),),
                               onPressed: () {
                                 Navigator.pop(context);
 
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  backgroundColor: HexColor('ED8F2D'),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                   textStyle: const TextStyle(
                                       fontSize: 16,

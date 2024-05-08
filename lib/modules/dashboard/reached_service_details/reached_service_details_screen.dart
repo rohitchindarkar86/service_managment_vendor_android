@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vendor_app/modules/dashboard/reached_service_details/index.dart';
 import 'package:vendor_app/modules/payment/payment/payment_page.dart';
 
+import '../../../generated/locale_keys.g.dart';
 import '../../../models/login/user_details_model.dart';
 import '../../../models/service_request/order_book_list_model.dart';
 import '../../../models/service_request/service_list_model.dart';
@@ -39,7 +41,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
   bool isInventoryData=false;
   bool isApiCall = false;
   List<ServiceListModel>? serviceList;
-  List<OrderBookListModel>? orderBookListModels;
+  List<OrderBookListModel>? orderBookListModels=[];
   @override
   void initState() {
     super.initState();
@@ -75,8 +77,13 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
           }
           if(currentState is orderHistoryListState){
             isApiCall = false;
-            isInventoryData = true;
+
             orderBookListModels = currentState.orderBookListModel;
+            if(orderBookListModels!.isNotEmpty){
+              isInventoryData = true;
+            }else{
+              AppUtility.showToast('No Record Found');
+            }
           }
 
           if(currentState is NoOrderHistoryListState){
@@ -238,16 +245,56 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                                     ],
                                   ),
                                 ),
-                                widget.serviceList.serviceStatusSysCode == 6 ? applianceDetailsWidget():const SizedBox()
+                                widget.serviceList.serviceStatusSysCode == 4 ? applianceDetailsWidget():const SizedBox()
                               ],
                             ),
                           )
                       ),
                       const SizedBox(height: 8,),
-                      widget.serviceList.serviceStatusSysCode == 4  ?const Column(
+                      widget.serviceList.serviceStatusSysCode == 4 && isInventoryData ? Column(
                         children: [
-                          Text('Please Check Appliance Before Filling Service Report.',style: TextStyle(fontSize: 12),),
-                          SizedBox(height: 6,),
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              // height: 45,
+                              margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ElevatedButton(
+                                    child: const Text(' Start Work ',style: TextStyle(color: Colors.white),),
+                                    onPressed: () {
+                                      int selectedService = widget.serviceList.serviceRequestCode ?? 0;
+                                      inProcessServiceBottomSheet(context: context,height: height! *0.40, serviceRequestCode: selectedService);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: HexColor('008d00'),
+                                        // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                        textStyle: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  ElevatedButton(
+                                    child: const Text('Cancel Work',style: TextStyle(color: Colors.white)),
+                                    onPressed: () {
+                                      int selectedService =  widget.serviceList.serviceRequestCode ?? 0;
+                                      cancelServiceBottomSheet(context: context,height: height! *0.4, serviceRequestCode: selectedService);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: HexColor('ea4747'),
+                                        // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                                        textStyle: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                ],
+                              )
+                          ),
+                          const Text('Please Check Appliance Before Filling Service Report.',style: TextStyle(fontSize: 12),),
+                          const SizedBox(height: 6,),
                         ],
                       )  :const SizedBox(),
                       widget.serviceList.serviceStatusSysCode == 6  ? Container(
@@ -257,7 +304,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                           width: MediaQuery.of(context).size.width,
                           height: 45,
                           child: ElevatedButton(
-                            child: const Text('Service Report'),
+                            child: const Text('Service Report',style: TextStyle(color: Colors.white),),
                             onPressed: () {
                               Navigator.pushNamed(context, ServiceReportPage.routeName,arguments:{"selectedRequest":widget.serviceList}).then((value){
                                 if(value != null && value == true) {
@@ -297,7 +344,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                       const SizedBox(height: 8,),
                     ],
                   ),
-                  isApiCall ? AppLoader() : Container(),
+                  isApiCall ? const AppLoader() : Container(),
                 ],
               )
 
@@ -397,7 +444,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                         width: MediaQuery.of(context).size.width,
                         height: 45,
                         child: ElevatedButton(
-                          child: const Text('Yes'),
+                          child: const Text('Yes',style: TextStyle(color: Colors.white),),
                           onPressed: () {
                             Navigator.pop(context);
                             Navigator.pushNamed(context, CancelRequestPage.routeName);
@@ -506,7 +553,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: const Text('Yes'),
+                              child: const Text('Yes',style: TextStyle(color: Colors.white),),
                               onPressed: () {
                                 Navigator.pop(context);
                                 widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,9));
@@ -526,7 +573,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: const Text('No'),
+                              child: const Text('No',style: TextStyle(color: Colors.white),),
                               onPressed: () {
                                 Navigator.pop(context);
 
@@ -624,7 +671,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: const Text('Yes'),
+                              child: const Text('Yes',style: TextStyle(color: Colors.white),),
                               onPressed: () {
                                 Navigator.pop(context);
                                 widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,7));
@@ -644,7 +691,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: const Text('No'),
+                              child: const Text('No',style: TextStyle(color: Colors.white),),
                               onPressed: () {
                                 Navigator.pop(context);
 
@@ -789,7 +836,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
       width: MediaQuery.of(context).size.width,
       height: 45,
       child: ElevatedButton(
-        child: const Text('Service Complete'),
+        child: const Text('Service Complete',style: TextStyle(color: Colors.white),),
         onPressed: () {
           completeRequestBottomSheet(context: context,height: height! *0.38,showNote:showNote);
         },
@@ -808,7 +855,7 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
       width: MediaQuery.of(context).size.width,
       height: 45,
       child: ElevatedButton(
-        child: const Text('Proceed To Payment'),
+        child: const Text('Proceed To Payment',style: TextStyle(color: Colors.white),),
         onPressed: () {
           Navigator.pushNamed(context, PaymentPage.routeName,arguments: {"selectedRequest":widget.serviceList,'fromScreen':''});
         },
@@ -871,5 +918,199 @@ class ReachedServiceDetailsScreenState extends State<ReachedServiceDetailsScreen
     );
   }
 
+  inProcessServiceBottomSheet({
+    required BuildContext context,
+    required double height,
+    required int serviceRequestCode
+  }) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black
+                : const Color(0xFF737373),
+            child: Container(
+                height: height,
+                padding:
+                const EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      color: HexColor('#CED3DB'),
+                      height: 4,
+                      width: 64,
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    SizedBox(
+                        height: 150,
+                        child: Lottie.asset('assets/lottie_anim/start_work.json')),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Are you sure you want to Start the Work.',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: Style().font_bold(),
+                            color: Theme.of(context).colorScheme.onSecondary),
+                      ),
+                    ),
 
+                    const SizedBox(
+                      height: 36,
+                    ),
+                    Expanded(child: Container()),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 45,
+                      child: ElevatedButton(
+                        child: const Text('Continue',style: TextStyle(color: Colors.white),),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,6));
+
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: HexColor('ED8F2D'),
+                            // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                            textStyle: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 45,
+                      alignment: Alignment.center,
+                      child:
+                      GestureDetector(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                          child: Text(LocaleKeys.ReachLocationCancelBtn.tr(),style: TextStyle(fontFamily: Style().font_medium(),fontSize: 14,color: HexColor('252222').withOpacity(0.75)),)),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.background,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                )),
+          );
+        });
+  }
+
+  cancelServiceBottomSheet({
+    required BuildContext context,
+    required double height,
+    required int serviceRequestCode,
+  }) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black
+                : const Color(0xFF737373),
+            child: Container(
+                height: height,
+                padding:
+                const EdgeInsets.only(left: 24, right: 20, top: 14, bottom: 0),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      color: HexColor('#CED3DB'),
+                      height: 4,
+                      width: 64,
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    SizedBox(
+                        height: 150,
+                        child: Lottie.asset('assets/lottie_anim/cancel_request.json')),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Are you sure you want to Cancel Service.',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: Style().font_bold(),
+                            color: Theme.of(context).colorScheme.onSecondary),
+                      ),
+                    ),
+
+                    const SizedBox(
+                      height: 36,
+                    ),
+                    Expanded(child: Container()),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 45,
+                      child: ElevatedButton(
+                        child: const Text('Cancel Service',style: TextStyle(color: Colors.white),),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          widget._reachedServiceDetailsBloc.add(UpdateServiceRequestEvent(widget.serviceList.serviceRequestCode,5));
+
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: HexColor('ea4747'),
+                            // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                            textStyle: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 45,
+                      alignment: Alignment.center,
+                      child:
+                      GestureDetector(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                          child: Text(LocaleKeys.ReachLocationCancelBtn.tr(),style: TextStyle(fontFamily: Style().font_medium(),fontSize: 14,color: HexColor('252222').withOpacity(0.75)),)),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.background,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                )),
+          );
+        });
+  }
 }

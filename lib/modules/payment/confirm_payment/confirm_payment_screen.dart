@@ -465,7 +465,7 @@ class ConfirmPaymentScreenState extends State<ConfirmPaymentScreen> {
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: const Text('Proceed To Payment'),
+                              child: const Text('Proceed To Payment',style: TextStyle(color: Colors.white),),
                               onPressed: () {
                                 // Navigator.pushNamed(context, PaymentPage.routeName);
                               },

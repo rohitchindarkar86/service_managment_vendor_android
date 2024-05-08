@@ -93,8 +93,15 @@ class PartsReplacedMasterEvent extends ServiceReportEvent {
       if(response.status == 'S') {
 
         var jsonResponse = response.data;
-        List<SpareMasterModel> actionTakenMasterModel = spareMasterModelFromJson(json.encode(jsonResponse));
-        yield SparePartsState(actionTakenMasterModel);
+        List<SpareMasterModel> actionTakenMasterModel = [];
+        try {
+         actionTakenMasterModel = spareMasterModelFromJson(
+              json.encode(jsonResponse));
+          yield SparePartsState(actionTakenMasterModel);
+        }catch(e){
+          yield SparePartsState(actionTakenMasterModel);
+
+        }
 
       }else if(response.status == 'F'){
 

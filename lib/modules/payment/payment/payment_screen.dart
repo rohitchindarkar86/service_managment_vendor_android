@@ -41,6 +41,8 @@ class PaymentScreenState extends State<PaymentScreen> {
   double totalAmt = 0;
   double gstAmt = 0;
   double subTotalAmt = 0;
+  double advancePayment = 0;
+  double discount = 0;
   bool isApiCall = false;
   bool isQRCode = false;
   String QrCodeUrl = '';
@@ -97,13 +99,15 @@ class PaymentScreenState extends State<PaymentScreen> {
           }
           if (currentState is PaymentDetailsState) {
             isApiCall = false;
-            if(currentState.amountDetails != null && currentState.amountDetails.length > 0) {
-              orderDetails = currentState.amountDetails;
-              for (int i = 0; i < currentState.amountDetails.length; i++) {
-                subTotalAmt = subTotalAmt + (double.parse(currentState.amountDetails[i]['part_Price'].toString())+ double.parse(currentState.amountDetails[i]['labour_Price'].toString()));
+            advancePayment = double.parse(currentState.amountDetails['initialAmount']);
+            discount = double.parse(currentState.amountDetails['discount']);
+            orderDetails = currentState.amountDetails['partList'];
+            if(orderDetails != null && orderDetails.length > 0) {
+              for (int i = 0; i < orderDetails.length; i++) {
+                subTotalAmt = subTotalAmt + (double.parse(orderDetails[i]['part_Price'].toString())+ double.parse(orderDetails[i]['labour_Price'].toString()));
               }
-              gstAmt = (subTotalAmt * (AppConstant.gst_percentage! / 100));
-              totalAmt = subTotalAmt + gstAmt;
+              gstAmt = ((subTotalAmt - discount) * (AppConstant.gst_percentage! / 100));
+              totalAmt = (subTotalAmt + gstAmt) - discount - advancePayment;
             }
           }
 
@@ -250,6 +254,20 @@ class PaymentScreenState extends State<PaymentScreen> {
                                               const SizedBox(height: 4,),
                                               Row(
                                                 children: [
+                                                  const Expanded(child: Text('Advance Paid ')),
+                                                  Text("₹ - ${advancePayment.toStringAsFixed(2)}"),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 4,),
+                                              Row(
+                                                children: [
+                                                  const Expanded(child: Text('Discount')),
+                                                  Text("₹ - ${discount.toStringAsFixed(2)}"),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 4,),
+                                              Row(
+                                                children: [
                                                   Expanded(child: Text('GST ${AppConstant.gst_percentage}%')),
                                                   Text("₹ ${gstAmt.toStringAsFixed(2)}"),
                                                 ],
@@ -302,7 +320,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                 width: MediaQuery.of(context).size.width,
                                 height: 45,
                                 child: ElevatedButton(
-                                  child: Text(btnText),
+                                  child: Text(btnText,style: TextStyle(color: Colors.white),),
                                   onPressed: () {
 
                                       if (!isQRCode) {
@@ -310,14 +328,13 @@ class PaymentScreenState extends State<PaymentScreen> {
                                           context: context,
                                           height: height! * 0.35,);
                                       } else {
-                                        print('Payment Status');
                                         widget._paymentBloc.add(
                                             PaymentCheckRequestEvent(QrId,widget.serviceList));
                                       }
 
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      primary: HexColor('ED8F2D'),
+                                      backgroundColor: HexColor('ED8F2D'),
                                       // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                       textStyle: const TextStyle(
                                           fontSize: 16,
@@ -407,7 +424,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: const Text('Yes'),
+                              child: const Text('Yes',style: TextStyle(color: Colors.white),),
                               onPressed: () {
                                 Navigator.pop(context);
                                 if(_paymentRadioValue1 == 0){
@@ -424,7 +441,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                           totalAmt!));
                                 }                                },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  backgroundColor: HexColor('ED8F2D'),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                   textStyle: const TextStyle(
                                       fontSize: 16,
@@ -438,13 +455,13 @@ class PaymentScreenState extends State<PaymentScreen> {
                             width: MediaQuery.of(context).size.width,
                             height: 45,
                             child: ElevatedButton(
-                              child: const Text('No'),
+                              child: const Text('No',style: TextStyle(color: Colors.white),),
                               onPressed: () {
                                 Navigator.pop(context);
 
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: HexColor('ED8F2D'),
+                                  backgroundColor: HexColor('ED8F2D'),
                                   // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                   textStyle: const TextStyle(
                                       fontSize: 16,

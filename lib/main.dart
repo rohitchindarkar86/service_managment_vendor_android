@@ -7,12 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:vendor_app/application_entry.dart';
 import 'package:vendor_app/language/l10n.dart';
 import 'package:vendor_app/utility/app_constant.dart';
 import 'package:vendor_app/utility/app_theme_handler/app_theme_handler.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
+import 'firebase_options.dart';
 
 
 final AppThemeHandler appThemeHandler = AppThemeHandler();
@@ -68,7 +71,14 @@ Future<void> setupFlutterNotifications() async {
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await Permission.notification.isDenied.then((value) {
+    if (value) {
+      Permission.notification.request();
+    }
+  });
   _initConfig();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await flutterLocalNotificationsPlugin

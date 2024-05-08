@@ -53,7 +53,8 @@ class PaymentGenerateRequestEvent extends PaymentEvent {
       "serviceRequestCode": serviceRequestCode,
       "serviceRequestDetailsCode": serviceRequestDetailsCode,
       "serviceRequestSeriesCode": serviceRequestSeriesCode,
-    "payment_amount": (amount * 100)
+    // "payment_amount": (amount * 100)
+    "payment_amount": (1 * 100)
     };
       ApiResponseHandlerModel response = await PaymentRepository.qrCodeGenerateEvent(body);
 
@@ -171,10 +172,10 @@ class PaymentDetailsEvent extends PaymentEvent {
         if(response.data['isSuccess']){
           if(response.data['serviceStatusSysCode'] == 5){
 
-            yield PaymentDetailsState(response.data['partList']);
+            yield PaymentDetailsState(response.data);
 
           }
-          yield PaymentDetailsState(response.data['partList']);
+          yield PaymentDetailsState(response.data);
         }
 
 

@@ -48,6 +48,9 @@ class DashboardScreenState extends State<DashboardScreen> {
   String? techName="";
   List<ServiceListModel>? serviceList;
 
+  bool isStartWork =false;
+  int selectedStartWorkIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -86,7 +89,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
           if (currentState is UserSuccessState) {
             techName = (userDetailsModel?.technicianName)!;
-            getUserData();
+
             isApiCall = false;
             widget._dashboardBloc.add(ServiceListEvent());
             widget._dashboardBloc.add(UpdateUserFCMEvent());
@@ -100,8 +103,21 @@ class DashboardScreenState extends State<DashboardScreen> {
 
           if (currentState is UpdateSuccessServiceState) {
             isApiCall = false;
-            serviceList = null;
-            widget._dashboardBloc.add(ServiceListEvent());
+
+            if(isStartWork){
+              isStartWork = false;
+              ServiceListModel serviceListModel = serviceList![selectedStartWorkIndex];
+              serviceListModel.serviceStatusSysCode = 6;
+              Navigator.pushNamed(context, ReachedServiceDetailsPage.routeName,arguments: {'selectedRequest':serviceListModel}).then((value) {
+                if(value.toString() == 'updateList'){
+                  serviceList = null;
+                  widget._dashboardBloc.add(ServiceListEvent());
+                }
+              });
+            }else {
+              serviceList = null;
+              widget._dashboardBloc.add(ServiceListEvent());
+            }
           }
           if (currentState is ErrorDashboardState) {
             isApiCall = false;
@@ -310,7 +326,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                       height: 12,
                     ),
                     Expanded(
-                      child: isServiceLoader ?ShimmerServiceWidget():serviceList != null && serviceList!.isNotEmpty?RefreshIndicator(
+                      child: isServiceLoader ?const ShimmerServiceWidget():serviceList != null && serviceList!.isNotEmpty?RefreshIndicator(
                         child: ListView.builder(
                           physics: const AlwaysScrollableScrollPhysics(),
                           padding: EdgeInsets.zero,
@@ -354,7 +370,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
                   ],
                 ),
-                isApiCall ? AppLoader() : Container(),
+                isApiCall ? const AppLoader() : Container(),
               ],
             )
 
@@ -365,7 +381,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   Widget complaintList(BuildContext context, int index) {
     return Container(
-      height: 255,
+      height: 270,
       margin: const EdgeInsets.only(top: 0, right: 8, left: 8),
       child: GestureDetector(
         onTap: (){
@@ -382,7 +398,7 @@ class DashboardScreenState extends State<DashboardScreen> {
               children: <Widget>[
                 Container(
                     color:  AppUtility.serviceColorPicker(serviceList?[index].serviceStatusSysCode) ,
-                    height: 255,
+                    height: 270,
                     width: 12,
                   ),
                 Expanded(child: Container(
@@ -390,13 +406,25 @@ class DashboardScreenState extends State<DashboardScreen> {
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: Text(
-                              '${serviceList?[index].customerFirstName}  ${serviceList?[index].customerLastName}',
-                              style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
-                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${serviceList?[index].customerFirstName}  ${serviceList?[index].customerLastName}',
+                                  style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
+                                ),
+                                Text(
+                                  '${serviceList?[index].customerMobile} ',
+                                  style: TextStyle(fontSize: 14 ,fontFamily: Style().font_light(),color: HexColor('#494949')  ),
+                                )
+                              ],
+                            )
+
                           ),
                           Container(
                             padding: const EdgeInsets.all(4),
@@ -412,15 +440,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ],
                       ),
-                      Container(
-                        alignment:Alignment.centerLeft,
-                        child: Text(
-                          '${serviceList?[index].customerMobile} ',
-                          style: TextStyle(fontSize: 14 ,fontFamily: Style().font_light(),color: HexColor('#494949')  ),
-                        ) ,
-                      ),
                       const SizedBox(
-                        height: 12,
+                        height: 8,
                       ),
                       Container(
                         alignment:Alignment.centerLeft,
@@ -432,12 +453,12 @@ class DashboardScreenState extends State<DashboardScreen> {
                       Container(
                         alignment:Alignment.centerLeft,
                         child: Text(
-                          'Service Date:-  ${serviceList?[index].scheduledTimeFrom} - ${serviceList?[index].scheduledTimeTill?.split(' ')[1].toString()}',
+                          'Service Date:-  ${serviceList?[index].scheduledTimeFrom} - ${serviceList?[index].scheduledTimeTill?.split(' ')[3].toString()} ${serviceList?[index].scheduledTimeTill?.split(' ')[4].toString()}',
                           style: TextStyle(fontSize: 14 ,fontFamily: Style().font_regular(),color: HexColor('#494949')  ),
                         ) ,
                       ),
                       const SizedBox(
-                        height: 12,
+                        height: 8,
                       ),
                       Container(
                         alignment:Alignment.centerLeft,
@@ -456,7 +477,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                         ) ,
                       ),
                       const SizedBox(
-                        height: 12,
+                        height: 8,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
@@ -485,13 +506,13 @@ class DashboardScreenState extends State<DashboardScreen> {
                           height: 45,
                           margin: const EdgeInsets.only(top: 6, left: 0, right: 0),
                           child: ElevatedButton(
-                            child: const Text('Attend This Service'),
+                            child: const Text('Attend This Service',style: TextStyle(color: Colors.white),),
                             onPressed: () {
                               int selectedService = serviceList?[index].serviceRequestCode ?? 0;
                               attendServiceBottomSheet(context: context,height: height! *0.35, serviceRequestCode: selectedService);
                             },
                             style: ElevatedButton.styleFrom(
-                                primary:  AppUtility.serviceColorPicker(serviceList?[index].serviceStatusSysCode),
+                                backgroundColor: AppUtility.serviceColorPicker(serviceList?[index].serviceStatusSysCode),
                                 // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                 textStyle: const TextStyle(
                                     fontSize: 14,
@@ -503,59 +524,59 @@ class DashboardScreenState extends State<DashboardScreen> {
                           height: 45,
                           margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
                           child: ElevatedButton(
-                            child: Text(LocaleKeys.DashboardReachLocationBtn.tr()),
+                            child: Text(LocaleKeys.DashboardReachLocationBtn.tr(),style: TextStyle(color: Colors.white),),
                             onPressed: () {
                               int selectedService = serviceList?[index].serviceRequestCode ?? 0;
                               reachLocationBottomSheet(context: context,height: height! *0.35, serviceRequestCode: selectedService);
                             },
                             style: ElevatedButton.styleFrom(
-                                primary:  AppUtility.serviceColorPicker(serviceList?[index].serviceStatusSysCode),
+                                backgroundColor: AppUtility.serviceColorPicker(serviceList?[index].serviceStatusSysCode),
                                 // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                                 textStyle: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold)),
                           ),
                         ):
-                        serviceList?[index].serviceStatusSysCode == 4?  Container(
-                          width: MediaQuery.of(context).size.width,
-                          // height: 45,
-                            margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ElevatedButton(
-                                  child: const Text(' Start Work '),
-                                  onPressed: () {
-                                    int selectedService = serviceList?[index].serviceRequestCode ?? 0;
-                                    inProcessServiceBottomSheet(context: context,height: height! *0.40, serviceRequestCode: selectedService);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      primary: HexColor('008d00'),
-                                      // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                      textStyle: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                ElevatedButton(
-                                  child: const Text('Cancel Work'),
-                                  onPressed: () {
-                                    int selectedService = serviceList?[index].serviceRequestCode ?? 0;
-                                    cancelServiceBottomSheet(context: context,height: height! *0.4, serviceRequestCode: selectedService);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      primary: HexColor('ea4747'),
-                                      // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                                      textStyle: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ],
-                            )
-                        ):
+                        // serviceList?[index].serviceStatusSysCode == 4?  Container(
+                        //   width: MediaQuery.of(context).size.width,
+                        //   // height: 45,
+                        //     margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
+                        //     child: Row(
+                        //       crossAxisAlignment: CrossAxisAlignment.end,
+                        //       mainAxisAlignment: MainAxisAlignment.end,
+                        //       children: [
+                        //         ElevatedButton(
+                        //           child: const Text(' Start Work ',style: TextStyle(color: Colors.white),),
+                        //           onPressed: () {
+                        //             int selectedService = serviceList?[index].serviceRequestCode ?? 0;
+                        //             inProcessServiceBottomSheet(context: context,height: height! *0.40, serviceRequestCode: selectedService,selectedIndex: index);
+                        //           },
+                        //           style: ElevatedButton.styleFrom(
+                        //               backgroundColor: HexColor('008d00'),
+                        //               // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                        //               textStyle: const TextStyle(
+                        //                   fontSize: 14,
+                        //                   fontWeight: FontWeight.bold)),
+                        //         ),
+                        //         const SizedBox(
+                        //           width: 12,
+                        //         ),
+                        //         ElevatedButton(
+                        //           child: const Text('Cancel Work',style: TextStyle(color: Colors.white)),
+                        //           onPressed: () {
+                        //             int selectedService = serviceList?[index].serviceRequestCode ?? 0;
+                        //             cancelServiceBottomSheet(context: context,height: height! *0.4, serviceRequestCode: selectedService);
+                        //           },
+                        //           style: ElevatedButton.styleFrom(
+                        //               backgroundColor: HexColor('ea4747'),
+                        //               // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                        //               textStyle: const TextStyle(
+                        //                   fontSize: 14,
+                        //                   fontWeight: FontWeight.bold)),
+                        //         ),
+                        //       ],
+                        //     )
+                        // ):
                         Container(),
                       )
                     ],
@@ -620,13 +641,13 @@ class DashboardScreenState extends State<DashboardScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 45,
                       child: ElevatedButton(
-                        child: Text(LocaleKeys.ReachLocationReachedBtn.tr()),
+                        child: Text(LocaleKeys.ReachLocationReachedBtn.tr(),style: TextStyle(color: Colors.white),),
                         onPressed: () {
                           Navigator.pop(context);
                           widget._dashboardBloc.add(UpdateServiceRequestEvent(serviceRequestCode,4));
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: HexColor('ED8F2D'),
+                            backgroundColor: HexColor('ED8F2D'),
                             // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                             textStyle: const TextStyle(
                                 fontSize: 16,
@@ -654,7 +675,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                   ],
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -717,13 +738,13 @@ class DashboardScreenState extends State<DashboardScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 45,
                       child: ElevatedButton(
-                        child: const Text('Attend This Service'),
+                        child: const Text('Attend This Service',style: TextStyle(color: Colors.white),),
                         onPressed: () {
                           Navigator.pop(context);
                           widget._dashboardBloc.add(UpdateServiceRequestEvent(serviceRequestCode,3));
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: HexColor('ED8F2D'),
+                            backgroundColor: HexColor('ED8F2D'),
                             // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                             textStyle: const TextStyle(
                                 fontSize: 16,
@@ -751,7 +772,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                   ],
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -765,6 +786,7 @@ class DashboardScreenState extends State<DashboardScreen> {
     required BuildContext context,
     required double height,
     required int serviceRequestCode,
+    required int selectedIndex
   }) {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -814,13 +836,15 @@ class DashboardScreenState extends State<DashboardScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 45,
                       child: ElevatedButton(
-                        child: const Text('Continue'),
+                        child: const Text('Continue',style: TextStyle(color: Colors.white),),
                         onPressed: () {
                           Navigator.pop(context);
                           widget._dashboardBloc.add(UpdateServiceRequestEvent(serviceRequestCode,6));
+                          selectedStartWorkIndex = selectedIndex;
+                          isStartWork = true;
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: HexColor('ED8F2D'),
+                            backgroundColor: HexColor('ED8F2D'),
                             // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                             textStyle: const TextStyle(
                                 fontSize: 16,
@@ -848,7 +872,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                   ],
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -911,13 +935,13 @@ class DashboardScreenState extends State<DashboardScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 45,
                       child: ElevatedButton(
-                        child: const Text('Cancel Service'),
+                        child: const Text('Cancel Service',style: TextStyle(color: Colors.white),),
                         onPressed: () {
                           Navigator.pop(context);
                           widget._dashboardBloc.add(UpdateServiceRequestEvent(serviceRequestCode,5));
                         },
                         style: ElevatedButton.styleFrom(
-                            primary:  HexColor('ea4747'),
+                            backgroundColor: HexColor('ea4747'),
                             // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                             textStyle: const TextStyle(
                                 fontSize: 16,
@@ -945,7 +969,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                   ],
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -976,9 +1000,6 @@ class DashboardScreenState extends State<DashboardScreen> {
     }catch(e){
 
     }
-
-  }
-  getUserData(){
 
   }
 }

@@ -9,6 +9,7 @@ import '../../../models/master/spare_parts_master_model.dart';
 import '../../../models/service_request/action_taken_model.dart';
 import '../../../models/service_request/service_list_model.dart';
 import '../../../style/style.dart';
+import '../../../utility/app_utility.dart';
 import '../../../utility/hex_color.dart';
 import '../../../widgets/AppLoader.dart';
 import '../../dashboard/dashboard/dashboard_page.dart';
@@ -94,7 +95,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
             isApiCall = true;
           }
           if (currentState is CheckReportState) {
-            if(_actionTBT != null){
+            if(_actionTBT.isNotEmpty){
               _actionTBT.clear();
             }
             currentState.checkReportMasterModel.forEach((element) {
@@ -112,7 +113,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
           }
 
           if (currentState is SparePartsState) {
-            if(_action != null){
+            if(_action.isNotEmpty){
               _spareParts.clear();
             }
             currentState.sparePartsMasterModel.forEach((element) {
@@ -130,7 +131,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
           }
 
           if (currentState is StatusState) {
-            if(_action != null){
+            if(_action.isNotEmpty){
               _action.clear();
             }
             currentState.statusMasterModel.forEach((element) {
@@ -198,19 +199,7 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
 
                                   Container(
                                     color: Colors.white,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-
-                                        Container(
-                                          // margin: EdgeInsets.only(top: 13),
-                                            child: actionTakenWidget(context)),
-
-
-
-                                      ],
-                                    ),
+                                    child: actionTakenWidget(context),
                                   ),
 
                                 ],
@@ -230,10 +219,13 @@ class ServiceReportScreenState extends State<ServiceReportScreen> {
                                 child: ElevatedButton(
                                   child: const Text('Submit Service Report',style: TextStyle(color: Colors.white),),
                                   onPressed: () {
-                                    serviceSubmitBottomSheet(
-                                      context: context,
-                                      height: height! * 0.35,);
-                                    // Navigator.pushNamed(context, PaymentPage.routeName);
+                                    if(_selectedActionTBT!.isEmpty ||_selectedSpareParts!.isEmpty || _selectedStatusId == null ){
+                                      AppUtility.showToast('Please Fill Service Report');
+                                    }else {
+                                      serviceSubmitBottomSheet(
+                                        context: context,
+                                        height: height! * 0.35,);
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: HexColor('ED8F2D'),
